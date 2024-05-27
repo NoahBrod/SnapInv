@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Create</title>
+</head>
+<body>
+    <h1>Add Item</h1>
+    <form th:action="@{/add_item}" th:object="${item}" method="post">
+        <input type="text" name="item_name" placeholder="name" th:field="*{name}">
+        <input type="number" name="item_amount" placeholder="quantity" th:field="*{quantity}">
+        <button type="submit">Add</button>
+    </form>
+    <a th:href="@{/items}" style="font-size: 24px;">See Items Here</a>
+</body>
+</html>

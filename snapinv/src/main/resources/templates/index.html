@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +9,7 @@
     <header>
         <h1>This is SnapInv's home page!</h1>
         <h2>Currently under construction.</h2>
+        <a th:href="@{/add_item}" style="font-size: 24px;">Add Item Here</a>
     </header>
 </body>
 </html>

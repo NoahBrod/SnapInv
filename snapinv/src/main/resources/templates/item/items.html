@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Items</title>
+</head>
+<body>
+    <h1>Items</h1>
+    <a th:href="@{/}">Home</a>
+    <section>
+        <form action="" method="get"></form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item: ${items}">
+                    <td th:text="${item.name}"></td>
+                    <td th:text="${item.quantity}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</body>
+</html>
