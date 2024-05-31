@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Controller
@@ -31,9 +32,21 @@ public class InventoryController {
     }
 
     @GetMapping("/items")
-    public String getItemString(Model model) {
+    public String getItems(Model model) {
         model.addAttribute("items", itemService.findAllItems());
         return "/item/items";
     }
     
+    @GetMapping("/barcode")
+    public String barCodeUpload() {
+        return "/item/barcode_add";
+    }
+
+    @PostMapping("/barcode")
+    public String addBarCode(@RequestParam MultipartFile image) {
+        System.out.println(image);
+        String result = itemService.findBarCode(image);
+        System.out.println(result);
+        return "/item/barcode_add";
+    }
 }
