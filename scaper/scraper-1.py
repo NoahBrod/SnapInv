@@ -3,7 +3,7 @@ import json
 from bs4 import BeautifulSoup
 from googlesearch import search
 import asyncio
-import websockets
+# import websockets
 from flask import Flask, request, jsonify
 
 # set up the request parameters
@@ -37,13 +37,35 @@ def receive_code():
     
     urls = []
 
-    query = "9781803233307"
+    query = "811628030030"
     print()
     i = 0
     for j in search(query, num=3, stop=3, pause=2):
         print(j)
         urls.append(j)
         i += 1
+
+    # put item name finding here
+    if 's' in urls[0]:
+        print('s was found')
+    for j in urls:
+        builtString = ""
+        j = j.substring()
+        print("j:"+j)
+        for k in j:
+            # print(k)
+            for l in urls:
+                print("l:"+l)
+                if l != j:
+                    print("l is not j")
+                    if k in l:
+                        builtString += k
+    print(builtString)
+    # scraping found pages
+
+
+    # for j in urls:
+    #     print()
     
     return urls
 
