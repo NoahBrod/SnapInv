@@ -45,11 +45,21 @@ public class InventoryController {
     }
 
     @PostMapping("/barcode")
-    public String addBarCode(@RequestParam MultipartFile image) throws IOException {
-        System.out.println(image);
-        String result = itemService.findBarCode(image);
-        if (result != null)
-            itemService.sendBarcode(result);
+    public String addBarCode(@RequestParam(required = false) MultipartFile image, @RequestParam(required = false) String code) throws IOException {
+        System.out.println(image.isEmpty());
+        String result = null;
+        if (code != null) {
+            System.out.println(code);
+            result = code;
+        }
+        
+        if (!image.isEmpty()) {
+            result = itemService.findBarCode(image);
+
+            if (result != null)
+                itemService.sendBarcode(result);
+        }
+
         System.out.println(result);
         return "redirect:/barcode";
     }

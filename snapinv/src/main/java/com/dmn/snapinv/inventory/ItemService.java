@@ -91,19 +91,6 @@ public class ItemService {
             // Decode the barcode using the MultiFormatReader
             Result result = new MultiFormatReader().decode(bitmap);
 
-            // String barcodeText = result.getText();
-            // BarcodeFormat barcodeFormat = result.getBarcodeFormat();
-            // ResultPoint[] resultPoints = result.getResultPoints();
-
-            // StringBuilder response = new StringBuilder();
-            // response.append("Barcode text: ").append(barcodeText).append("\n");
-            // response.append("Barcode format: ").append(barcodeFormat).append("\n");
-            // response.append("Result points: ");
-            // for (ResultPoint point : resultPoints) {
-            //     response.append("(").append(point.getX()).append(", ").append(point.getY()).append(") ");
-            // }
-
-            // System.out.println(response.toString());
             // Return the decoded barcode text
             return result.getText();
         } catch (IOException e) {

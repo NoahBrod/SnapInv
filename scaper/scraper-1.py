@@ -34,6 +34,18 @@ app = Flask(__name__)
 def receive_code():
     data = request.json
     print("Received data:", data)
-    return "Data received successfully."
+    
+    urls = []
+
+    query = "9781803233307"
+    print()
+    i = 0
+    for j in search(query, num=3, stop=3, pause=2):
+        print(j)
+        urls.append(j)
+        i += 1
+    
+    return urls
+
 if __name__ == '__main__':
     app.run(debug=True)
