@@ -1,5 +1,7 @@
 package com.dmn.snapinv.inventory;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,10 +45,12 @@ public class InventoryController {
     }
 
     @PostMapping("/barcode")
-    public String addBarCode(@RequestParam MultipartFile image) {
+    public String addBarCode(@RequestParam MultipartFile image) throws IOException {
         System.out.println(image);
         String result = itemService.findBarCode(image);
+        if (result != null)
+            itemService.sendBarcode(result);
         System.out.println(result);
-        return "/item/barcode_add";
+        return "redirect:/barcode";
     }
 }

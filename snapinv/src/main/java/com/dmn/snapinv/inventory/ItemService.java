@@ -10,9 +10,16 @@ import java.awt.image.BufferedImage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
@@ -27,6 +34,9 @@ import com.google.zxing.common.HybridBinarizer;
 public class ItemService {
     @Autowired
     private ItemRepo itemRepo;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     public List<Item> findAllItems() {
         return itemRepo.findAll();
@@ -81,21 +91,21 @@ public class ItemService {
             // Decode the barcode using the MultiFormatReader
             Result result = new MultiFormatReader().decode(bitmap);
 
-            String barcodeText = result.getText();
-            BarcodeFormat barcodeFormat = result.getBarcodeFormat();
-            ResultPoint[] resultPoints = result.getResultPoints();
+            // String barcodeText = result.getText();
+            // BarcodeFormat barcodeFormat = result.getBarcodeFormat();
+            // ResultPoint[] resultPoints = result.getResultPoints();
 
-            StringBuilder response = new StringBuilder();
-            response.append("Barcode text: ").append(barcodeText).append("\n");
-            response.append("Barcode format: ").append(barcodeFormat).append("\n");
-            response.append("Result points: ");
-            for (ResultPoint point : resultPoints) {
-                response.append("(").append(point.getX()).append(", ").append(point.getY()).append(") ");
-            }
+            // StringBuilder response = new StringBuilder();
+            // response.append("Barcode text: ").append(barcodeText).append("\n");
+            // response.append("Barcode format: ").append(barcodeFormat).append("\n");
+            // response.append("Result points: ");
+            // for (ResultPoint point : resultPoints) {
+            //     response.append("(").append(point.getX()).append(", ").append(point.getY()).append(") ");
+            // }
 
-            System.out.println(response.toString());
+            // System.out.println(response.toString());
             // Return the decoded barcode text
-            return "Barcode text: " + result.getText();
+            return result.getText();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NotFoundException e) {
@@ -103,5 +113,27 @@ public class ItemService {
         }
 
         return null;
+    }
+
+    public void sendBarcode(String data) throws IOException {
+        // turn string to json for python
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonString = objectMapper.writeValueAsString(data);
+        // 
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<String> requestEntity = new HttpEntity<>(jsonString, headers);
+
+        String url = "http://127.0.0.1:5000/receive_code";
+
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestEntity, String.class);
+
+        String responseBody = responseEntity.getBody();
+        
+        System.out.println(responseBody);
+        // return responseBody;
     }
 }
