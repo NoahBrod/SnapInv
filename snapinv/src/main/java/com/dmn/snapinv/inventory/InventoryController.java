@@ -54,6 +54,15 @@ public class InventoryController {
         }
         
         if (!image.isEmpty()) {
+
+            /*
+             * TO DO:
+             * --------------------
+             * Move all of the bar code reading to the python server.
+             * Python has more libraries for it and is better at it hopefully.
+             * Could also try JavaScript in the future.
+             */
+
             result = itemService.findBarCode(image);
 
             if (result != null)
