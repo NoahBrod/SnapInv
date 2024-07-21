@@ -1,0 +1,12 @@
+body {
+
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+}
+
+img {
+    height: 40vmin;
+}

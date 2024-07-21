@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="style.css">
+    <link rel="stylesheet" th:href="@{css/index.css}">
     <title>Document</title>
 </head>
 <body>
     <header>
+        <img th:src="@{images/snapinv_logo.png}" alt="">
         <h1>This is SnapInv's home page!</h1>
         <h2>Currently under construction.</h2>
         <a th:href="@{/add_item}" style="font-size: 24px;">Add Item Here</a>
