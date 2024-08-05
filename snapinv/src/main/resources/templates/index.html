@@ -5,16 +5,114 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{css/base/base.css}">
     <link rel="stylesheet" th:href="@{css/index.css}">
-    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+    <link rel="icon" th:href="@{images/faveicon.png}">
+    <title>SnapInv</title>
 </head>
 <body>
+    <nav>
+        <ul>
+            <li>
+                <a href="">Home</a>
+            </li>
+            <li>
+                <a href="">Features</a>
+            </li>
+            <li>
+                <a href="">Pricing</a>
+            </li>
+            <li>
+                <a href="">About</a>
+            </li>
+        </ul>
+    </nav>
     <header>
-        <img th:src="@{images/snapinv_logo.png}" alt="">
-        <h1>This is SnapInv's home page!</h1>
-        <h2>Currently under construction.</h2>
-        <a th:href="@{/add_item}" style="font-size: 24px;">Add Item Here</a>
-        <a th:href="@{/items}" style="font-size: 24px;">See Items Here</a>
-        <a th:href="@{/barcode}" style="font-size: 24px;">Add Bar Code</a>
+        <h1>Manage Your Inventory Effortlessly</h1>
+        <h2>SnapInv makes inventory management a snap.</h2>
+        <a href="http://www.google.com" target="_blank">Get Started</a>
+        <img th:src="@{images/img_home/holding_phone_2.jpg}" draggable="false" alt="">
     </header>
+    <section class="features">
+        <div class="features-wrapper">
+            <div>
+                <h2>Simple</h2>
+                <ul>
+                    <li>
+                        <p>
+                            <b>Quick Setup:</b> Get started in just minutes with straightforward steps and no complicated configurations required.
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <b>Visual Insights:</b> Clear charts and graphs for at-a-glance understanding of inventory status.
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <b>Mobile Access:</b> Manage your inventory on-the-go with our mobile-friendly app.
+                        </p>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h2>Collaborative</h2>
+                <ul>
+                    <li>
+                        <p>
+                            <b>Team Access:</b> Multiple users can access and manage inventory simultaneously.
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <b>Role-Based Permissions:</b> Control access levels by assigning specific roles and permissions to team members.
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <b>Real-Time Updates:</b> Changes made by one user are instantly visible to the entire team.
+                        </p>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h2>Affordable</h2>
+                <ul>
+                    <li>
+                        <p>
+                            <b>Free Trial:</b> Try SnapInv for free before committing to a paid plan.
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <b>Cost-Effective Plans:</b> Choose from a variety of pricing plans that fit your budget.
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <b>Locked-In Rates:</b> Secure your subscription rate and never worry about future price increases.
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <section class="how-it-works">
+        <div class="hiw-wrapper">
+            <h1>How It Works</h1>
+            <ul>
+                <li>
+                    <p>Create an Account</p>
+                </li>
+                <li>
+                    <p>Create Your Organization</p>
+                </li>
+                <li>
+                    <p>Add Your Employees</p>
+                </li>
+            </ul>
+        </div>
+    </section>
 </body>
 </html>
