@@ -12,4 +12,9 @@ public class WebController {
         return "index";
     }
     
+    @GetMapping("/features")
+    public String features() {
+        return "main/features";
+    }
+    
 }

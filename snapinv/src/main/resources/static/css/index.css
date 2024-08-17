@@ -1,13 +1,6 @@
-body {
-    /* font-family: "DM Sans", sans-serif;
-     */
-    /* background-color: white; */
-    margin: 0;
-    padding: 0;
-}
-
 header {
     position: relative;
+    margin: 0;
     margin-top: 7vmin;
     padding: 2em;
     display: flex;
@@ -200,46 +193,3 @@ header img {
     margin-bottom: 2em;
 }
 
-footer {
-    margin: 0;
-    padding-top: 3em;
-    padding-bottom: 3em;
-    display: flex;
-    color: white;
-    background-color: #252525;
-}
-
-footer div {
-    margin-left: 10vw;
-    display: table-column;
-    align-items: left;
-    justify-content: center;
-    flex-direction: column;
-}
-
-footer p {
-    margin: 0;
-    margin-bottom: 0.5em;
-    font-size: 18px;
-    cursor: default;
-}
-
-footer ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-footer li {
-    padding-bottom: 5px;
-}
-
-footer a {
-    text-decoration: none;
-    color: #D3D3D3;
-}
-
-footer a:hover {
-    color: white;
-    border-bottom: 2px solid white;
-}
