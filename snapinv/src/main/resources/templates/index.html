@@ -34,114 +34,64 @@
         <h1>Manage Your Inventory Effortlessly</h1>
         <h2>SnapInv makes inventory management a snap.</h2>
         <a href="http://www.google.com" target="_blank">Get Started</a>
-        <img th:src="@{images/img_home/holding_phone_2.jpg}" draggable="false" alt="">
+        <img th:src="@{images/home/holding_phone.jpg}" draggable="false" alt="">
     </header>
-    <section class="features">
-        <h1>Features</h1>
-        <div class="features-wrapper">
-            <div>
-                <h2>Simple</h2>
-                <ul>
-                    <li>
-                        <p>
-                            <b>Quick Setup:</b> Get started in just minutes with straightforward steps and no complicated configurations required.
-                        </p>
-                    </li>
-                    <li>
-                        <p>
-                            <b>Visual Insights:</b> Clear charts and graphs for at-a-glance understanding of inventory status.
-                        </p>
-                    </li>
-                    <li>
-                        <p>
-                            <b>Mobile Access:</b> Manage your inventory on-the-go with our mobile-friendly app.
-                        </p>
-                    </li>
-                </ul>
-            </div>
-            <div>
-                <h2>Collaborative</h2>
-                <ul>
-                    <li>
-                        <p>
-                            <b>Team Access:</b> Multiple users can access and manage inventory simultaneously.
-                        </p>
-                    </li>
-                    <li>
-                        <p>
-                            <b>Role-Based Permissions:</b> Control access levels by assigning specific roles and permissions to team members.
-                        </p>
-                    </li>
-                    <li>
-                        <p>
-                            <b>Real-Time Updates:</b> Changes made by one user are instantly visible to the entire team.
-                        </p>
-                    </li>
-                </ul>
-            </div>
-            <div>
-                <h2>Affordable</h2>
-                <ul>
-                    <li>
-                        <p>
-                            <b>Free Trial:</b> Try SnapInv for free before committing to a paid plan.
-                        </p>
-                    </li>
-                    <li>
-                        <p>
-                            <b>Cost-Effective Plans:</b> Choose from a variety of pricing plans that fit your budget.
-                        </p>
-                    </li>
-                    <li>
-                        <p>
-                            <b>Locked-In Rates:</b> Secure your subscription rate and never worry about future price increases.
-                        </p>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </section>
-    <section class="how-it-works">
-        <h1>How It Works</h1>
-        <div class="hiw-wrapper">
-            <div class="hiw-divs">
-                <ul>
-                    <li>
-                        <p>Create an Account</p>
-                    </li>
-                    <li>
-                        <p>Create Your Organization</p>
-                    </li>
-                    <li>
-                        <p>Add Your Employees</p>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="hiw-divs">
-                <div class="circle-wrapper">
-                    <div class="circle"></div>
-                    <div class="circle"></div>
-                    <div class="circle"></div>
+    <main>
+        <section class="features">
+            <h1>We make inventory management...</h1>
+            <div class="features-wrapper">
+                <div>
+                    <h2>Simple</h2>
+                    <img th:src="@{images/home/icons/puzzle.png}" alt="">
+                </div>
+                <div>
+                    <h2>Collaborative</h2>
+                    <img th:src="@{images/home/icons/network.png}" alt="">
+                </div>
+                <div>
+                    <h2>Affordable</h2>
+                    <img th:src="@{images/home/icons/low-price.png}" alt="">
                 </div>
             </div>
-
-            <div class="hiw-divs">
-                <div class="hiw-paras">
+            <a th:href="@{/features}">Learn More</a>
+        </section>
+        <section class="how-it-works">
+            <div class="hiw-wrapper">
+                <h1>Get started with your business.</h1>
+                <!-- <img th:src="@{images/home/icons/online.png}" alt=""> -->
+            </div>
+            <div class="hiw-wrapper">
+                <div>
+                    <h2>Create an Organization</h2>
                     <p>
-                        Sign up quickly by providing your basic information. In just a few steps, you'll have your SnapInv account ready and be on your way to streamlined inventory management.
+                        Log in and create an organization with your preferred plan.
                     </p>
+                </div>
+                <div>
+                    <img th:src="@{images/home/icons/right-arrow.png}" alt="">
+                </div>
+                <div>
+                    <h2>Add Employees</h2>
                     <p>
-                        Set up your organization effortlessly. Input your company's details, and SnapInv will tailor the platform to suit your business needs, ensuring a personalized experience.
+                        Assign roles and permissions to team members and manage inventory simultaneously.
                     </p>
+                </div>
+                <div>
+                    <img th:src="@{images/home/icons/right-arrow.png}" alt="">
+                </div>
+                <div>
+                    <h2>Integrate Your Inventory</h2>
                     <p>
-                        Easily add team members to your SnapInv account. Assign roles and permissions to ensure everyone has the right access, promoting seamless collaboration and efficiency.
+                        Manually add your inventory or import it from excel.
                     </p>
                 </div>
             </div>
-            
-        </div>
-    </section>
+        </section>
+        <section class="">
+
+        </section>
+    </main>
+    
     <footer>
         <div>
             <p><b>Links</b></p>
