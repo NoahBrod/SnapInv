@@ -32,11 +32,11 @@ header h2 {
 header a {
     padding: .5em;
     margin-top: 2em;
-    color: #007BFF;
+    color: #23d680;
     text-decoration: none;
     font-size: 18px;
     font-weight: bold;
-    border: 3px solid #007BFF;
+    border: 3px solid #23d680;
     border-radius: 5px;
     z-index: 2;
     transition: background-color 0.1s ease-in-out;
@@ -91,7 +91,7 @@ header img {
     width: 20%;
     min-width: 425px;
     border-radius: 2rem;
-    background-color: #007BFF;
+    background-color: #23d680;
     box-shadow: 0px 10px 14px 0px rgba(0,0,0,.4);
 }
 
@@ -123,7 +123,7 @@ header img {
 .features a {
     margin-top: 5em;
     margin-bottom: -1em;
-    color: #007BFF;
+    color: #23d680;
     text-decoration: none;
     font-size: 18px;
     font-weight: bold;
