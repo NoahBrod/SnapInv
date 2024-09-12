@@ -1,26 +1,26 @@
 package com.dmn.snapinv.user;
 
 
-public class user {
+public class User {
     private Long id;
     private String email;
     private String username;
     private String password;
 
-    public user(Long id, String email, String username, String password) {
+    public User(Long id, String email, String username, String password) {
         this.id = id;
         this.email = email;
         this.username = username;
         this.password = password;
     }
 
-    public user(String email, String username, String password) {
+    public User(String email, String username, String password) {
         this.email = email;
         this.username = username;
         this.password = password;
     }
 
-    public user() {
+    public User() {
     }
 
     public Long getId() {
