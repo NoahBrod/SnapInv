@@ -34,28 +34,40 @@ class _BottomNavState extends State<BottomNav> {
     fontSize: 20,
     fontWeight: FontWeight.bold,
   );
-  static const List<Widget> _widgetOptions = <Widget>[
+  static List<Widget> _widgetOptions = <Widget>[
+    const Scaffold(
+      body: Center(
+        child: Column(
+          // mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: EdgeInsets.all(50.0),
+              child: Text(
+                style: TextStyle(fontSize: 30),
+                textAlign: TextAlign.center,
+                'Welcome to SnapInv',
+              ),
+            ),
+            Text('s'),
+          ],
+        ),
+      ),
+    ),
     Scaffold(
-          body: Center(
-            child: Column(
-              // mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(50.0),
-                  child: Text(
-                    style: TextStyle(fontSize: 30),
-                    textAlign: TextAlign.center,
-                    'Welcome to SnapInv',
-                  ),
-                ),
-                Text('s'),
-              ],
+      body: Row(
+        children: [
+          SizedBox(
+            // width: ,
+          ),
+          Expanded(
+            flex: 5,
+            child: Container(
+              color: Colors.blue,
             ),
           ),
-        ),
-        Scaffold(
-
-        ),
+        ],
+      ),
+    ),
   ];
 
   void _onTap(int index) {
@@ -80,7 +92,7 @@ class _BottomNavState extends State<BottomNav> {
         currentIndex: _selectedIndex,
         selectedFontSize: 15,
         onTap: _onTap,
-        items: const <BottomNavigationBarItem> [
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.dashboard_outlined),
             activeIcon: Icon(Icons.dashboard),
