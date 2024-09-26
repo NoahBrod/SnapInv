@@ -39,43 +39,54 @@ class _BottomNavState extends State<BottomNav> {
       body: Center(
         child: Column(
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(20),
-                  child: SizedBox(
-                    height: 250,
-                    child: Card(
-                      elevation: 5,
-                      child: Column(
-                        children: <Widget>[
-                          ListTile(
-                            title: Text(
-                              style: TextStyle(fontSize: 20),
-                              textAlign: TextAlign.center,
-                              'Something',
-                            ),
-                          ),
-                        ],
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: SizedBox(
+                height: 250,
+                child: Card(
+                  elevation: 5,
+                  child: Column(
+                    children: <Widget>[
+                      const ListTile(
+                        leading: Icon(Icons.album),
+                        title: Text('The Enchanted Nightingale'),
+                        subtitle: Text(
+                            'Music by Julie Gable. Lyrics by Sidney Stein.'),
                       ),
-                    ),
+                    ],
                   ),
                 ),
-              ],
+              ),
+            ),
+            SizedBox(
+              height: 80.0,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: List.generate(10, (int index) {
+                  return Card(
+                    color: Colors.blue[index * 100],
+                    child: SizedBox(
+                      width: 50.0,
+                      height: 50.0,
+                      child: Text("$index"),
+                    ),
+                  );
+                }),
+              ),
             ),
             Row(
               children: <Widget>[
-                ListView(
-                  children: <Widget>[
-                    // SizedBox(
-                    //   height: 50,
-                    //   width: 50,
-                    //   child: Card(
-                    //     child: Text('data'),
-                    //   ),
-                    // ),
-                  ],
-                ),
+                // ListView(
+                //   children: <Widget>[
+                //     // SizedBox(
+                //     //   height: 50,
+                //     //   width: 50,
+                //     //   child: Card(
+                //     //     child: Text('data'),
+                //     //   ),
+                //     // ),
+                //   ],
+                // ),
               ],
             ),
           ],
