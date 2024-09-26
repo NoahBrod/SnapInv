@@ -58,20 +58,23 @@ class _BottomNavState extends State<BottomNav> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 80.0,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: List.generate(10, (int index) {
-                  return Card(
-                    color: Colors.blue[index * 100],
-                    child: SizedBox(
-                      width: 50.0,
-                      height: 50.0,
-                      child: Text("$index"),
-                    ),
-                  );
-                }),
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: SizedBox(
+                height: 80.0,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: List.generate(10, (int index) {
+                    return Card(
+                      color: Colors.blue[index * 100],
+                      child: SizedBox(
+                        width: 50.0,
+                        height: 50.0,
+                        child: Text("$index"),
+                      ),
+                    );
+                  }),
+                ),
               ),
             ),
             Row(
