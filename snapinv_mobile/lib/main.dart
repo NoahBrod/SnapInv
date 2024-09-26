@@ -35,20 +35,49 @@ class _BottomNavState extends State<BottomNav> {
     fontWeight: FontWeight.bold,
   );
   static List<Widget> _widgetOptions = <Widget>[
-    const Scaffold(
+    Scaffold(
       body: Center(
         child: Column(
-          // mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: EdgeInsets.all(50.0),
-              child: Text(
-                style: TextStyle(fontSize: 30),
-                textAlign: TextAlign.center,
-                'Welcome to SnapInv',
-              ),
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(20),
+                  child: SizedBox(
+                    height: 250,
+                    child: Card(
+                      elevation: 5,
+                      child: Column(
+                        children: <Widget>[
+                          ListTile(
+                            title: Text(
+                              style: TextStyle(fontSize: 20),
+                              textAlign: TextAlign.center,
+                              'Something',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            Text('s'),
+            Row(
+              children: <Widget>[
+                ListView(
+                  children: <Widget>[
+                    // SizedBox(
+                    //   height: 50,
+                    //   width: 50,
+                    //   child: Card(
+                    //     child: Text('data'),
+                    //   ),
+                    // ),
+                  ],
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -57,12 +86,18 @@ class _BottomNavState extends State<BottomNav> {
       body: Row(
         children: [
           SizedBox(
-            // width: ,
-          ),
+              // width: ,
+              ),
           Expanded(
             flex: 5,
             child: Container(
               color: Colors.blue,
+            ),
+          ),
+          Expanded(
+            flex: 5,
+            child: Container(
+              color: Colors.red,
             ),
           ),
         ],
