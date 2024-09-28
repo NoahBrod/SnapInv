@@ -120,10 +120,11 @@ class _BottomNavState extends State<BottomNav> {
       // Inventory Page
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context, route)
+          // Navigator.push(context, route)
         },
         backgroundColor: Color.fromRGBO(35, 214, 128, 1),
         elevation: 5,
+        child: Icon(Icons.add, color: Colors.white,),
       ),
       body: ListView(
         children: [
