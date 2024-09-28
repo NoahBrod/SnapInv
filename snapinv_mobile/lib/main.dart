@@ -28,7 +28,7 @@ class BottomNav extends StatefulWidget {
 }
 
 class _BottomNavState extends State<BottomNav> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 2;
 
   static const TextStyle optionStyle = TextStyle(
     fontSize: 20,
@@ -36,6 +36,7 @@ class _BottomNavState extends State<BottomNav> {
   );
   static List<Widget> _widgetOptions = <Widget>[
     Scaffold(
+      // Dashboard
       body: Center(
         child: Column(
           children: <Widget>[
@@ -59,60 +60,75 @@ class _BottomNavState extends State<BottomNav> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.only(left: 20, right: 20),
               child: SizedBox(
-                height: 80.0,
+                height: 100.0,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
-                  children: List.generate(10, (int index) {
-                    return Card(
-                      color: Colors.blue[index * 100],
+                  children: [
+                    Card(
+                      elevation: 5,
                       child: SizedBox(
-                        width: 50.0,
-                        height: 50.0,
-                        child: Text("$index"),
+                        width: 100,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.account_circle,
+                                size: 40,
+                              ),
+                              Text('Profile 1'),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Column(
+                                    children: [
+                                      Icon(
+                                        Icons.fiber_manual_record,
+                                        size: 10,
+                                        color: Colors.green,
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        'Profile 1',
+                                        style: TextStyle(color: Colors.green),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                    );
-                  }),
+                    ),
+                  ],
                 ),
               ),
-            ),
-            Row(
-              children: <Widget>[
-                // ListView(
-                //   children: <Widget>[
-                //     // SizedBox(
-                //     //   height: 50,
-                //     //   width: 50,
-                //     //   child: Card(
-                //     //     child: Text('data'),
-                //     //   ),
-                //     // ),
-                //   ],
-                // ),
-              ],
             ),
           ],
         ),
       ),
     ),
+    Scaffold(// Camera
+        ),
     Scaffold(
-      body: Row(
+      // Inventory Page
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, route)
+        },
+        backgroundColor: Color.fromRGBO(35, 214, 128, 1),
+        elevation: 5,
+      ),
+      body: ListView(
         children: [
-          SizedBox(
-              // width: ,
-              ),
-          Expanded(
-            flex: 5,
-            child: Container(
-              color: Colors.blue,
-            ),
-          ),
-          Expanded(
-            flex: 5,
-            child: Container(
-              color: Colors.red,
-            ),
+          ListTile(
+            title: Text('Item 1'),
           ),
         ],
       ),
@@ -130,7 +146,10 @@ class _BottomNavState extends State<BottomNav> {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: const Text('SnapInv Demo'),
+        title: const Text(
+          'SnapInv Demo',
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: Color.fromRGBO(35, 214, 128, 1),
       ),
       body: Center(
@@ -152,6 +171,12 @@ class _BottomNavState extends State<BottomNav> {
             icon: Icon(Icons.camera_outlined),
             activeIcon: Icon(Icons.camera),
             label: 'Camera',
+            backgroundColor: Color.fromRGBO(35, 214, 128, 1),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shelves),
+            // activeIcon: Icon(Icons.),
+            label: 'Inventory',
             backgroundColor: Color.fromRGBO(35, 214, 128, 1),
           ),
         ],
