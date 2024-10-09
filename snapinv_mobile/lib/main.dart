@@ -30,88 +30,14 @@ class BottomNav extends StatefulWidget {
 }
 
 class _BottomNavState extends State<BottomNav> {
-  int _selectedIndex = 2;
+  int _selectedIndex = 0;
+
+  final pages = [
+    Dashboard(),
+  ];
 
   static List<Widget> _widgetOptions = <Widget>[
-    Scaffold(
-      // Dashboard
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.all(20),
-              child: SizedBox(
-                height: 250,
-                child: Card(
-                  elevation: 5,
-                  child: Column(
-                    children: <Widget>[
-                      const ListTile(
-                        leading: Icon(Icons.album),
-                        title: Text('The Enchanted Nightingale'),
-                        subtitle: Text(
-                            'Music by Julie Gable. Lyrics by Sidney Stein.'),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 20, right: 20),
-              child: SizedBox(
-                height: 100.0,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    Card(
-                      elevation: 5,
-                      child: SizedBox(
-                        width: 100,
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.account_circle,
-                                size: 40,
-                              ),
-                              Text('Profile 1'),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Column(
-                                    children: [
-                                      Icon(
-                                        Icons.fiber_manual_record,
-                                        size: 10,
-                                        color: Colors.green,
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        'Profile 1',
-                                        style: TextStyle(color: Colors.green),
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    ),
+    Dashboard(),
     Scaffold(// Camera
         ),
     Scaffold(
@@ -122,7 +48,10 @@ class _BottomNavState extends State<BottomNav> {
         },
         backgroundColor: Color.fromRGBO(35, 214, 128, 1),
         elevation: 5,
-        child: Icon(Icons.add, color: Colors.white,),
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
       body: ListView(
         children: [

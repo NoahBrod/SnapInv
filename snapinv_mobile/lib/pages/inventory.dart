@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Dashboard extends StatefulWidget {
-  const Dashboard({super.key});
+class _Inventory extends StatefulWidget {
+  const _Inventory({super.key});
 
   @override
-  State<Dashboard> createState() => _DashboardState();
+  State<_Inventory> createState() => _InventoryState();
 }
 
-class _DashboardState extends State<Dashboard>
+class _InventoryState extends State<_Inventory>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
@@ -71,7 +71,7 @@ class _DashboardState extends State<Dashboard>
                                   Column(
                                     children: [
                                       Text(
-                                        'Online',
+                                        'Profile 1',
                                         style: TextStyle(color: Colors.green),
                                       )
                                     ],
