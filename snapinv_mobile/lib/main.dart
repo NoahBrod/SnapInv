@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'pages/dashboard.dart';
+import 'pages/camera.dart';
+import 'pages/inventory.dart';
 
 void main() {
   runApp(const MainApp());
@@ -30,48 +32,25 @@ class BottomNav extends StatefulWidget {
 }
 
 class _BottomNavState extends State<BottomNav> {
-  int _selectedIndex = 0;
+  final PageController controller = PageController();
+  int selectedIndex = 0;
+
 
   final pages = [
     Dashboard(),
-  ];
-
-  static List<Widget> _widgetOptions = <Widget>[
-    Dashboard(),
-    Scaffold(// Camera
-        ),
-    Scaffold(
-      // Inventory Page
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Navigator.push(context, )
-        },
-        backgroundColor: Color.fromRGBO(35, 214, 128, 1),
-        elevation: 5,
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-      ),
-      body: ListView(
-        children: [
-          ListTile(
-            title: Text('Item 1'),
-          ),
-        ],
-      ),
-    ),
+    Camera(),
+    Inventory()
   ];
 
   void _onTap(int index) {
+    controller.jumpToPage(index);
     setState(() {
-      _selectedIndex = index;
+      selectedIndex = index;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -80,12 +59,18 @@ class _BottomNavState extends State<BottomNav> {
         ),
         backgroundColor: Color.fromRGBO(35, 214, 128, 1),
       ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+      body: PageView(
+        controller: controller,
+        children: pages,
+        onPageChanged: (index) {
+          setState(() {
+            selectedIndex = index;
+          });
+        },
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.shifting,
-        currentIndex: _selectedIndex,
+        currentIndex: selectedIndex,
         selectedFontSize: 15,
         onTap: _onTap,
         items: const <BottomNavigationBarItem>[
