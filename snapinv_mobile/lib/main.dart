@@ -35,6 +35,11 @@ class _BottomNavState extends State<BottomNav> {
   final PageController controller = PageController();
   int selectedIndex = 2;
 
+  final pageNames = [
+    "Dashboard",
+    "",
+    "Inventory"
+  ];
 
   final pages = [
     DashboardPage(),
@@ -52,9 +57,11 @@ class _BottomNavState extends State<BottomNav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'SnapInv Demo',
+      appBar: pageNames[selectedIndex].isEmpty ?
+        null
+       : AppBar(
+        title: Text(
+          pageNames[selectedIndex],
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Color.fromRGBO(35, 214, 128, 1),
