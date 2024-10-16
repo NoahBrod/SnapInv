@@ -33,7 +33,7 @@ class BottomNav extends StatefulWidget {
 
 class _BottomNavState extends State<BottomNav> {
   final PageController controller = PageController();
-  int selectedIndex = 0;
+  int selectedIndex = 2;
 
 
   final pages = [
