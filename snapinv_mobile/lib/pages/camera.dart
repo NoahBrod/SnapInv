@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Camera extends StatefulWidget {
-  const Camera({super.key});
+class CameraPage extends StatefulWidget {
+  const CameraPage({super.key});
 
   @override
-  State<Camera> createState() => _CameraState();
+  State<CameraPage> createState() => _CameraPageState();
 }
 
-class _CameraState extends State<Camera>
+class _CameraPageState extends State<CameraPage>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {

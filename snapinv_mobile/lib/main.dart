@@ -37,9 +37,9 @@ class _BottomNavState extends State<BottomNav> {
 
 
   final pages = [
-    Dashboard(),
-    Camera(),
-    Inventory()
+    DashboardPage(),
+    CameraPage(),
+    InventoryPage()
   ];
 
   void _onTap(int index) {
@@ -65,7 +65,7 @@ class _BottomNavState extends State<BottomNav> {
         onPageChanged: (index) {
           setState(() {
             selectedIndex = index;
-          });
+          }); 
         },
       ),
       bottomNavigationBar: BottomNavigationBar(
