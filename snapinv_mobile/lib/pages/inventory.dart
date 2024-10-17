@@ -72,7 +72,16 @@ class _InventoryPageState extends State<InventoryPage>
                       elevation: 5,
                       child: ListTile(
                         leading: ConstrainedBox(
-                          constraints: BoxConstraints(),
+                          constraints: BoxConstraints(
+                            minWidth: 44,
+                            minHeight: 44,
+                            maxWidth: 44,
+                            maxHeight: 44,
+                          ),
+                          child: Image.file(
+                            item.image!,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                         title: Text(item.name),
                         subtitle: Text(item.description),

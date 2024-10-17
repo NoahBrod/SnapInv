@@ -27,14 +27,16 @@ class _AddItemPageState extends State<AddItemPage> {
 
       if (pickedFile != null) {
         setState(() {
-          _imageFile = File(pickedFile.path); // Convert to File
+          _imageFile = File(pickedFile.path);
+          print('IMAGE ADDED.');
           // Save image to the InventoryItem object
           // _item = InventoryItem(name: 'Example Item', image: _imageFile);
         });
+      } else {
+        print('No image selected.');
       }
     } catch (e) {
       print('Error picking image: $e');
-      // Optionally, show a dialog or snackbar to the user
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to pick image: $e')),
       );
@@ -51,6 +53,12 @@ class _AddItemPageState extends State<AddItemPage> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
+            _imageFile != null ? Image.file(
+              _imageFile!,
+              width: 300,
+              height: 300,
+              fit: BoxFit.cover,
+            ) : Text('data'),
             ElevatedButton(
                 onPressed: _pickImageFromCamera,
                 child: Text('Please take an image')),

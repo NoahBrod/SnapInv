@@ -95,7 +95,6 @@ class _BottomNavState extends State<BottomNav> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.shelves),
-            // activeIcon: Icon(Icons.),
             label: 'Inventory',
             backgroundColor: Color.fromRGBO(35, 214, 128, 1),
           ),
