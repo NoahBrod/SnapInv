@@ -1,11 +1,12 @@
 import 'dart:io';
 
 class InventoryItem {
-  final File? image;
-  final String name;
-  final String description;
-  final double price;
+  File? image;
+  String name;
+  String description;
+  double price;
   bool selected;
+  String code;
 
   InventoryItem({
     required this.image,
@@ -13,5 +14,6 @@ class InventoryItem {
     required this.description,
     required this.price,
     required this.selected,
+    required this.code,
   });
 }
