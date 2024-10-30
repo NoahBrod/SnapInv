@@ -85,13 +85,13 @@ class _AddItemPageState extends State<AddItemPage> {
                 final double? price = double.tryParse(_priceController.text);
 
                 if (name.isNotEmpty &&
-                    description.isNotEmpty &&
                     price != null) {
                   final newItem = InventoryItem(
                     image: _imageFile,
                     name: name,
                     description: description,
                     price: price,
+                    selected: false,
                   );
 
                   Navigator.pop(context, newItem);

@@ -14,6 +14,12 @@ class _CameraPageState extends State<CameraPage>
     super.build(context);
     return Scaffold(
       // Dashboard
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      extendBodyBehindAppBar: false,
+      backgroundColor: Colors.grey,
       body: Center(
         child: Text('data'),
       ),

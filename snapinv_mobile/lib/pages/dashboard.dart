@@ -14,6 +14,13 @@ class _DashboardPageState extends State<DashboardPage>
     super.build(context);
     return Scaffold(
       // Dashboard
+      appBar: AppBar(
+        title: Text(
+          'Dashboard',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Color.fromRGBO(35, 214, 128, 1),
+      ),
       body: Center(
         child: Column(
           children: <Widget>[

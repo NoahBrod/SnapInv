@@ -32,20 +32,12 @@ class BottomNav extends StatefulWidget {
 }
 
 class _BottomNavState extends State<BottomNav> {
-  final PageController controller = PageController();
+  final PageController controller = PageController(initialPage: 2);
   int selectedIndex = 2;
 
-  final pageNames = [
-    "Dashboard",
-    "",
-    "Inventory"
-  ];
+  final pageNames = ["Dashboard", "", "Inventory"];
 
-  final pages = [
-    DashboardPage(),
-    CameraPage(),
-    InventoryPage()
-  ];
+  final pages = [DashboardPage(), CameraPage(), InventoryPage()];
 
   void _onTap(int index) {
     controller.jumpToPage(index);
@@ -57,22 +49,13 @@ class _BottomNavState extends State<BottomNav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: pageNames[selectedIndex].isEmpty ?
-        null
-       : AppBar(
-        title: Text(
-          pageNames[selectedIndex],
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Color.fromRGBO(35, 214, 128, 1),
-      ),
       body: PageView(
         controller: controller,
         children: pages,
         onPageChanged: (index) {
           setState(() {
             selectedIndex = index;
-          }); 
+          });
         },
       ),
       bottomNavigationBar: BottomNavigationBar(
