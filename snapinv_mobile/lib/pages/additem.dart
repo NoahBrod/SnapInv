@@ -22,6 +22,48 @@ class _AddItemPageState extends State<AddItemPage> {
 
   final ImagePicker _picker = ImagePicker();
 
+  int _number = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _quantityController.addListener(() {
+      final text = _quantityController.text;
+      setState(() {
+        if (text.isNotEmpty) {
+          _number = int.tryParse(text)!;
+        } else {
+          _number = 0;
+        }
+      });
+    });
+  }
+
+  void _increment() {
+    final text = _quantityController.text;
+    setState(() {
+      if (text.isNotEmpty) {
+        _number = int.tryParse(text)! + 1;
+        _quantityController.text = _number.toString();
+      } else {
+        _number++;
+        _quantityController.text = _number.toString();
+      }
+    });
+  }
+
+  void _decrement() {
+    final text = _quantityController.text;
+    setState(() {
+      if (text.isNotEmpty && _number > 0) {
+        _number = int.tryParse(text)! - 1;
+        _quantityController.text = _number.toString();
+      } else {
+        _quantityController.text = _number.toString();
+      }
+    });
+  }
+
   Future<void> _pickImageFromCamera() async {
     try {
       final XFile? pickedFile =
@@ -63,10 +105,16 @@ class _AddItemPageState extends State<AddItemPage> {
                       height: 300,
                       fit: BoxFit.cover,
                     )
-                  : Text('data'),
+                  : Container(
+                      width: 300,
+                      height: 300,
+                      color: Colors.grey,
+                    ),
+              SizedBox(height: 10),
               ElevatedButton(
-                  onPressed: _pickImageFromCamera,
-                  child: Text('Please take an image')),
+                onPressed: _pickImageFromCamera,
+                child: Text('Please take an image'),
+              ),
               TextField(
                 controller: _nameController,
                 decoration: InputDecoration(labelText: 'Item Name'),
@@ -77,20 +125,64 @@ class _AddItemPageState extends State<AddItemPage> {
                 decoration: InputDecoration(labelText: 'Item Description'),
               ),
               SizedBox(height: 10),
-              TextField(
-                controller: _priceController,
-                decoration: InputDecoration(labelText: 'Item Price'),
-                keyboardType: TextInputType.number,
-              ),
               SizedBox(height: 20),
-              TextField(
-                controller: _quantityController,
-                decoration: InputDecoration(labelText: 'Item Quantity'),
-                keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
+              Row(
+                children: [
+                  Column(
+                    children: [
+                      Text('Quantity'),
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.remove),
+                            onPressed: _decrement,
+                          ),
+                          ConstrainedBox(
+                            constraints: BoxConstraints(minWidth: 60),
+                            child: IntrinsicWidth(
+                              child: TextField(
+                                textAlign: TextAlign.center,
+                                controller: _quantityController,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  contentPadding:
+                                      EdgeInsets.symmetric(horizontal: 10),
+                                  hintText: '0',
+                                ),
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.add),
+                            onPressed: _increment,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      ConstrainedBox(
+                        constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width / 2),
+                        child: TextField(
+                          controller: _priceController,
+                          decoration: InputDecoration(
+                              labelText: 'Item Price',
+                              floatingLabelAlignment:
+                                  FloatingLabelAlignment.center),
+                          keyboardType: TextInputType.number,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
+              SizedBox(height: 20),
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
@@ -104,7 +196,7 @@ class _AddItemPageState extends State<AddItemPage> {
                       image: _imageFile,
                       name: name,
                       description: description,
-                      quantity: (quantity  != null) ? quantity : null,
+                      quantity: quantity!,
                       price: price,
                       selected: false,
                       code: '',
