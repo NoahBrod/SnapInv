@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import '../entities/inventoryitem.dart';
 
@@ -16,6 +17,7 @@ class _AddItemPageState extends State<AddItemPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
+  final TextEditingController _quantityController = TextEditingController();
   File? _imageFile;
 
   final ImagePicker _picker = ImagePicker();
@@ -81,17 +83,28 @@ class _AddItemPageState extends State<AddItemPage> {
                 keyboardType: TextInputType.number,
               ),
               SizedBox(height: 20),
+              TextField(
+                controller: _quantityController,
+                decoration: InputDecoration(labelText: 'Item Quantity'),
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+              ),
+              SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   final String name = _nameController.text;
                   final String description = _descriptionController.text;
                   final double? price = double.tryParse(_priceController.text);
+                  final int? quantity = int.tryParse(_quantityController.text);
 
                   if (name.isNotEmpty && price != null) {
                     final newItem = InventoryItem(
                       image: _imageFile,
                       name: name,
                       description: description,
+                      quantity: (quantity  != null) ? quantity : null,
                       price: price,
                       selected: false,
                       code: '',
