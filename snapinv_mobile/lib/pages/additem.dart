@@ -189,14 +189,14 @@ class _AddItemPageState extends State<AddItemPage> {
                   final String name = _nameController.text;
                   final String description = _descriptionController.text;
                   final double? price = double.tryParse(_priceController.text);
-                  final int? quantity = int.tryParse(_quantityController.text);
+                  final int quantity = _number;
 
-                  if (name.isNotEmpty && price != null) {
+                  if (name.isNotEmpty) {
                     final newItem = InventoryItem(
                       image: _imageFile,
                       name: name,
                       description: description,
-                      quantity: quantity!,
+                      quantity: quantity,
                       price: price,
                       selected: false,
                       code: '',

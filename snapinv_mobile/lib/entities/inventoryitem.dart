@@ -5,7 +5,7 @@ class InventoryItem {
   String name;
   String description;
   int quantity;
-  double price;
+  double? price;
   bool selected;
   String code;
 

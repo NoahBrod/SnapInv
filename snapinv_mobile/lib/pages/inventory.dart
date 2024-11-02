@@ -38,13 +38,20 @@ class _InventoryPageState extends State<InventoryPage>
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Color.fromRGBO(35, 214, 128, 1),
-        actions: (selectable) ? [
-          IconButton(onPressed: () {
-            setState(() {
-              selectable = false;
-            });
-          }, icon: Icon(Icons.close, color: Colors.white,))
-        ] : [],
+        actions: (selectable)
+            ? [
+                IconButton(
+                    onPressed: () {
+                      setState(() {
+                        selectable = false;
+                      });
+                    },
+                    icon: Icon(
+                      Icons.close,
+                      color: Colors.white,
+                    ))
+              ]
+            : [],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
@@ -102,10 +109,14 @@ class _InventoryPageState extends State<InventoryPage>
                                       maxWidth: 44,
                                       maxHeight: 44,
                                     ),
-                                    child: Image.file(
-                                      item.image!,
-                                      fit: BoxFit.cover,
-                                    ),
+                                    child: item.image == null
+                                        ? Container(
+                                            color: Colors.grey,
+                                          )
+                                        : Image.file(
+                                            item.image!,
+                                            fit: BoxFit.cover,
+                                          ),
                                   ),
                                 ],
                               )
@@ -116,10 +127,14 @@ class _InventoryPageState extends State<InventoryPage>
                                   maxWidth: 44,
                                   maxHeight: 44,
                                 ),
-                                child: Image.file(
-                                  item.image!,
-                                  fit: BoxFit.cover,
-                                ),
+                                child: item.image == null
+                                    ? Container(
+                                        color: Colors.grey,
+                                      )
+                                    : Image.file(
+                                        item.image!,
+                                        fit: BoxFit.cover,
+                                      ),
                               ),
                         title: Text(item.name),
                         subtitle: Text(item.description),

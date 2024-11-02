@@ -71,12 +71,18 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-                child: Image.file(
-                  item.image!,
-                  width: 300,
-                  height: 300,
-                  fit: BoxFit.cover,
-                ),
+                child: item.image == null
+                    ? Container(
+                        width: 300,
+                        height: 300,
+                        color: Colors.grey,
+                      )
+                    : Image.file(
+                        item.image!,
+                        width: 300,
+                        height: 300,
+                        fit: BoxFit.cover,
+                      ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
