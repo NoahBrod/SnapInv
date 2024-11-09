@@ -188,7 +188,8 @@ class _AddItemPageState extends State<AddItemPage> {
                 onPressed: () {
                   final String name = _nameController.text;
                   final String description = _descriptionController.text;
-                  final double? price = double.tryParse(_priceController.text);
+                  final double? acqPrice = double.tryParse(_priceController.text);
+                  final double? salePrice = 0.00;
                   final int quantity = _number;
 
                   if (name.isNotEmpty) {
@@ -197,7 +198,8 @@ class _AddItemPageState extends State<AddItemPage> {
                       name: name,
                       description: description,
                       quantity: quantity,
-                      price: price,
+                      acqPrice: acqPrice,
+                      salePrice: salePrice,
                       selected: false,
                       code: '',
                     );

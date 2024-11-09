@@ -18,20 +18,18 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController controller1 =
-        TextEditingController(text: '${item.price}');
+    final TextEditingController _nameController =
+        TextEditingController(text: '${item.name}');
+    final TextEditingController _descriptionController =
+        TextEditingController(text: '${item.description}');
+    final TextEditingController _quantityController =
+        TextEditingController(text: '${item.quantity}');
+    final TextEditingController _acqPriceController =
+        TextEditingController(text: '${item.acqPrice}');
+        final TextEditingController _salePriceController =
+        TextEditingController(text: '${item.salePrice}');
 
-    final FocusNode focusNode1 = FocusNode();
-    final FocusNode focusNode2 = FocusNode();
-    final FocusNode focusNode3 = FocusNode();
-
-    @override
-    void dispose() {
-      focusNode1.dispose();
-      focusNode2.dispose();
-      focusNode3.dispose();
-      super.dispose();
-    }
+    bool editing = false;
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -44,7 +42,9 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
         iconTheme: IconThemeData(color: Colors.white),
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+
+            },
             child: Text('Edit'),
           ),
         ],
@@ -84,54 +84,143 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                         fit: BoxFit.cover,
                       ),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              SizedBox(height: 20),
+              Row(
                 children: [
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(3.0),
-                    child: Text(
-                      'Name:',
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(left: 5),
+                          child: Text(
+                            'Code',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(5),
+                          margin: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            // border: Border.all(color: Colors.black),
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            color: Color.fromRGBO(225, 225, 225, 1),
+                          ),
+                          // height: 50,
+                          width: MediaQuery.of(context).size.width,
+                          child: Text(
+                            item.code,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2,
-                    padding: const EdgeInsets.all(3.0),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                        color: Colors.grey),
-                    child: Text(
-                      item.name,
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
-                  )
                 ],
               ),
-              SizedBox(height: 20),
-              Text(
-                'Description: ${item.description}',
-                style: TextStyle(fontSize: 18),
-              ),
-              SizedBox(height: 20),
-              SizedBox(height: 20),
-              GestureDetector(
-                // onTap: () => focusNode3.requestFocus(),
-                child: TextField(
-                  focusNode: focusNode3,
-                  controller: controller1,
-                  decoration: InputDecoration(
-                    labelText: 'Field 3',
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(left: 5),
+                          child: Text(
+                            'Description',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(5),
+                          margin: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            // border: Border.all(color: Colors.black),
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            color: Color.fromRGBO(225, 225, 225, 1),
+                          ),
+                          height: 80,
+                          width: MediaQuery.of(context).size.width,
+                          child: Text(
+                            item.description,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  style: TextStyle(fontSize: 18),
-                ),
+                ],
               ),
-              Text(
-                'Code: ${item.code}',
-                style: TextStyle(fontSize: 18),
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(left: 5),
+                          child: Text(
+                            'Quantity',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
+                        ConstrainedBox(
+                          constraints:
+                              BoxConstraints(minWidth: 60),
+                          child: IntrinsicWidth(
+                            child: Container(
+                              padding: EdgeInsets.all(5),
+                              margin: EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                // border: Border.all(color: Colors.black),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5)),
+                                    color: Color.fromRGBO(225, 225, 225, 1),
+                              ),
+                              // height: 40,
+                              width: 60,
+                              alignment: Alignment.center,
+                              child: Text(
+                                item.quantity.toString(),
+                                style: TextStyle(fontSize: 16),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          margin: EdgeInsets.only(left: 5),
+                          child: Text(
+                            'Price',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(5),
+                          margin: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            // border: Border.all(color: Colors.black),
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            color: Color.fromRGBO(225, 225, 225, 1),
+                          ),
+                          width: MediaQuery.of(context).size.width,
+                          child: Text(
+                            item.acqPrice.toString(),
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

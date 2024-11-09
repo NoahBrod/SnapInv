@@ -5,7 +5,8 @@ class InventoryItem {
   String name;
   String description;
   int quantity;
-  double? price;
+  double? acqPrice;
+  double? salePrice;
   bool selected;
   String code;
 
@@ -14,7 +15,8 @@ class InventoryItem {
     required this.name,
     required this.description,
     required this.quantity,
-    required this.price,
+    required this.acqPrice,
+    required this.salePrice,
     required this.selected,
     required this.code,
   });
