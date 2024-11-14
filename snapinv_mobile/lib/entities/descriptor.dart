@@ -1,17 +1,6 @@
-import 'dart:ffi';
-import 'dart:io';
-
 class InventoryItem {
-  // File? image;
-  Long? id;
   String name;
-  List<
-  // String description;
-  // int quantity;
-  // double? acqPrice;
-  // double? salePrice;
-  // bool selected;
-  // String code;
+  var type;
 
   InventoryItem({
     required this.image,
