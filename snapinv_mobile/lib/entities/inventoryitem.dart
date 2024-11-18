@@ -1,13 +1,15 @@
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:snapinv_mobile/entities/descriptor.dart';
+
 class InventoryItem {
-  // File? image;
+  File? image;
   Long? id;
   String name;
-  List<
-  // String description;
-  // int quantity;
+  String description;
+  int quantity;
+  List<Descriptor> descriptors;
   // double? acqPrice;
   // double? salePrice;
   // bool selected;

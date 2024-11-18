@@ -1,15 +1,10 @@
-class InventoryItem {
+class Descriptor {
   String name;
-  var type;
+  
+  String type;
 
-  InventoryItem({
-    required this.image,
+  Descriptor({
     required this.name,
-    required this.description,
-    required this.quantity,
-    required this.acqPrice,
-    required this.salePrice,
-    required this.selected,
-    required this.code,
+    required this.type,
   });
 }
