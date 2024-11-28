@@ -27,6 +27,36 @@ public class ItemController {
         Optional<Item> item = itemService.getItem(id);
         return item.isPresent() ? item.get() : null;
     }
+
+    @PostMapping("/dummy")
+    public String dummyPost(
+        @RequestParam String name,
+        @RequestParam(required = false) String description,
+        @RequestParam(required = false) String quantity,
+        @RequestParam(required = false) String price
+    ) {
+        System.out.println("---------DUMMY POST TRIGGERED---------");
+
+        Item newItem = new Item();
+        newItem.setName(name);
+
+        if (description != "") {
+            newItem.setDescription(description);
+        }
+
+        newItem.setQuantity(Integer.parseInt(quantity));
+
+        if (price != null) {
+            newItem.setPrice(Double.parseDouble(price));
+        }
+
+        System.out.println(newItem.toString());
+
+        itemService.addItem(newItem);
+
+        return "Dummy";
+    }
+    
     
     @PostMapping("/additem")
     public String addItem(@RequestBody Item item) {

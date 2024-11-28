@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import '../entities/inventoryitem.dart';
 
+import 'package:http/http.dart' as http;
+
 class AddItemPage extends StatefulWidget {
   const AddItemPage({super.key});
 
@@ -84,6 +86,31 @@ class _AddItemPageState extends State<AddItemPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to pick image: $e')),
       );
+    }
+  }
+
+  Future<void> dummyPost(
+      String name, String description, int quantity, double? price) async {
+    final url = Uri.http('192.168.4.33:8080', '/api/v1/item/dummy', {
+      'name': name,
+      if (description != "")'description': description,
+      'quantity': quantity.toString(),
+      if (price != null) 'price': price.toString()
+    });
+
+    try {
+      final response = await http.post(url);
+      if (response.statusCode == 200) {
+        setState(() {
+          print(response.body);
+        });
+      } else {
+        setState(() {
+          print('Error: ${response.statusCode}');
+        });
+      }
+    } catch (e) {
+      print('An error occurred: $e');
     }
   }
 
@@ -188,8 +215,7 @@ class _AddItemPageState extends State<AddItemPage> {
                 onPressed: () {
                   final String name = _nameController.text;
                   final String description = _descriptionController.text;
-                  final double? acqPrice = double.tryParse(_priceController.text);
-                  final double? salePrice = 0.00;
+                  final double? price = double.tryParse(_priceController.text);
                   final int quantity = _number;
 
                   if (name.isNotEmpty) {
@@ -198,8 +224,7 @@ class _AddItemPageState extends State<AddItemPage> {
                       name: name,
                       description: description,
                       quantity: quantity,
-                      acqPrice: acqPrice,
-                      salePrice: salePrice,
+                      price: price,
                       selected: false,
                       code: '',
                     );
@@ -217,6 +242,8 @@ class _AddItemPageState extends State<AddItemPage> {
                       ),
                     ));
                   }
+
+                  dummyPost(name, description, quantity, price);
                 },
                 child: Text('Add Item'),
               ),

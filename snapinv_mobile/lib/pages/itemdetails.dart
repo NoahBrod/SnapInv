@@ -18,16 +18,16 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _nameController =
-        TextEditingController(text: '${item.name}');
-    final TextEditingController _descriptionController =
-        TextEditingController(text: '${item.description}');
-    final TextEditingController _quantityController =
-        TextEditingController(text: '${item.quantity}');
-    final TextEditingController _acqPriceController =
-        TextEditingController(text: '${item.acqPrice}');
-        final TextEditingController _salePriceController =
-        TextEditingController(text: '${item.salePrice}');
+    // final TextEditingController _nameController =
+    //     TextEditingController(text: '${item.name}');
+    // final TextEditingController _descriptionController =
+    //     TextEditingController(text: '${item.description}');
+    // final TextEditingController _quantityController =
+    //     TextEditingController(text: '${item.quantity}');
+    // final TextEditingController _acqPriceController =
+    //     TextEditingController(text: '${item.acqPrice}');
+    //     final TextEditingController _salePriceController =
+    //     TextEditingController(text: '${item.salePrice}');
 
     bool editing = false;
 
@@ -213,7 +213,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                           ),
                           width: MediaQuery.of(context).size.width,
                           child: Text(
-                            item.acqPrice.toString(),
+                            item.price.toString(),
                             style: TextStyle(fontSize: 16),
                           ),
                         ),
