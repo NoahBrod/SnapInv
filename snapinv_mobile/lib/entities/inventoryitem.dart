@@ -4,7 +4,7 @@ import 'dart:io';
 // import 'package:snapinv_mobile/entities/descriptor.dart';
 
 class InventoryItem {
-  Long? id;
+  int? id;
   File? image;
   String name;
   String? code;
@@ -14,6 +14,7 @@ class InventoryItem {
   bool selected = false;
 
   InventoryItem({
+    required this.id,
     required this.image,
     required this.name,
     required this.description,
@@ -24,6 +25,7 @@ class InventoryItem {
 
   factory InventoryItem.fromJson(Map<String, dynamic> json) {
     return InventoryItem(
+      id: json['id'] as int,
       image: null,
       name: json['name'] as String,
       code: json['code'] != null ? json['code'] as String : null,

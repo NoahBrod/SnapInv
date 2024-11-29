@@ -31,7 +31,6 @@ public class ItemController {
 
     @GetMapping("/items")
     public List<Item> getItems() {
-        System.out.println("RETURNING ITEMS");
         return itemService.allItems();
     }
     
@@ -43,8 +42,6 @@ public class ItemController {
         @RequestParam(required = false) String quantity,
         @RequestParam(required = false) String price
     ) {
-        System.out.println("---------DUMMY POST TRIGGERED---------");
-
         Item newItem = new Item();
         newItem.setName(name);
 

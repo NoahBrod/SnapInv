@@ -44,12 +44,13 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
           TextButton(
             onPressed: () {
 
+  print(item.code);
             },
             child: Text('Edit'),
           ),
         ],
       ),
-      floatingActionButton: (item.code == null)
+      floatingActionButton: (item.code != null)
           ? null
           : FloatingActionButton(
               onPressed: () {
@@ -73,8 +74,8 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
               Center(
                 child: item.image == null
                     ? Container(
-                        width: 300,
-                        height: 300,
+                        margin: EdgeInsets.only(left: 5, right: 5),
+                        height: 200,
                         color: Colors.grey,
                       )
                     : Image.file(

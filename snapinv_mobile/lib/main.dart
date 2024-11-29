@@ -46,7 +46,6 @@ class _BottomNavState extends State<BottomNav> {
     });
 
     if (index == 2) {
-      print(InventoryPage().key);
       InventoryPage.pageKey.currentState?.getInventory();
     }
   }

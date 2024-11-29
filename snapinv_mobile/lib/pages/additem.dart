@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:snapinv_mobile/pages/inventory.dart';
 import '../entities/inventoryitem.dart';
 
 import 'package:http/http.dart' as http;
@@ -93,7 +94,7 @@ class _AddItemPageState extends State<AddItemPage> {
       String name, String description, int quantity, double? price) async {
     final url = Uri.http('192.168.4.33:8080', '/api/v1/item/additem', {
       'name': name,
-      if (description != "")'description': description,
+      if (description != "") 'description': description,
       'quantity': quantity.toString(),
       if (price != null) 'price': price.toString()
     });
@@ -104,6 +105,7 @@ class _AddItemPageState extends State<AddItemPage> {
         setState(() {
           print(response.body);
         });
+        InventoryPage.pageKey.currentState?.getInventory();
       } else {
         setState(() {
           print('Error: ${response.statusCode}');
@@ -215,11 +217,15 @@ class _AddItemPageState extends State<AddItemPage> {
                 onPressed: () {
                   final String name = _nameController.text;
                   final String description = _descriptionController.text;
-                  final double? price = double.tryParse(_priceController.text);
+                  final double? price = _priceController.text.isNotEmpty
+                      ? double.tryParse(double.tryParse(_priceController.text)!
+                          .toStringAsFixed(2))
+                      : double.tryParse(_priceController.text);
                   final int quantity = _number;
 
                   if (name.isNotEmpty) {
                     final newItem = InventoryItem(
+                      id: null,
                       image: _imageFile,
                       name: name,
                       description: description,

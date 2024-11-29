@@ -8,7 +8,8 @@ import '../entities/inventoryitem.dart';
 import 'package:http/http.dart' as http;
 
 class InventoryPage extends StatefulWidget {
-  static final GlobalKey<InventoryPageState> pageKey = GlobalKey<InventoryPageState>();
+  static final GlobalKey<InventoryPageState> pageKey =
+      GlobalKey<InventoryPageState>();
 
   InventoryPage() : super(key: pageKey);
 
@@ -52,18 +53,25 @@ class InventoryPageState extends State<InventoryPage>
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
-        print(response.body);
+        // print(response.body);
       } else {
         print('Error: ${response.statusCode}');
       }
 
       List<dynamic> jsonList = jsonDecode(response.body);
-      List<InventoryItem> itemList = jsonList.map((json) => InventoryItem.fromJson(json)).toList();
+      List<InventoryItem> itemList =
+          jsonList.map((json) => InventoryItem.fromJson(json)).toList();
 
-      for (var item in itemList) {
-        if (!items.contains(item)) {
-          addItem(item);
+      if (itemList.isNotEmpty) {
+        for (var item in itemList) {
+          if (!items.contains(item)) {
+            addItem(item);
+          }
         }
+      } else {
+        setState(() {
+          items = [];
+        });
       }
     } catch (e) {
       print('An error occurred: $e');
@@ -180,7 +188,28 @@ class InventoryPageState extends State<InventoryPage>
                                       ),
                               ),
                         title: Text(item.name),
-                        subtitle: Text(item.description != null ? item.description! : ""),
+                        subtitle: Text(item.description != null
+                            ? "${item.description!.substring(0, 15)}..."
+                            : ""),
+                        trailing: Column(
+                          children: [
+                            Text(
+                              "Price: ${item.price}",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "Qty: ${item.quantity}",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
                         onTap: () {
                           Navigator.push(
                             context,
