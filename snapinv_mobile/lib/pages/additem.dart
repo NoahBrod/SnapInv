@@ -89,9 +89,9 @@ class _AddItemPageState extends State<AddItemPage> {
     }
   }
 
-  Future<void> dummyPost(
+  Future<void> addItem(
       String name, String description, int quantity, double? price) async {
-    final url = Uri.http('192.168.4.33:8080', '/api/v1/item/dummy', {
+    final url = Uri.http('192.168.4.33:8080', '/api/v1/item/additem', {
       'name': name,
       if (description != "")'description': description,
       'quantity': quantity.toString(),
@@ -225,11 +225,10 @@ class _AddItemPageState extends State<AddItemPage> {
                       description: description,
                       quantity: quantity,
                       price: price,
-                      selected: false,
                       code: '',
                     );
 
-                    Navigator.pop(context, newItem);
+                    Navigator.pop(context);
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text('Please fill out all fields correctly.'),
@@ -243,7 +242,7 @@ class _AddItemPageState extends State<AddItemPage> {
                     ));
                   }
 
-                  dummyPost(name, description, quantity, price);
+                  addItem(name, description, quantity, price);
                 },
                 child: Text('Add Item'),
               ),

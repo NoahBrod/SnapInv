@@ -44,6 +44,11 @@ class _BottomNavState extends State<BottomNav> {
     setState(() {
       selectedIndex = index;
     });
+
+    if (index == 2) {
+      print(InventoryPage().key);
+      InventoryPage.pageKey.currentState?.getInventory();
+    }
   }
 
   @override

@@ -1,5 +1,6 @@
 package com.snapinv.snapinv_api.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,10 @@ public class ItemService {
 
     public Optional<Item> getItem(Long id) {
         return itemRepo.findById(id);
+    }
+
+    public List<Item> allItems() {
+        return itemRepo.findAll();
     }
     
 }

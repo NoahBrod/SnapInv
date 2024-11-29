@@ -1,19 +1,32 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'additem.dart';
 import 'itemdetails.dart';
 import '../entities/inventoryitem.dart';
 
+import 'package:http/http.dart' as http;
+
 class InventoryPage extends StatefulWidget {
-  const InventoryPage();
+  static final GlobalKey<InventoryPageState> pageKey = GlobalKey<InventoryPageState>();
+
+  InventoryPage() : super(key: pageKey);
 
   @override
-  State<InventoryPage> createState() => _InventoryPageState();
+  State<InventoryPage> createState() => InventoryPageState();
 }
 
-class _InventoryPageState extends State<InventoryPage>
+class InventoryPageState extends State<InventoryPage>
     with AutomaticKeepAliveClientMixin {
   List<InventoryItem> items = [];
   bool selectable = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getInventory();
+  }
 
   void _toggleCheckbox(int index, bool? value) {
     setState(() {
@@ -25,6 +38,36 @@ class _InventoryPageState extends State<InventoryPage>
     setState(() {
       selectable = true;
     });
+  }
+
+  void addItem(InventoryItem newItem) {
+    setState(() {
+      items.add(newItem); // Add new item to the list
+    });
+  }
+
+  Future<void> getInventory() async {
+    final url = Uri.parse('http://192.168.4.33:8080/api/v1/item/items');
+
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        print(response.body);
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+
+      List<dynamic> jsonList = jsonDecode(response.body);
+      List<InventoryItem> itemList = jsonList.map((json) => InventoryItem.fromJson(json)).toList();
+
+      for (var item in itemList) {
+        if (!items.contains(item)) {
+          addItem(item);
+        }
+      }
+    } catch (e) {
+      print('An error occurred: $e');
+    }
   }
 
   @override
@@ -137,7 +180,7 @@ class _InventoryPageState extends State<InventoryPage>
                                       ),
                               ),
                         title: Text(item.name),
-                        subtitle: Text(item.description),
+                        subtitle: Text(item.description != null ? item.description! : ""),
                         onTap: () {
                           Navigator.push(
                             context,

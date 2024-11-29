@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.snapinv.snapinv_api.entities.Item;
 import com.snapinv.snapinv_api.services.ItemService;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,15 @@ public class ItemController {
         return item.isPresent() ? item.get() : null;
     }
 
-    @PostMapping("/dummy")
-    public String dummyPost(
+    @GetMapping("/items")
+    public List<Item> getItems() {
+        System.out.println("RETURNING ITEMS");
+        return itemService.allItems();
+    }
+    
+
+    @PostMapping("/additem")
+    public String addItem(
         @RequestParam String name,
         @RequestParam(required = false) String description,
         @RequestParam(required = false) String quantity,
@@ -54,14 +62,7 @@ public class ItemController {
 
         itemService.addItem(newItem);
 
-        return "Dummy";
-    }
-    
-    
-    @PostMapping("/additem")
-    public String addItem(@RequestBody Item item) {
-        itemService.addItem(item);
-        return "Item Processed";
+        return "Item Received";
     }
     
 }

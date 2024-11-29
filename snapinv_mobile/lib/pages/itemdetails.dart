@@ -49,7 +49,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
           ),
         ],
       ),
-      floatingActionButton: (item.code.isNotEmpty)
+      floatingActionButton: (item.code == null)
           ? null
           : FloatingActionButton(
               onPressed: () {
@@ -109,7 +109,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                           // height: 50,
                           width: MediaQuery.of(context).size.width,
                           child: Text(
-                            item.code,
+                            item.code != null ? item.code! : "",
                             style: TextStyle(fontSize: 16),
                           ),
                         ),
@@ -142,7 +142,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                           height: 80,
                           width: MediaQuery.of(context).size.width,
                           child: Text(
-                            item.description,
+                            item.description != null ? item.description! : "",
                             style: TextStyle(fontSize: 16),
                           ),
                         ),
