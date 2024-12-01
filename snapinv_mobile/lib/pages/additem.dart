@@ -120,7 +120,9 @@ class _AddItemPageState extends State<AddItemPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add New Item'),
+        title: Text('Add New Item', style: TextStyle(color: Colors.white),),
+        backgroundColor: Color.fromRGBO(35, 214, 128, 1),
+        foregroundColor: Colors.white,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -162,10 +164,6 @@ class _AddItemPageState extends State<AddItemPage> {
                       Text('Quantity'),
                       Row(
                         children: [
-                          IconButton(
-                            icon: Icon(Icons.remove),
-                            onPressed: _decrement,
-                          ),
                           ConstrainedBox(
                             constraints: BoxConstraints(minWidth: 60),
                             child: IntrinsicWidth(
