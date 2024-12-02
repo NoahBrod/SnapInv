@@ -61,18 +61,9 @@ class InventoryPageState extends State<InventoryPage>
       List<dynamic> jsonList = jsonDecode(response.body);
       List<InventoryItem> itemList =
           jsonList.map((json) => InventoryItem.fromJson(json)).toList();
-
-      if (itemList.isNotEmpty) {
-        for (var item in itemList) {
-          if (!items.contains(item)) {
-            addItem(item);
-          }
-        }
-      } else {
-        setState(() {
-          items = [];
-        });
-      }
+      setState(() {
+        items = itemList;
+      });
     } catch (e) {
       print('An error occurred: $e');
     }
@@ -189,7 +180,7 @@ class InventoryPageState extends State<InventoryPage>
                               ),
                         title: Text(item.name),
                         subtitle: Text(item.description != null
-                            ? "${item.description!.substring(0, 15)}..."
+                            ? item.description!.length <=15 ? item.description! : "${item.description!.substring(0, 15)}..."
                             : ""),
                         trailing: Column(
                           children: [

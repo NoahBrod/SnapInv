@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../entities/inventoryitem.dart';
 
+import 'package:http/http.dart' as http;
+
 class ItemDetailsPage extends StatefulWidget {
   final InventoryItem item;
   const ItemDetailsPage({required this.item});
@@ -24,6 +26,23 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
         editing = true;
       }
     });
+  }
+
+  Future<void> deleteItem(int id) async {
+    final url = Uri.http('192.168.4.33:8080', '/api/v1/item/delete', {
+      'id': id.toString(),
+    });
+
+    try {
+      final response = await http.delete(url);
+      if (response.statusCode == 200) {
+          print(response.body);
+      } else {
+          print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('An error occurred: $e');
+    }
   }
 
   @override
@@ -59,24 +78,38 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 title: Text("Confirm Action"),
-                                content:
-                                    Text("Are you sure you want to proceed?"),
+                                content: Text(
+                                  'Are you sure you want to delete this item?',
+                                  style: TextStyle(fontSize: 16),
+                                ),
                                 actions: [
                                   TextButton(
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                     },
-                                    child: Text("No"),
+                                    child: Text(
+                                      'No',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                      ),
+                                    ),
                                   ),
                                   TextButton(
                                     onPressed: () {
                                       // send delete to server
+                                      deleteItem(item.id!);
                                       Navigator.of(context).pop();
                                     },
                                     child: Container(
-                                      padding: EdgeInsets.only(left: 13, right: 13, top: 8, bottom:8),
+                                      padding: EdgeInsets.only(
+                                        left: 13,
+                                        right: 13,
+                                        top: 8,
+                                        bottom: 8,
+                                      ),
                                       decoration: BoxDecoration(
-                                        color: Color.fromRGBO(35, 214, 128, 1),
+                                        color: Colors.redAccent[400],
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Text(
@@ -126,7 +159,6 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                 Center(
                   child: item.image == null
                       ? Container(
-                          margin: EdgeInsets.only(left: 5, right: 5),
                           height: 200,
                           color: Colors.grey,
                         )

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -60,6 +61,12 @@ public class ItemController {
         itemService.addItem(newItem);
 
         return "Item Received";
+    }
+
+    @DeleteMapping("/delete")
+    public String deleteItem(@RequestParam String id) {
+        itemService.delete(Long.parseLong(id));
+        return "successful";
     }
     
 }

@@ -25,5 +25,9 @@ public class ItemService {
     public List<Item> allItems() {
         return itemRepo.findAll();
     }
+
+    public void delete(Long id) {
+        itemRepo.deleteById(id);
+    }
     
 }
