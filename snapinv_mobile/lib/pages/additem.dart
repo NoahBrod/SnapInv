@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:camera/camera.dart';
+import 'package:barcode_scan2/barcode_scan2.dart';
+// import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -26,6 +27,8 @@ class _AddItemPageState extends State<AddItemPage> {
   final ImagePicker _picker = ImagePicker();
 
   int _number = 0;
+
+  String scannedResult = "";
 
   @override
   void initState() {
@@ -92,7 +95,7 @@ class _AddItemPageState extends State<AddItemPage> {
 
   Future<void> addItem(
       String name, String description, int quantity, double? price) async {
-    final url = Uri.http('192.168.4.33:8080', '/api/v1/item/additem', {
+    final url = Uri.http('10.0.2.2:8080', '/api/v1/item/additem', {
       'name': name,
       if (description != "") 'description': description,
       'quantity': quantity.toString(),
@@ -114,6 +117,23 @@ class _AddItemPageState extends State<AddItemPage> {
     } catch (e) {
       print('An error occurred: $e');
     }
+  }
+
+  Future<void> scanBarcode() async {
+    try {
+      var result = await BarcodeScanner.scan(); // Start barcode scanning
+      setState(() {
+        scannedResult = result.rawContent.isNotEmpty
+            ? result.rawContent
+            : "Failed to scan barcode";
+      });
+    } catch (e) {
+      setState(() {
+        scannedResult = "Error: $e";
+      });
+    }
+
+    print("Scanned: $scannedResult");
   }
 
   @override
@@ -152,7 +172,7 @@ class _AddItemPageState extends State<AddItemPage> {
                 decoration: InputDecoration(
                   labelText: 'Item Name',
                   suffixIcon: IconButton(
-                    onPressed: () {},
+                    onPressed: scanBarcode,
                     padding: EdgeInsets.only(top: 15),
                     icon: Icon(
                       Icons.qr_code_scanner,

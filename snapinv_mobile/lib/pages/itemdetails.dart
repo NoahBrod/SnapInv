@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:snapinv_mobile/pages/inventory.dart';
 import '../entities/inventoryitem.dart';
 
 import 'package:http/http.dart' as http;
@@ -28,8 +29,8 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
     });
   }
 
-  Future<void> deleteItem(int id) async {
-    final url = Uri.http('192.168.4.33:8080', '/api/v1/item/delete', {
+  Future<void> deleteItem(int id, BuildContext context) async {
+    final url = Uri.http('10.0.2.2:8080', '/api/v1/item/delete', {
       'id': id.toString(),
     });
 
@@ -37,16 +38,22 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
       final response = await http.delete(url);
       if (response.statusCode == 200) {
           print(response.body);
+          if (context.mounted) {
+            Navigator.pop(context);
+            InventoryPage.pageKey.currentState?.getInventory();
+          }
       } else {
           print('Error: ${response.statusCode}');
       }
     } catch (e) {
       print('An error occurred: $e');
     }
+
+
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext mainContext) {
     return PopScope(
       onPopInvokedWithResult: (didPop, result) {
         item.code = null;
@@ -98,7 +105,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                                   TextButton(
                                     onPressed: () {
                                       // send delete to server
-                                      deleteItem(item.id!);
+                                      deleteItem(item.id!, mainContext);
                                       Navigator.of(context).pop();
                                     },
                                     child: Container(
@@ -254,7 +261,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                             ConstrainedBox(
                               constraints: BoxConstraints(
                                   maxWidth:
-                                      MediaQuery.of(context).size.width / 2 +
+                                      MediaQuery.of(mainContext).size.width / 2 +
                                           8.3636),
                               child: TextField(
                                 readOnly: true,

@@ -48,7 +48,7 @@ class InventoryPageState extends State<InventoryPage>
   }
 
   Future<void> getInventory() async {
-    final url = Uri.parse('http://192.168.4.33:8080/api/v1/item/items');
+    final url = Uri.parse('http://10.0.2.2:8080/api/v1/item/items');
 
     try {
       final response = await http.get(url);
