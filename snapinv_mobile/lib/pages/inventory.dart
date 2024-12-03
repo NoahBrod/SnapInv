@@ -24,7 +24,6 @@ class InventoryPageState extends State<InventoryPage>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getInventory();
   }
@@ -49,11 +48,10 @@ class InventoryPageState extends State<InventoryPage>
 
   Future<void> getInventory() async {
     final url = Uri.parse('http://10.0.2.2:8080/api/v1/item/items');
-
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
-        // print(response.body);
+        print(response.body);
       } else {
         print('Error: ${response.statusCode}');
       }
@@ -61,6 +59,7 @@ class InventoryPageState extends State<InventoryPage>
       List<dynamic> jsonList = jsonDecode(response.body);
       List<InventoryItem> itemList =
           jsonList.map((json) => InventoryItem.fromJson(json)).toList();
+      
       setState(() {
         items = itemList;
       });

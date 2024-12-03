@@ -4,10 +4,14 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
 @Entity
@@ -16,6 +20,9 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    // @Lob
+    // @Column(columnDefinition = "BLOB")
+    private String image;
     private String name;
     private String code;
     private String description;
@@ -23,7 +30,8 @@ public class Item {
     private double price;
     private Date dateAdded;
 
-    public Item(String name, String code, String description, int quantity, double price, Date dateAdded) {
+    public Item(String image,String name, String code, String description, int quantity, double price, Date dateAdded) {
+        this.image = image;
         this.name = name;
         this.code = code;
         this.description = description;
@@ -41,6 +49,14 @@ public class Item {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getImage() {
+        return this.image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getName() {
@@ -95,6 +111,7 @@ public class Item {
     public String toString() {
         return "{" +
             " id='" + getId() + "'" +
+            ", image='" + getImage() + "'" +
             ", name='" + getName() + "'" +
             ", code='" + getCode() + "'" +
             ", description='" + getDescription() + "'" +

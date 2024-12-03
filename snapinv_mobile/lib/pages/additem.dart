@@ -19,6 +19,7 @@ class AddItemPage extends StatefulWidget {
 
 class _AddItemPageState extends State<AddItemPage> {
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _codeController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _quantityController = TextEditingController();
@@ -27,8 +28,6 @@ class _AddItemPageState extends State<AddItemPage> {
   final ImagePicker _picker = ImagePicker();
 
   int _number = 0;
-
-  String scannedResult = "";
 
   @override
   void initState() {
@@ -73,7 +72,7 @@ class _AddItemPageState extends State<AddItemPage> {
   Future<void> _pickImageFromCamera() async {
     try {
       final XFile? pickedFile =
-          await _picker.pickImage(source: ImageSource.camera);
+          await _picker.pickImage(source: ImageSource.camera, imageQuality: 25);
 
       if (pickedFile != null) {
         setState(() {
@@ -93,20 +92,40 @@ class _AddItemPageState extends State<AddItemPage> {
     }
   }
 
-  Future<void> addItem(
-      String name, String description, int quantity, double? price) async {
-    final url = Uri.http('10.0.2.2:8080', '/api/v1/item/additem', {
-      'name': name,
-      if (description != "") 'description': description,
-      'quantity': quantity.toString(),
-      if (price != null) 'price': price.toString()
-    });
+  Future<void> addItem() async {
+    // final url = Uri.http('10.0.2.2:8080', '/api/v1/item/additem', {
+    //   'name': name,
+    //   if (description != "") 'description': description,
+    //   'quantity': quantity.toString(),
+    //   if (price != null) 'price': price.toString()
+    // });
+    var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(
+          'http://10.0.2.2:8080/api/v1/item/additem',
+        ));
+
+    if (_imageFile != null) {
+      request.files.add(await http.MultipartFile.fromPath(
+        'image',
+        _imageFile!.path,
+      ));
+    }
+
+    request.fields['name'] = _nameController.text;
+    if (_descriptionController.text.isNotEmpty) {
+      request.fields['description'] = _nameController.text;
+    }
+    request.fields['quantity'] = _number.toString();
+    if (_priceController.text.isNotEmpty) {
+    request.fields['price'] = _priceController.text;
+    }
 
     try {
-      final response = await http.post(url);
+      final response = await request.send();
       if (response.statusCode == 200) {
         setState(() {
-          print(response.body);
+          print("Success");
         });
         InventoryPage.pageKey.currentState?.getInventory();
       } else {
@@ -123,17 +142,17 @@ class _AddItemPageState extends State<AddItemPage> {
     try {
       var result = await BarcodeScanner.scan(); // Start barcode scanning
       setState(() {
-        scannedResult = result.rawContent.isNotEmpty
+        _codeController.text = result.rawContent.isNotEmpty
             ? result.rawContent
             : "Failed to scan barcode";
       });
     } catch (e) {
       setState(() {
-        scannedResult = "Error: $e";
+        _codeController.text = "Error: $e";
       });
     }
 
-    print("Scanned: $scannedResult");
+    print("Scanned: $_codeController.text");
   }
 
   @override
@@ -171,6 +190,12 @@ class _AddItemPageState extends State<AddItemPage> {
                 controller: _nameController,
                 decoration: InputDecoration(
                   labelText: 'Item Name',
+                ),
+              ),
+              TextField(
+                controller: _codeController,
+                decoration: InputDecoration(
+                  labelText: 'Code',
                   suffixIcon: IconButton(
                     onPressed: scanBarcode,
                     padding: EdgeInsets.only(top: 15),
@@ -272,6 +297,7 @@ class _AddItemPageState extends State<AddItemPage> {
                     );
 
                     Navigator.pop(context);
+                    addItem();
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text('Please fill out all fields correctly.'),
@@ -284,8 +310,6 @@ class _AddItemPageState extends State<AddItemPage> {
                       ),
                     ));
                   }
-
-                  addItem(name, description, quantity, price);
                 },
                 child: Text('Add Item'),
               ),

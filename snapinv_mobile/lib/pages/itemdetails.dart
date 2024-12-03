@@ -26,6 +26,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
       } else {
         editing = true;
       }
+      print(item.image);
     });
   }
 

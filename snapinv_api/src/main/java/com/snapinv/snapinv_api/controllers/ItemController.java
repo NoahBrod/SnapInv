@@ -2,10 +2,13 @@ package com.snapinv.snapinv_api.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.snapinv.snapinv_api.entities.Item;
 import com.snapinv.snapinv_api.services.ItemService;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,15 +41,30 @@ public class ItemController {
 
     @PostMapping("/additem")
     public String addItem(
+        @RequestParam(required = false) String image,
         @RequestParam String name,
+        @RequestParam(required = false) String code,
         @RequestParam(required = false) String description,
         @RequestParam(required = false) String quantity,
         @RequestParam(required = false) String price
     ) {
+
         Item newItem = new Item();
+
+        if (image != null) {
+            // try {
+            //     System.out.println("SIZE OF IMAGE: " + image.getSize());
+            //     newItem.setImage(Base64.getEncoder().encodeToString(image.getBytes()));
+            // } catch (IOException e) {
+            //     e.printStackTrace();
+            //     return "couldn't add image";
+            // }
+            newItem.setImage(image);
+        }
+
         newItem.setName(name);
 
-        if (description != "") {
+        if (description != null) {
             newItem.setDescription(description);
         }
 
