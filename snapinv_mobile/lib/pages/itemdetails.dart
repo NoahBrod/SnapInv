@@ -4,6 +4,8 @@ import '../entities/inventoryitem.dart';
 
 import 'package:http/http.dart' as http;
 
+bool editing = true; // true is not and false is
+
 class ItemDetailsPage extends StatefulWidget {
   final InventoryItem item;
   const ItemDetailsPage({required this.item});
@@ -13,11 +15,71 @@ class ItemDetailsPage extends StatefulWidget {
 }
 
 class _ItemDetailsPageState extends State<ItemDetailsPage> {
-  bool editing = false;
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _codeController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _quantityController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
+
+  final FocusNode _codeNode = FocusNode();
+  final FocusNode _descriptionNode = FocusNode();
+  final FocusNode _quantityNode = FocusNode();
+  final FocusNode _priceNode = FocusNode();
+
+  late List<TextEditingController> _controllers;
+  late List<FocusNode> _focusNodes;
+
+  int _number = 0;
+
+  // bool editing = false;
 
   final InventoryItem item;
 
   _ItemDetailsPageState({required this.item});
+
+  @override
+  void initState() {
+    super.initState();
+    _quantityController.addListener(() {
+      final text = _quantityController.text;
+      setState(() {
+        if (text.isNotEmpty) {
+          _number = int.tryParse(text)!;
+        } else {
+          _number = 0;
+        }
+      });
+    });
+
+    _nameController.text = item.name;
+    _codeController.text = (item.code ?? '');
+    _descriptionController.text = (item.description ?? '');
+    _quantityController.text = item.quantity.toString();
+    _priceController.text = item.price.toString();
+
+    _controllers = [
+      _nameController,
+      _codeController,
+      _descriptionController,
+      _priceController,
+      _quantityController
+    ];
+
+    _focusNodes = [
+      _codeNode,
+      _descriptionNode,
+      _quantityNode,
+      _priceNode
+    ];
+  }
+
+  @override
+  void dispose() {
+    for (final controller in _controllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
 
   void _toggleEditing() {
     setState(() {
@@ -26,7 +88,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
       } else {
         editing = true;
       }
-      print(item.image);
+      print(editing);
     });
   }
 
@@ -38,27 +100,25 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
     try {
       final response = await http.delete(url);
       if (response.statusCode == 200) {
-          print(response.body);
-          if (context.mounted) {
-            Navigator.pop(context);
-            InventoryPage.pageKey.currentState?.getInventory();
-          }
+        // print(response.body);
+        if (context.mounted) {
+          Navigator.pop(context);
+          InventoryPage.pageKey.currentState?.getInventory();
+        }
       } else {
-          print('Error: ${response.statusCode}');
+        print('Error: ${response.statusCode}');
       }
     } catch (e) {
       print('An error occurred: $e');
     }
-
-
   }
 
   @override
   Widget build(BuildContext mainContext) {
     return PopScope(
-      onPopInvokedWithResult: (didPop, result) {
-        item.code = null;
-      },
+      // onPopInvokedWithResult: (didPop, result) {
+      //   item.code = null;
+      // },
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
@@ -68,7 +128,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
           ),
           backgroundColor: Color.fromRGBO(35, 214, 128, 1),
           iconTheme: IconThemeData(color: Colors.white),
-          actions: !editing
+          actions: editing
               ? [
                   TextButton(
                     onPressed: _toggleEditing,
@@ -143,7 +203,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                   ),
                 ],
         ),
-        floatingActionButton: (item.code != null)
+        floatingActionButton: (item.code != '')
             ? null
             : FloatingActionButton(
                 onPressed: () {
@@ -170,7 +230,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                           height: 200,
                           color: Colors.grey,
                         )
-                      : Image.file(
+                      : Image.memory(
                           item.image!,
                           width: 300,
                           height: 200,
@@ -179,7 +239,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                 ),
                 SizedBox(height: 20),
                 TextField(
-                  readOnly: true,
+                  readOnly: editing,
                   focusNode: AlwaysDisabledFocusNode(),
                   decoration: InputDecoration(
                     labelText: 'Code:',
@@ -190,12 +250,12 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                     focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.black)),
                   ),
-                  controller: TextEditingController(text: item.code),
+                  controller: _codeController,
                 ),
                 SizedBox(height: 20),
                 TextField(
                   maxLines: null,
-                  readOnly: true,
+                  readOnly: editing,
                   focusNode: AlwaysDisabledFocusNode(),
                   decoration: InputDecoration(
                     labelText: 'Description:',
@@ -206,7 +266,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                     focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.black)),
                   ),
-                  controller: TextEditingController(text: item.description),
+                  controller: _descriptionController,
                 ),
                 SizedBox(height: 20),
                 Column(
@@ -232,7 +292,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                                   ),
                                   child: IntrinsicWidth(
                                     child: TextField(
-                                      readOnly: true,
+                                      readOnly: editing,
                                       focusNode: AlwaysDisabledFocusNode(),
                                       textAlign: TextAlign.center,
                                       decoration: InputDecoration(
@@ -243,9 +303,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                                               BorderSide(color: Colors.black),
                                         ),
                                       ),
-                                      controller: TextEditingController(
-                                        text: item.quantity.toString(),
-                                      ),
+                                      controller: _quantityController,
                                     ),
                                   ),
                                 ),
@@ -262,10 +320,11 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                             ConstrainedBox(
                               constraints: BoxConstraints(
                                   maxWidth:
-                                      MediaQuery.of(mainContext).size.width / 2 +
+                                      MediaQuery.of(mainContext).size.width /
+                                              2 +
                                           8.3636),
                               child: TextField(
-                                readOnly: true,
+                                readOnly: editing,
                                 focusNode: AlwaysDisabledFocusNode(),
                                 decoration: InputDecoration(
                                   labelText: 'Price:',
@@ -277,8 +336,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                                       borderSide:
                                           BorderSide(color: Colors.black)),
                                 ),
-                                controller: TextEditingController(
-                                    text: item.price.toString()),
+                                controller: _priceController,
                               ),
                             ),
                           ],

@@ -1,13 +1,11 @@
-import 'dart:ffi';
-import 'dart:io';
-
-import 'package:path_provider/path_provider.dart';
+import 'dart:convert';
+import 'dart:typed_data';
 
 // import 'package:snapinv_mobile/entities/descriptor.dart';
 
 class InventoryItem {
   int? id;
-  File? image;
+  Uint8List? image;
   String name;
   String? code;
   String? description;
@@ -26,23 +24,9 @@ class InventoryItem {
   });
 
   factory InventoryItem.fromJson(Map<String, dynamic> json) {
-    Future<File?> getImage() async {
-      final tempDir = await getTemporaryDirectory();
-
-      // Create a file in the temporary directory
-      final filePath = '${tempDir.path}/downloaded_image.jpg';
-      final file = File(filePath);
-
-      // Write bytes to the file
-      await file.writeAsBytes(json['image'].bodyBytes);
-
-      print('File saved at: $filePath');
-      return file;
-    }
-
     return InventoryItem(
       id: json['id'] as int,
-      image: null,
+      image: json['image'] != null ? base64Decode(json['image']) : null,
       name: json['name'] as String,
       code: json['code'] != null ? json['code'] as String : null,
       description:

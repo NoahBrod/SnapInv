@@ -2,11 +2,6 @@ package com.snapinv.snapinv_api.entities;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
-
-import org.springframework.web.multipart.MultipartFile;
-
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,7 +15,7 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    // @Lob
+    @Lob
     // @Column(columnDefinition = "BLOB")
     private String image;
     private String name;

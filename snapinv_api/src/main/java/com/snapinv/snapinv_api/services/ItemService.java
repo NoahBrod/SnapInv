@@ -18,8 +18,12 @@ public class ItemService {
         itemRepo.save(item);
     }
 
-    public Optional<Item> getItem(Long id) {
-        return itemRepo.findById(id);
+    public Item getItem(Long id) {
+        Optional<Item> item = itemRepo.findById(id);
+        if (item.isPresent()) {
+            return item.get();
+        }
+        return null;
     }
 
     public List<Item> allItems() {

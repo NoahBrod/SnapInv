@@ -23,6 +23,9 @@ class _AddItemPageState extends State<AddItemPage> {
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _quantityController = TextEditingController();
+
+  final List<TextEditingController> _controllers = [];
+
   File? _imageFile;
 
   final ImagePicker _picker = ImagePicker();
@@ -42,6 +45,20 @@ class _AddItemPageState extends State<AddItemPage> {
         }
       });
     });
+
+    _controllers.add(_nameController);
+    _controllers.add(_codeController);
+    _controllers.add(_descriptionController);
+    _controllers.add(_priceController);
+    _controllers.add(_quantityController);
+  }
+
+  @override
+  void dispose() {
+    for (final controller in _controllers) {
+      controller.dispose();
+    }
+    super.dispose();
   }
 
   void _increment() {
@@ -93,12 +110,6 @@ class _AddItemPageState extends State<AddItemPage> {
   }
 
   Future<void> addItem() async {
-    // final url = Uri.http('10.0.2.2:8080', '/api/v1/item/additem', {
-    //   'name': name,
-    //   if (description != "") 'description': description,
-    //   'quantity': quantity.toString(),
-    //   if (price != null) 'price': price.toString()
-    // });
     var request = http.MultipartRequest(
         'POST',
         Uri.parse(
@@ -113,8 +124,11 @@ class _AddItemPageState extends State<AddItemPage> {
     }
 
     request.fields['name'] = _nameController.text;
+    if (_codeController.text.isNotEmpty) {
+      request.fields['code'] = _codeController.text;
+    }
     if (_descriptionController.text.isNotEmpty) {
-      request.fields['description'] = _nameController.text;
+      request.fields['description'] = _descriptionController.text;
     }
     request.fields['quantity'] = _number.toString();
     if (_priceController.text.isNotEmpty) {
@@ -124,9 +138,6 @@ class _AddItemPageState extends State<AddItemPage> {
     try {
       final response = await request.send();
       if (response.statusCode == 200) {
-        setState(() {
-          print("Success");
-        });
         InventoryPage.pageKey.currentState?.getInventory();
       } else {
         setState(() {
@@ -278,24 +289,8 @@ class _AddItemPageState extends State<AddItemPage> {
               ElevatedButton(
                 onPressed: () {
                   final String name = _nameController.text;
-                  final String description = _descriptionController.text;
-                  final double? price = _priceController.text.isNotEmpty
-                      ? double.tryParse(double.tryParse(_priceController.text)!
-                          .toStringAsFixed(2))
-                      : double.tryParse(_priceController.text);
-                  final int quantity = _number;
 
                   if (name.isNotEmpty) {
-                    final newItem = InventoryItem(
-                      id: null,
-                      image: _imageFile,
-                      name: name,
-                      description: description,
-                      quantity: quantity,
-                      price: price,
-                      code: '',
-                    );
-
                     Navigator.pop(context);
                     addItem();
                   } else {

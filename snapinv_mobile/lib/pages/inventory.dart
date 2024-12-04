@@ -51,7 +51,7 @@ class InventoryPageState extends State<InventoryPage>
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
-        print(response.body);
+        print('Retrieved Inventory');
       } else {
         print('Error: ${response.statusCode}');
       }
@@ -154,7 +154,7 @@ class InventoryPageState extends State<InventoryPage>
                                         ? Container(
                                             color: Colors.grey,
                                           )
-                                        : Image.file(
+                                        : Image.memory(
                                             item.image!,
                                             fit: BoxFit.cover,
                                           ),
@@ -172,7 +172,7 @@ class InventoryPageState extends State<InventoryPage>
                                     ? Container(
                                         color: Colors.grey,
                                       )
-                                    : Image.file(
+                                    : Image.memory(
                                         item.image!,
                                         fit: BoxFit.cover,
                                       ),
