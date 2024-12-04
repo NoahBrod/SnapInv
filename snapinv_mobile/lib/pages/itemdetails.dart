@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:snapinv_mobile/pages/inventory.dart';
 import '../entities/inventoryitem.dart';
 
@@ -65,12 +66,11 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
       _quantityController
     ];
 
-    _focusNodes = [
-      _codeNode,
-      _descriptionNode,
-      _quantityNode,
-      _priceNode
-    ];
+    _focusNodes = [_codeNode, _descriptionNode, _quantityNode, _priceNode];
+
+    for (var focusNode in _focusNodes) {
+      focusNode.addListener(_handleFocusChange);
+    }
   }
 
   @override
@@ -89,6 +89,22 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
         editing = true;
       }
       print(editing);
+    });
+  }
+
+  void _handleFocusChange() {
+    setState(() {
+      for (var focusNode in _focusNodes) {
+        if (focusNode.hasFocus) {
+          // Unfocus other fields when one is focused
+          for (var otherFocusNode in _focusNodes) {
+            if (otherFocusNode != focusNode) {
+              otherFocusNode.unfocus();
+            }
+          }
+          break;
+        }
+      }
     });
   }
 
@@ -240,13 +256,14 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                 SizedBox(height: 20),
                 TextField(
                   readOnly: editing,
-                  focusNode: AlwaysDisabledFocusNode(),
+                  focusNode: _codeNode,
                   decoration: InputDecoration(
                     labelText: 'Code:',
                     labelStyle: TextStyle(
                       fontSize: 20,
                       color: Colors.black,
                     ),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
                     focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.black)),
                   ),
@@ -256,13 +273,14 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                 TextField(
                   maxLines: null,
                   readOnly: editing,
-                  focusNode: AlwaysDisabledFocusNode(),
+                  focusNode: _descriptionNode,
                   decoration: InputDecoration(
                     labelText: 'Description:',
                     labelStyle: TextStyle(
                       fontSize: 20,
                       color: Colors.black,
                     ),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
                     focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.black)),
                   ),
@@ -293,16 +311,26 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                                   child: IntrinsicWidth(
                                     child: TextField(
                                       readOnly: editing,
-                                      focusNode: AlwaysDisabledFocusNode(),
+                                      focusNode: _quantityNode,
                                       textAlign: TextAlign.center,
                                       decoration: InputDecoration(
                                         contentPadding: EdgeInsets.symmetric(
                                             horizontal: 10),
+                                        floatingLabelBehavior:
+                                            FloatingLabelBehavior.always,
                                         focusedBorder: OutlineInputBorder(
                                           borderSide:
                                               BorderSide(color: Colors.black),
                                         ),
+                                        border: OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.black),
+                                        ),
                                       ),
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.digitsOnly,
+                                      ],
                                       controller: _quantityController,
                                     ),
                                   ),
@@ -325,13 +353,15 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                                           8.3636),
                               child: TextField(
                                 readOnly: editing,
-                                focusNode: AlwaysDisabledFocusNode(),
+                                focusNode: _priceNode,
                                 decoration: InputDecoration(
                                   labelText: 'Price:',
                                   labelStyle: TextStyle(
                                     fontSize: 20,
                                     color: Colors.black,
                                   ),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
                                   focusedBorder: UnderlineInputBorder(
                                       borderSide:
                                           BorderSide(color: Colors.black)),
@@ -342,6 +372,41 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                           ],
                         ),
                       ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: 50),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: editing ? [] : [
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromRGBO(35, 214, 128, 1),
+                        minimumSize: Size(100, 50),
+                      ),
+                      child: Text(
+                        'Save',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 40),
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.redAccent[400],
+                        minimumSize: Size(100, 50),
+                      ),
+                      child: Text(
+                        'Delete',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
                     ),
                   ],
                 ),

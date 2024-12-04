@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:snapinv_mobile/pages/inventory.dart';
-import '../entities/inventoryitem.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -95,8 +94,6 @@ class _AddItemPageState extends State<AddItemPage> {
         setState(() {
           _imageFile = File(pickedFile.path);
           print('IMAGE ADDED.');
-          // Save image to the InventoryItem object
-          // _item = InventoryItem(name: 'Example Item', image: _imageFile);
         });
       } else {
         print('No image selected.');
