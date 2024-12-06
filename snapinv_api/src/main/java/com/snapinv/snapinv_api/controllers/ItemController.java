@@ -118,12 +118,15 @@ public class ItemController {
             item.setPrice(Double.parseDouble(price));
         }
 
+        System.out.println(item.toString());
+        itemService.updateItem(item);
+
         return "Successfully update item.";
     }
 
-    @DeleteMapping("/delete")
-    public String deleteItem(@RequestParam String id) {
-        itemService.delete(Long.parseLong(id));
+    @DeleteMapping("/delete/{id}")
+    public String deleteItem(@PathVariable Long id) {
+        itemService.delete(id);
         return "successful";
     }
 

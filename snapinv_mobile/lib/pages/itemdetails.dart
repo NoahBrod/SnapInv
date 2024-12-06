@@ -1,11 +1,10 @@
+import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:snapinv_mobile/pages/inventory.dart';
 import '../entities/inventoryitem.dart';
 
 import 'package:http/http.dart' as http;
-
-bool editing = true; // true is not and false is
 
 class ItemDetailsPage extends StatefulWidget {
   final InventoryItem item;
@@ -32,7 +31,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
 
   int _number = 0;
 
-  // bool editing = false;
+  bool editing = true; // true is not and false is
 
   final InventoryItem item;
 
@@ -56,7 +55,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
     _codeController.text = (item.code ?? '');
     _descriptionController.text = (item.description ?? '');
     _quantityController.text = item.quantity.toString();
-    _priceController.text = item.price.toString();
+    _priceController.text = item.price!.toStringAsFixed(2);
 
     _controllers = [
       _nameController,
@@ -86,10 +85,86 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
       if (editing) {
         editing = false;
       } else {
-        editing = true;
+        InventoryItem compare = InventoryItem(
+          id: item.id,
+          image: item.image,
+          name: item.name,
+          description: _descriptionController.text,
+          quantity: int.parse(_quantityController.text),
+          price: double.parse(_priceController.text),
+          code: _codeController.text,
+        );
+
+        if (compare != item) {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text("Confirm Action"),
+                  content: Text(
+                    'Would you like to save your changes?',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          editing = true;
+                        });
+                        updateItem(compare);
+                        Navigator.of(context).pop();
+                      },
+                      child: Container(
+                        padding: EdgeInsets.only(
+                          left: 13,
+                          right: 13,
+                          top: 8,
+                          bottom: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.redAccent[400],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          'Yes',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          editing = true;
+                        });
+                        revertFields();
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(
+                        'No',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              });
+        } else {
+          editing = true;
+        }
       }
-      print(editing);
     });
+  }
+
+  void revertFields() {
+    _codeController.text = (item.code ?? '');
+    _descriptionController.text = (item.description ?? '');
+    _quantityController.text = item.quantity.toString();
+    _priceController.text = item.price.toString();
   }
 
   void _handleFocusChange() {
@@ -108,15 +183,42 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
     });
   }
 
-  Future<void> deleteItem(int id, BuildContext context) async {
-    final url = Uri.http('10.0.2.2:8080', '/api/v1/item/delete', {
-      'id': id.toString(),
+  void _increment() {
+    editing = false;
+
+    final text = _quantityController.text;
+    setState(() {
+      if (text.isNotEmpty) {
+        _number = int.tryParse(text)! + 1;
+        _quantityController.text = _number.toString();
+      } else {
+        _number++;
+        _quantityController.text = _number.toString();
+      }
     });
+  }
+
+  void _decrement() {
+    editing = false;
+
+    final text = _quantityController.text;
+    setState(() {
+      if (text.isNotEmpty && _number > 0) {
+        _number = int.tryParse(text)! - 1;
+        _quantityController.text = _number.toString();
+      } else {
+        _quantityController.text = _number.toString();
+      }
+    });
+  }
+
+  Future<void> deleteItem(int id, BuildContext context) async {
+    final url = Uri.parse('http://10.0.2.2:8080/api/v1/item/delete/$id');
 
     try {
       final response = await http.delete(url);
       if (response.statusCode == 200) {
-        // print(response.body);
+        print(response.body);
         if (context.mounted) {
           Navigator.pop(context);
           InventoryPage.pageKey.currentState?.getInventory();
@@ -129,12 +231,135 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
     }
   }
 
+  Future<void> updateItem(InventoryItem updated) async {
+    final url =
+        Uri.http('10.0.2.2:8080', '/api/v1/item/update/${item.id.toString()}', {
+      'code': updated.code,
+      'description': updated.description,
+      'quantity': updated.quantity.toString(),
+      'price': updated.price.toString(),
+    });
+
+    try {
+      final response = await http.post(url);
+      if (response.statusCode == 200) {
+        print(response.body);
+        item.code = updated.code;
+        item.description = updated.description;
+        item.quantity = updated.quantity;
+        item.price = updated.price;
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('An error occurred: $e');
+    }
+  }
+
+  Future<void> scanBarcode() async {
+    try {
+      var result = await BarcodeScanner.scan(); // Start barcode scanning
+      setState(() {
+        _codeController.text =
+            result.rawContent.isNotEmpty ? result.rawContent : "";
+      });
+    } catch (e) {
+      setState(() {
+        _codeController.text = "Error: $e";
+      });
+    }
+
+    print("Scanned: $_codeController.text");
+  }
+
+  Future<bool> _confirmExitPage(BuildContext context) async {
+    final result = await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Confirm Action"),
+            content: Text(
+              'Would you like to save your changes?',
+              style: TextStyle(fontSize: 16),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: Container(
+                  padding: EdgeInsets.only(
+                    left: 13,
+                    right: 13,
+                    top: 8,
+                    bottom: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.redAccent[400],
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    'Yes',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text(
+                  'No',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
+    return result ?? false;
+  }
+
   @override
   Widget build(BuildContext mainContext) {
     return PopScope(
-      // onPopInvokedWithResult: (didPop, result) {
-      //   item.code = null;
-      // },
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) {
+          return;
+        }
+        InventoryItem compare = InventoryItem(
+          id: item.id,
+          image: item.image,
+          name: item.name,
+          description: _descriptionController.text,
+          quantity: int.parse(_quantityController.text),
+          price: double.parse(_priceController.text),
+          code: _codeController.text == '' ? item.code : _codeController.text,
+        );
+        // print("ITEM: ${item.id}       COMPARE: ${compare.id}");
+        // print("ITEM: ${item.image}       COMPARE: ${compare.image}");
+        // print("ITEM: ${item.name}       COMPARE: ${compare.name}");
+        // print("ITEM: ${item.code}       COMPARE: ${compare.code}");
+        // print("ITEM: ${item.description}       COMPARE: ${compare.description}");
+        // print("ITEM: ${item.quantity}       COMPARE: ${compare.quantity}");
+        // print("ITEM: ${item.price}       COMPARE: ${compare.price}");
+        // print(compare == item);
+        if (compare != item) {
+          final confirmed = await _confirmExitPage(mainContext);
+          if (mainContext.mounted && confirmed) {
+            await updateItem(compare);
+            InventoryPage.pageKey.currentState?.getInventory();
+            Navigator.of(mainContext).pop();
+          } else {
+            Navigator.of(mainContext).pop();
+          }
+        } else {
+          InventoryPage.pageKey.currentState?.getInventory();
+          Navigator.of(mainContext).pop();
+        }
+      },
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
@@ -155,6 +380,31 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                   ),
                 ]
               : [
+                  IconButton(
+                    onPressed: () {
+                      InventoryItem compare = InventoryItem(
+                        id: item.id,
+                        image: item.image,
+                        name: item.name,
+                        description: _descriptionController.text,
+                        quantity: int.parse(_quantityController.text),
+                        price: double.parse(_priceController.text),
+                        code: _codeController.text == ''
+                            ? null
+                            : _codeController.text,
+                      );
+                      if (compare != item) {
+                        updateItem(compare);
+                      }
+                      setState(() {
+                        editing = true;
+                      });
+                    },
+                    icon: Icon(
+                      Icons.check,
+                      color: Colors.white,
+                    ),
+                  ),
                   IconButton(
                       onPressed: () {
                         showDialog(
@@ -219,21 +469,23 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                   ),
                 ],
         ),
-        floatingActionButton: (item.code != '')
+        floatingActionButton: !editing
             ? null
-            : FloatingActionButton(
-                onPressed: () {
-                  setState(() {
-                    item.code = '123456789012';
-                  });
-                },
-                backgroundColor: Color.fromRGBO(35, 214, 128, 1),
-                elevation: 5,
-                child: Icon(
-                  Icons.qr_code_scanner,
-                  color: Colors.white,
-                ),
-              ),
+            : (item.code != '')
+                ? null
+                : FloatingActionButton(
+                    onPressed: () {
+                      setState(() {
+                        item.code = '123456789012';
+                      });
+                    },
+                    backgroundColor: Color.fromRGBO(35, 214, 128, 1),
+                    elevation: 5,
+                    child: Icon(
+                      Icons.qr_code_scanner,
+                      color: Colors.white,
+                    ),
+                  ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: SingleChildScrollView(
@@ -256,13 +508,24 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                 SizedBox(height: 20),
                 TextField(
                   readOnly: editing,
-                  focusNode: _codeNode,
+                  // focusNode: _codeNode,
                   decoration: InputDecoration(
                     labelText: 'Code:',
                     labelStyle: TextStyle(
-                      fontSize: 20,
+                      // fontSize: 20,f
                       color: Colors.black,
                     ),
+                    suffixIcon: editing
+                        ? null
+                        : IconButton(
+                            onPressed: scanBarcode,
+                            padding: EdgeInsets.only(top: 15),
+                            icon: Icon(
+                              Icons.qr_code_scanner,
+                              size: 20,
+                              color: Color.fromRGBO(35, 214, 128, 1),
+                            ),
+                          ),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.black)),
@@ -302,7 +565,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                               children: [
                                 IconButton(
                                   icon: Icon(Icons.remove),
-                                  onPressed: () {},
+                                  onPressed: _decrement,
                                 ),
                                 ConstrainedBox(
                                   constraints: BoxConstraints(
@@ -337,7 +600,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                                 ),
                                 IconButton(
                                   icon: Icon(Icons.add),
-                                  onPressed: () {},
+                                  onPressed: _increment,
                                 ),
                               ],
                             ),
@@ -355,6 +618,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                                 readOnly: editing,
                                 focusNode: _priceNode,
                                 decoration: InputDecoration(
+                                  prefix: Text('\$'),
                                   labelText: 'Price:',
                                   labelStyle: TextStyle(
                                     fontSize: 20,
@@ -378,37 +642,110 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                 SizedBox(height: 50),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: editing ? [] : [
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromRGBO(35, 214, 128, 1),
-                        minimumSize: Size(100, 50),
-                      ),
-                      child: Text(
-                        'Save',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 40),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.redAccent[400],
-                        minimumSize: Size(100, 50),
-                      ),
-                      child: Text(
-                        'Delete',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                  ],
+                  children: editing
+                      ? []
+                      : [
+                          ElevatedButton(
+                            onPressed: () {
+                              InventoryItem compare = InventoryItem(
+                                id: item.id,
+                                image: item.image,
+                                name: item.name,
+                                description: _descriptionController.text,
+                                quantity: int.parse(_quantityController.text),
+                                price: double.parse(_priceController.text),
+                                code: _codeController.text == ''
+                                    ? null
+                                    : _codeController.text,
+                              );
+                              if (compare != item) {
+                                updateItem(compare);
+                              }
+                              setState(() {
+                                editing = true;
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color.fromRGBO(35, 214, 128, 1),
+                              minimumSize: Size(100, 50),
+                            ),
+                            child: Text(
+                              'Save',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 40),
+                          ElevatedButton(
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text("Confirm Action"),
+                                      content: Text(
+                                        'Are you sure you want to delete this item?',
+                                        style: TextStyle(fontSize: 16),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text(
+                                            'No',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            // send delete to server
+                                            deleteItem(item.id!, mainContext);
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.only(
+                                              left: 13,
+                                              right: 13,
+                                              top: 8,
+                                              bottom: 8,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: Colors.redAccent[400],
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: Text(
+                                              'Yes',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.redAccent[400],
+                              minimumSize: Size(100, 50),
+                            ),
+                            child: Text(
+                              'Delete',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ],
                 ),
               ],
             ),
@@ -416,15 +753,5 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
         ),
       ),
     );
-  }
-}
-
-class AlwaysDisabledFocusNode extends FocusNode {
-  @override
-  bool get hasFocus => true; // Always returns false
-
-  @override
-  void requestFocus([FocusNode? node]) {
-    // Do nothing to block focus
   }
 }

@@ -184,7 +184,7 @@ class InventoryPageState extends State<InventoryPage>
                         trailing: Column(
                           children: [
                             Text(
-                              "Price: ${item.price}",
+                              "Price: ${item.price!.toStringAsFixed(2)}",
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 14,

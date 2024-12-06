@@ -33,5 +33,9 @@ public class ItemService {
     public void delete(Long id) {
         itemRepo.deleteById(id);
     }
+
+    public void updateItem(Item item) {
+        itemRepo.save(item);
+    }
     
 }

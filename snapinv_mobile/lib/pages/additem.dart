@@ -129,7 +129,7 @@ class _AddItemPageState extends State<AddItemPage> {
     }
     request.fields['quantity'] = _number.toString();
     if (_priceController.text.isNotEmpty) {
-    request.fields['price'] = _priceController.text;
+      request.fields['price'] = _priceController.text;
     }
 
     try {
@@ -190,9 +190,53 @@ class _AddItemPageState extends State<AddItemPage> {
                       color: Colors.grey,
                     ),
               SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: _pickImageFromCamera,
-                child: Text('Please take an image'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: _pickImageFromCamera,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromRGBO(35, 214, 128, 1),
+                      minimumSize: Size(150, 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(10), // Adjust the radius here
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.photo_camera, color: Colors.white,),
+                        SizedBox(width: 10),
+                        Text(
+                          'Image',
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(width: 30),
+                  ElevatedButton(
+                    onPressed: scanBarcode,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromRGBO(35, 214, 128, 1),
+                      minimumSize: Size(150, 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(10), // Adjust the radius here
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.qr_code_scanner, color: Colors.white,),
+                        SizedBox(width: 10),
+                        Text(
+                          'Scan',
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
               TextField(
                 controller: _nameController,
