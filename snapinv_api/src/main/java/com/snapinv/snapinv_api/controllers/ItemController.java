@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping(value = "/api/v1/item")
@@ -128,6 +129,18 @@ public class ItemController {
     public String deleteItem(@PathVariable Long id) {
         itemService.delete(id);
         return "successful";
+    }
+
+    @DeleteMapping("/delete/selected")
+    public String deleteSelected(@RequestBody List<Integer> items) {
+        if (!items.isEmpty()) {
+            for (int id : items) {
+                itemService.delete((long) id);
+            }
+            // System.out.println(items.toString());
+            return "Deleted Items";
+        }
+        return "Delete Failed";
     }
 
 }

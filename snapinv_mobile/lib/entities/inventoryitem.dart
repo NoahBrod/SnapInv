@@ -11,7 +11,6 @@ class InventoryItem {
   String? description;
   int quantity;
   double? price;
-  bool selected = false;
 
   InventoryItem({
     required this.id,

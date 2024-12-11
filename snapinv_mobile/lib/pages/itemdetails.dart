@@ -89,10 +89,12 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
           id: item.id,
           image: item.image,
           name: item.name,
-          description: _descriptionController.text,
+          description: _descriptionController.text == ''
+              ? null
+              : _descriptionController.text,
           quantity: int.parse(_quantityController.text),
           price: double.parse(_priceController.text),
-          code: _codeController.text,
+          code: _codeController.text == '' ? null : _codeController.text,
         );
 
         if (compare != item) {
@@ -333,10 +335,12 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
           id: item.id,
           image: item.image,
           name: item.name,
-          description: _descriptionController.text,
+          description: _descriptionController.text == ''
+              ? null
+              : _descriptionController.text,
           quantity: int.parse(_quantityController.text),
           price: double.parse(_priceController.text),
-          code: _codeController.text == '' ? item.code : _codeController.text,
+          code: _codeController.text == '' ? null : _codeController.text,
         );
         // print("ITEM: ${item.id}       COMPARE: ${compare.id}");
         // print("ITEM: ${item.image}       COMPARE: ${compare.image}");
@@ -386,7 +390,9 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                         id: item.id,
                         image: item.image,
                         name: item.name,
-                        description: _descriptionController.text,
+                        description: _descriptionController.text == ''
+                            ? null
+                            : _descriptionController.text,
                         quantity: int.parse(_quantityController.text),
                         price: double.parse(_priceController.text),
                         code: _codeController.text == ''
@@ -651,7 +657,9 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                                 id: item.id,
                                 image: item.image,
                                 name: item.name,
-                                description: _descriptionController.text,
+                                description: _descriptionController.text == ''
+                                    ? null
+                                    : _descriptionController.text,
                                 quantity: int.parse(_quantityController.text),
                                 price: double.parse(_priceController.text),
                                 code: _codeController.text == ''

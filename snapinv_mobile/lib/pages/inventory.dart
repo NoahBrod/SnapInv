@@ -20,6 +20,7 @@ class InventoryPage extends StatefulWidget {
 class InventoryPageState extends State<InventoryPage>
     with AutomaticKeepAliveClientMixin {
   List<InventoryItem> items = [];
+  List<int> selectedIDs = [];
   bool selectable = false;
 
   @override
@@ -30,7 +31,11 @@ class InventoryPageState extends State<InventoryPage>
 
   void _toggleCheckbox(int index, bool? value) {
     setState(() {
-      items[index].selected = value ?? false;
+      if (selectedIDs.contains(items[index].id)) {
+        selectedIDs.remove(items[index].id);
+      } else {
+        selectedIDs.add(items[index].id!);
+      }
     });
   }
 
@@ -59,10 +64,32 @@ class InventoryPageState extends State<InventoryPage>
       List<dynamic> jsonList = jsonDecode(response.body);
       List<InventoryItem> itemList =
           jsonList.map((json) => InventoryItem.fromJson(json)).toList();
-      
+
       setState(() {
         items = itemList;
       });
+    } catch (e) {
+      print('An error occurred: $e');
+    }
+  }
+
+  Future<void> deleteItems(BuildContext context) async {
+    final url = Uri.parse('http://10.0.2.2:8080/api/v1/item/delete/selected');
+    final headers = {'Content-Type': 'application/json'};
+    final body = jsonEncode(selectedIDs);
+
+    print(body);
+
+    try {
+      final response = await http.delete(url, headers: headers, body: body);
+      if (response.statusCode == 200) {
+        print(response.body);
+        if (context.mounted) {
+          getInventory();
+        }
+      } else {
+        print('Error: ${response.statusCode}');
+      }
     } catch (e) {
       print('An error occurred: $e');
     }
@@ -82,6 +109,15 @@ class InventoryPageState extends State<InventoryPage>
         actions: (selectable)
             ? [
                 IconButton(
+                  onPressed: () {
+                    if (selectedIDs.isNotEmpty) {
+                      deleteItems(context);
+                    }
+                  },
+                  icon: Icon(Icons.delete),
+                  color: Colors.white,
+                ),
+                IconButton(
                     onPressed: () {
                       setState(() {
                         selectable = false;
@@ -90,7 +126,7 @@ class InventoryPageState extends State<InventoryPage>
                     icon: Icon(
                       Icons.close,
                       color: Colors.white,
-                    ))
+                    )),
               ]
             : [],
       ),
@@ -139,7 +175,7 @@ class InventoryPageState extends State<InventoryPage>
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Checkbox(
-                                    value: items[index].selected,
+                                    value: selectedIDs.contains(item.id),
                                     onChanged: (value) =>
                                         _toggleCheckbox(index, value),
                                   ),
@@ -179,7 +215,9 @@ class InventoryPageState extends State<InventoryPage>
                               ),
                         title: Text(item.name),
                         subtitle: Text(item.description != null
-                            ? item.description!.length <=15 ? item.description! : "${item.description!.substring(0, 15)}..."
+                            ? item.description!.length <= 15
+                                ? item.description!
+                                : "${item.description!.substring(0, 15)}..."
                             : ""),
                         trailing: Column(
                           children: [
