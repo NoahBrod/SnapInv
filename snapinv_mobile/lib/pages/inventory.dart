@@ -39,8 +39,9 @@ class InventoryPageState extends State<InventoryPage>
     });
   }
 
-  void _toggleSelectable() {
+  void _toggleSelectable(int index) {
     setState(() {
+      selectedIDs.add(items[index].id!);
       selectable = true;
     });
   }
@@ -52,6 +53,7 @@ class InventoryPageState extends State<InventoryPage>
   }
 
   Future<void> getInventory() async {
+    selectable = false;
     final url = Uri.parse('http://10.0.2.2:8080/api/v1/item/items');
     try {
       final response = await http.get(url);
@@ -111,7 +113,57 @@ class InventoryPageState extends State<InventoryPage>
                 IconButton(
                   onPressed: () {
                     if (selectedIDs.isNotEmpty) {
-                      deleteItems(context);
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("Confirm Action"),
+                              content: Text(
+                                'These items will be deleted.',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    deleteItems(context);
+                                    selectable = false;
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.only(
+                                      left: 13,
+                                      right: 13,
+                                      top: 8,
+                                      bottom: 8,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Colors.redAccent[400],
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Text(
+                                      'Yes',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text(
+                                    'No',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          });
                     }
                   },
                   icon: Icon(Icons.delete),
@@ -121,6 +173,7 @@ class InventoryPageState extends State<InventoryPage>
                     onPressed: () {
                       setState(() {
                         selectable = false;
+                        selectedIDs.clear();
                       });
                     },
                     icon: Icon(
@@ -169,7 +222,7 @@ class InventoryPageState extends State<InventoryPage>
                       color: Colors.white,
                       elevation: 5,
                       child: ListTile(
-                        onLongPress: _toggleSelectable,
+                        onLongPress: () => _toggleSelectable(index),
                         leading: (selectable)
                             ? Row(
                                 mainAxisSize: MainAxisSize.min,

@@ -205,7 +205,10 @@ class _AddItemPageState extends State<AddItemPage> {
                     ),
                     child: Row(
                       children: [
-                        Icon(Icons.photo_camera, color: Colors.white,),
+                        Icon(
+                          Icons.photo_camera,
+                          color: Colors.white,
+                        ),
                         SizedBox(width: 10),
                         Text(
                           'Image',
@@ -227,7 +230,10 @@ class _AddItemPageState extends State<AddItemPage> {
                     ),
                     child: Row(
                       children: [
-                        Icon(Icons.qr_code_scanner, color: Colors.white,),
+                        Icon(
+                          Icons.qr_code_scanner,
+                          color: Colors.white,
+                        ),
                         SizedBox(width: 10),
                         Text(
                           'Scan',
@@ -347,7 +353,21 @@ class _AddItemPageState extends State<AddItemPage> {
                     ));
                   }
                 },
-                child: Text('Add Item'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromRGBO(35, 214, 128, 1),
+                  minimumSize: Size(125, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(15), // Adjust the radius here
+                  ),
+                ),
+                child: Text(
+                  'Add Item',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
               ),
             ],
           ),
