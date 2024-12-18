@@ -5,9 +5,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.snapinv.snapinv_api.entities.Item;
+import com.snapinv.snapinv_api.entities.Transaction;
 import com.snapinv.snapinv_api.services.ItemService;
+import com.snapinv.snapinv_api.services.TransactionService;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.Base64;
 import java.util.List;
 
@@ -24,6 +27,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class ItemController {
     @Autowired
     private ItemService itemService;
+
+    @Autowired
+    private TransactionService transactionService;
 
     @GetMapping("/{id}")
     public Item getItem(@PathVariable Long id) {
@@ -70,7 +76,13 @@ public class ItemController {
 
         System.out.println(newItem.toString());
 
+        Date date = new Date(System.currentTimeMillis());
+        newItem.setDateAdded(date);
+
         itemService.addItem(newItem);
+
+        Transaction addTran = new Transaction("Created " + newItem.getName(), quantity + " at " + (price == null ? "0.00" : price), date);
+        transactionService.newTransactions(addTran);
 
         return "Item Received";
     }
@@ -121,6 +133,10 @@ public class ItemController {
 
         System.out.println(item.toString());
         itemService.updateItem(item);
+
+        // add cases for different updates
+        Transaction addTran = new Transaction("Updated " + item.getName(), quantity + " at " + (price == null ? "0.00" : price), date);
+        transactionService.newTransactions(addTran);
 
         return "Successfully update item.";
     }

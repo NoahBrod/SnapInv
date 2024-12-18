@@ -87,6 +87,7 @@ class InventoryPageState extends State<InventoryPage>
       if (response.statusCode == 200) {
         print(response.body);
         if (context.mounted) {
+          print("MOUNTED");
           getInventory();
         }
       } else {

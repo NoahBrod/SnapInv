@@ -16,7 +16,6 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Lob
-    // @Column(columnDefinition = "BLOB")
     private String image;
     private String name;
     private String code;
