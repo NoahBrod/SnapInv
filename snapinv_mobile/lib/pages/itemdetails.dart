@@ -215,7 +215,8 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
   }
 
   Future<void> deleteItem(int id, BuildContext context) async {
-    final url = Uri.parse('http://10.0.2.2:8080/api/v1/item/delete/$id');
+    // final url = Uri.parse('http://10.0.2.2:8080/api/v1/item/delete/$id');
+    final url = Uri.parse('http://snapinvapi.us-east-1.elasticbeanstalk.com/api/v1/item/delete/$id');
 
     try {
       final response = await http.delete(url);
@@ -234,8 +235,15 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
   }
 
   Future<void> updateItem(InventoryItem updated) async {
+    // final url =
+    //     Uri.http('10.0.2.2:8080', '/api/v1/item/update/${item.id.toString()}', {
+    //   'code': updated.code,
+    //   'description': updated.description,
+    //   'quantity': updated.quantity.toString(),
+    //   'price': updated.price.toString(),
+    // });
     final url =
-        Uri.http('10.0.2.2:8080', '/api/v1/item/update/${item.id.toString()}', {
+        Uri.http('snapinvapi.us-east-1.elasticbeanstalk.com', '/api/v1/item/update/${item.id.toString()}', {
       'code': updated.code,
       'description': updated.description,
       'quantity': updated.quantity.toString(),
@@ -335,21 +343,21 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
           id: item.id,
           image: item.image,
           name: item.name,
-          description: _descriptionController.text == ''
+          description: _descriptionController.text.trim() == ''
               ? null
               : _descriptionController.text,
           quantity: int.parse(_quantityController.text),
           price: double.parse(_priceController.text),
-          code: _codeController.text == '' ? null : _codeController.text,
+          code: _codeController.text.trim() == '' ? null : _codeController.text,
         );
-        // print("ITEM: ${item.id}       COMPARE: ${compare.id}");
-        // print("ITEM: ${item.image}       COMPARE: ${compare.image}");
-        // print("ITEM: ${item.name}       COMPARE: ${compare.name}");
-        // print("ITEM: ${item.code}       COMPARE: ${compare.code}");
-        // print("ITEM: ${item.description}       COMPARE: ${compare.description}");
-        // print("ITEM: ${item.quantity}       COMPARE: ${compare.quantity}");
-        // print("ITEM: ${item.price}       COMPARE: ${compare.price}");
-        // print(compare == item);
+        print("ITEM: ${item.id}       COMPARE: ${compare.id}");
+        print("ITEM: ${item.image}       COMPARE: ${compare.image}");
+        print("ITEM: ${item.name}       COMPARE: ${compare.name}");
+        print("ITEM: ${item.code}       COMPARE: ${compare.code}");
+        print("ITEM: ${item.description}       COMPARE: ${compare.description}");
+        print("ITEM: ${item.quantity}       COMPARE: ${compare.quantity}");
+        print("ITEM: ${item.price}       COMPARE: ${compare.price}");
+        print(compare == item);
         if (compare != item) {
           final confirmed = await _confirmExitPage(mainContext);
           if (mainContext.mounted && confirmed) {

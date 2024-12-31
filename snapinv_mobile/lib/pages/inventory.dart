@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'additem.dart';
 import 'itemdetails.dart';
 import '../entities/inventoryitem.dart';
@@ -48,13 +50,25 @@ class InventoryPageState extends State<InventoryPage>
 
   void addItem(InventoryItem newItem) {
     setState(() {
-      items.add(newItem); // Add new item to the list
+      items.add(newItem);
     });
   }
 
   Future<void> getInventory() async {
+    List<InventoryItem> localItems = await getInventoryList();
+    bool areEqual = const ListEquality().equals(localItems, items);
+    // print('Are list1 and list2 equal? $areEqual');
+    if (!areEqual) {
+      print('SETTING ITEMS TO LOCAL ITEMS');
+      setState(() {
+        items = localItems;
+      });
+    }
     selectable = false;
-    final url = Uri.parse('http://10.0.2.2:8080/api/v1/item/items');
+    // final url = Uri.parse('http://10.0.2.2:8080/api/v1/item/items');
+    final url = Uri.parse(
+        'http://snapinvapi.us-east-1.elasticbeanstalk.com/api/v1/item/items');
+
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
@@ -63,22 +77,138 @@ class InventoryPageState extends State<InventoryPage>
         print('Error: ${response.statusCode}');
       }
 
+      // print('---------------------------------------');
+      // print('${itemList[i].id} at ${items[j].id}');
+      // print('${itemList[i].name} at ${items[j].name}');
+      // print('${itemList[i].image} at ${items[j].image}');
+      // print('${itemList[i].code} at ${items[j].code}');
+      // print('${itemList[i].description} at ${items[j].description}');
+      // print('${itemList[i].quantity} at ${items[j].quantity}');
+      // print('${itemList[i].price} at ${items[j].price}');
+      // print('---------------------------------------');
+
       List<dynamic> jsonList = jsonDecode(response.body);
       List<InventoryItem> itemList =
           jsonList.map((json) => InventoryItem.fromJson(json)).toList();
 
-      setState(() {
-        items = itemList;
-      });
+      if (items.length != itemList.length) {
+        if (items.length < itemList.length) {
+          for (int i = 0; i < itemList.length; i++) {
+            bool match = false;
+            print('SEARCHING FOR ${itemList[i].name}, i IS $i');
+            for (int j = 0; j < items.length; j++) {
+              if (items[j] != itemList[i]) {
+                if (items[j].id == itemList[i].id) {
+                  setState(() {
+                    items[j] = itemList[i];
+                  });
+                  match = true;
+                  break;
+                }
+              } else {
+                print('${items[j].name} == ${itemList[i].name}');
+                match = true;
+                break;
+              }
+            }
+            print('');
+            print('MATCH? $match');
+            if (!match) {
+              print('NO MATCH FOR: ${itemList[i].name} AT INDEX $i');
+              setState(() {
+                items.add(itemList[i]);
+              });
+            }
+          }
+        } else if (items.length > itemList.length) {
+          for (int i = 0; i < items.length; i++) {
+            bool match = false;
+            print('SEARCHING FOR ${itemList[i].name}, i IS $i');
+            for (int j = 0; j < itemList.length; j++) {
+              if (items[j] != itemList[i]) {
+                if (items[j].id == itemList[i].id) {
+                  setState(() {
+                    items[j] = itemList[i];
+                  });
+                  match = true;
+                  break;
+                }
+              } else {
+                print('${items[j].name} == ${itemList[i].name}');
+                match = true;
+                break;
+              }
+            }
+            print('');
+            print('MATCH? $match');
+            if (!match) {
+              print('NO MATCH FOR: ${itemList[i].name} AT INDEX $i');
+              setState(() {
+                items.remove(items[i]);
+              });
+            }
+          }
+        }
+      } else {
+        for (int i = 0; i < items.length; i++) {
+          for (int j = 0; j < itemList.length; j++) {
+            if (items[i] != itemList[j]) {
+              if (items[i].id == itemList[j].id) {
+                setState(() {
+                  items[i] = itemList[j];
+                });
+              } else {}
+            } else {
+              print('${items[i].id} == ${itemList[j].id}');
+              print('');
+            }
+          }
+        }
+      }
+      for (var item in itemList) {
+        print('Name: ${item.name}, Quantity: ${item.quantity}');
+      }
+      // setState(() {
+      //   items = itemList;
+      // });
     } catch (e) {
       print('An error occurred: $e');
     }
+    // for (var item in items) {
+    //   print('Name: ${item.name}, Quantity: ${item.quantity}');
+    // }
+
+    saveList(items);
+  }
+
+  // save list to local storage
+  Future<void> saveList(List<InventoryItem> saveList) async {
+    final prefs = await SharedPreferences.getInstance();
+    String jsonString =
+        jsonEncode(saveList.map((item) => item.toJson()).toList());
+    await prefs.setString('itemList', jsonString);
+  }
+
+  // retrieve list from local storage
+  Future<List<InventoryItem>> getInventoryList() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? jsonString = prefs.getString('itemList');
+    if (jsonString == null) {
+      return [];
+    }
+    List<dynamic> jsonList = jsonDecode(jsonString);
+    return jsonList
+        .map((json) => InventoryItem.fromJson(json as Map<String, dynamic>))
+        .toList();
   }
 
   Future<void> deleteItems(BuildContext context) async {
-    final url = Uri.parse('http://10.0.2.2:8080/api/v1/item/delete/selected');
+    // final url = Uri.parse('http://10.0.2.2:8080/api/v1/item/delete/selected');
+    final url = Uri.parse(
+        'http://snapinvapi.us-east-1.elasticbeanstalk.com/api/v1/item/delete/selected');
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode(selectedIDs);
+    selectedIDs = [];
 
     print(body);
 
@@ -87,9 +217,9 @@ class InventoryPageState extends State<InventoryPage>
       if (response.statusCode == 200) {
         print(response.body);
         if (context.mounted) {
-          print("MOUNTED");
           getInventory();
         }
+        getInventory();
       } else {
         print('Error: ${response.statusCode}');
       }
@@ -268,10 +398,10 @@ class InventoryPageState extends State<InventoryPage>
                                       ),
                               ),
                         title: Text(item.name),
-                        subtitle: Text(item.description != null
-                            ? item.description!.length <= 15
-                                ? item.description!
-                                : "${item.description!.substring(0, 15)}..."
+                        subtitle: Text(item.code != null
+                            ? item.code!.length <= 15
+                                ? item.code!
+                                : "${item.code!.substring(0, 15)}..."
                             : ""),
                         trailing: Column(
                           children: [
@@ -306,7 +436,7 @@ class InventoryPageState extends State<InventoryPage>
                   separatorBuilder: (context, index) {
                     return Divider(
                       color: Colors.transparent,
-                      height: 10,
+                      height: 5,
                     );
                   },
                   padding: EdgeInsets.all(5),

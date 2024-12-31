@@ -45,7 +45,9 @@ class _BottomNavState extends State<BottomNav> {
       selectedIndex = index;
     });
 
-    if (index == 2) {
+    if (index == 0) {
+      DashboardPage.pageKey.currentState?.getTransactionLog();
+    } else if (index == 2) {
       InventoryPage.pageKey.currentState?.getInventory();
     }
   }

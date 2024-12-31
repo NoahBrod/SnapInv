@@ -82,7 +82,8 @@ public class ItemController {
         itemService.addItem(newItem);
 
         Transaction addTran = new Transaction("Created " + newItem.getName(), quantity + " at " + (price == null ? "0.00" : price), date);
-        transactionService.newTransactions(addTran);
+        System.out.println(addTran.toString());
+        transactionService.newTransaction(addTran);
 
         return "Item Received";
     }
@@ -99,59 +100,83 @@ public class ItemController {
         ) {
         Item item = itemService.getItem(id);
 
+        Transaction addTran = new Transaction();
+        String buildString = "";
+        Date date = new Date(System.currentTimeMillis());
+
         if (item == null) {
             return "Could not update item.";
         }
 
         if (image != null) {
+            buildString.concat("Updated image ");
             try {
                 item.setImage(Base64.getEncoder().encodeToString(image.getBytes()));
             } catch (IOException e) {
-                e.printStackTrace();
+             
+            e.printStackTrace();
             }
         }
         
         if (name != null) {
+            buildString.concat("Updated name from " + item.getName() + " to " + name);
             item.setName(name);
         }
 
         if (code != null) {
+            buildString.concat("code from " + item.getCode() + " to " + code);
             item.setCode(code);
         }
         
         if (description != null) {
+            buildString.concat("description ");
             item.setDescription(description);
         }
 
         if (quantity != null) {
+            buildString.concat("quantity from " + item.getQuantity() + " to " + quantity);
             item.setQuantity(Integer.parseInt(quantity));
         }
 
         if (price != null) {
+            buildString.concat("price from " + item.getPrice() + " to " + price);
             item.setPrice(Double.parseDouble(price));
         }
 
         System.out.println(item.toString());
         itemService.updateItem(item);
 
-        // add cases for different updates
-        Transaction addTran = new Transaction("Updated " + item.getName(), quantity + " at " + (price == null ? "0.00" : price), date);
-        transactionService.newTransactions(addTran);
+        addTran.setLogType("Updated");
+        addTran.setDate(date);
+        
+        transactionService.newTransaction(addTran);
 
         return "Successfully update item.";
     }
 
     @DeleteMapping("/delete/{id}")
     public String deleteItem(@PathVariable Long id) {
+        Item item = itemService.getItem(id);
         itemService.delete(id);
+
+        Date date = new Date(System.currentTimeMillis());
+        Transaction addTran = new Transaction("Deleted " + item.getName(), "with id " + item.getId(), date);
+        System.out.println(addTran.toString());
+        transactionService.newTransaction(addTran);
+
         return "successful";
     }
 
     @DeleteMapping("/delete/selected")
     public String deleteSelected(@RequestBody List<Integer> items) {
+        Date date = new Date(System.currentTimeMillis());
+
         if (!items.isEmpty()) {
             for (int id : items) {
+                Item item = itemService.getItem((long) id);
+                Transaction addTran = new Transaction("Deleted " + item.getName(), "with id " + item.getId(), date);
                 itemService.delete((long) id);
+                transactionService.newTransaction(addTran);
             }
             // System.out.println(items.toString());
             return "Deleted Items";

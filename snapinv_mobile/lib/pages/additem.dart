@@ -88,7 +88,7 @@ class _AddItemPageState extends State<AddItemPage> {
   Future<void> _pickImageFromCamera() async {
     try {
       final XFile? pickedFile =
-          await _picker.pickImage(source: ImageSource.camera, imageQuality: 25);
+          await _picker.pickImage(source: ImageSource.camera, imageQuality: 10);
 
       if (pickedFile != null) {
         setState(() {
@@ -109,8 +109,9 @@ class _AddItemPageState extends State<AddItemPage> {
   Future<void> addItem() async {
     var request = http.MultipartRequest(
         'POST',
+        // Uri.parse('http://10.0.2.2:8080/api/v1/item/items');
         Uri.parse(
-          'http://10.0.2.2:8080/api/v1/item/additem',
+          'http://snapinvapi.us-east-1.elasticbeanstalk.com/api/v1/item/additem',
         ));
 
     if (_imageFile != null) {

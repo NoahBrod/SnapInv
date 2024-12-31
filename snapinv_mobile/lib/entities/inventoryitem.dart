@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:collection/collection.dart';
+
 // import 'package:snapinv_mobile/entities/descriptor.dart';
 
 class InventoryItem {
@@ -25,7 +27,8 @@ class InventoryItem {
   factory InventoryItem.fromJson(Map<String, dynamic> json) {
     return InventoryItem(
       id: json['id'] as int,
-      image: json['image'] != null ? base64Decode(json['image']) : null,
+      image:
+          json['image'] != null ? base64Decode(json['image'] as String) : null,
       name: json['name'] as String,
       code: json['code'] != null ? json['code'] as String : null,
       description:
@@ -40,7 +43,7 @@ class InventoryItem {
       identical(this, other) ||
       other is InventoryItem &&
           runtimeType == other.runtimeType &&
-          image == other.image &&
+          ListEquality().equals(image, other.image) &&
           name == other.name &&
           description == other.description &&
           quantity == other.quantity &&
@@ -54,4 +57,14 @@ class InventoryItem {
       quantity.hashCode ^
       price.hashCode ^
       code.hashCode;
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'image': image != null ? base64Encode(image!) : null,
+        'name': name,
+        'code': code,
+        'description': description,
+        'quantity': quantity,
+        'price': price,
+      };
 }
