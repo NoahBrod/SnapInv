@@ -77,25 +77,15 @@ class InventoryPageState extends State<InventoryPage>
         print('Error: ${response.statusCode}');
       }
 
-      // print('---------------------------------------');
-      // print('${itemList[i].id} at ${items[j].id}');
-      // print('${itemList[i].name} at ${items[j].name}');
-      // print('${itemList[i].image} at ${items[j].image}');
-      // print('${itemList[i].code} at ${items[j].code}');
-      // print('${itemList[i].description} at ${items[j].description}');
-      // print('${itemList[i].quantity} at ${items[j].quantity}');
-      // print('${itemList[i].price} at ${items[j].price}');
-      // print('---------------------------------------');
-
       List<dynamic> jsonList = jsonDecode(response.body);
       List<InventoryItem> itemList =
           jsonList.map((json) => InventoryItem.fromJson(json)).toList();
 
+      // process local items to database items
       if (items.length != itemList.length) {
         if (items.length < itemList.length) {
           for (int i = 0; i < itemList.length; i++) {
             bool match = false;
-            print('SEARCHING FOR ${itemList[i].name}, i IS $i');
             for (int j = 0; j < items.length; j++) {
               if (items[j] != itemList[i]) {
                 if (items[j].id == itemList[i].id) {
@@ -106,15 +96,11 @@ class InventoryPageState extends State<InventoryPage>
                   break;
                 }
               } else {
-                print('${items[j].name} == ${itemList[i].name}');
                 match = true;
                 break;
               }
             }
-            print('');
-            print('MATCH? $match');
             if (!match) {
-              print('NO MATCH FOR: ${itemList[i].name} AT INDEX $i');
               setState(() {
                 items.add(itemList[i]);
               });
@@ -123,26 +109,21 @@ class InventoryPageState extends State<InventoryPage>
         } else if (items.length > itemList.length) {
           for (int i = 0; i < items.length; i++) {
             bool match = false;
-            print('SEARCHING FOR ${itemList[i].name}, i IS $i');
             for (int j = 0; j < itemList.length; j++) {
-              if (items[j] != itemList[i]) {
-                if (items[j].id == itemList[i].id) {
+              if (items[i] != itemList[j]) {
+                if (items[i].id == itemList[j].id) {
                   setState(() {
-                    items[j] = itemList[i];
+                    items[i] = itemList[j];
                   });
                   match = true;
                   break;
                 }
               } else {
-                print('${items[j].name} == ${itemList[i].name}');
                 match = true;
                 break;
               }
             }
-            print('');
-            print('MATCH? $match');
             if (!match) {
-              print('NO MATCH FOR: ${itemList[i].name} AT INDEX $i');
               setState(() {
                 items.remove(items[i]);
               });
@@ -157,26 +138,15 @@ class InventoryPageState extends State<InventoryPage>
                 setState(() {
                   items[i] = itemList[j];
                 });
-              } else {}
-            } else {
-              print('${items[i].id} == ${itemList[j].id}');
-              print('');
+                break;
+              }
             }
           }
         }
       }
-      for (var item in itemList) {
-        print('Name: ${item.name}, Quantity: ${item.quantity}');
-      }
-      // setState(() {
-      //   items = itemList;
-      // });
     } catch (e) {
       print('An error occurred: $e');
     }
-    // for (var item in items) {
-    //   print('Name: ${item.name}, Quantity: ${item.quantity}');
-    // }
 
     saveList(items);
   }
@@ -217,6 +187,9 @@ class InventoryPageState extends State<InventoryPage>
       if (response.statusCode == 200) {
         print(response.body);
         if (context.mounted) {
+          setState(() {
+            selectable = false;
+          });
           getInventory();
         }
         getInventory();
