@@ -38,6 +38,7 @@ class InventoryPageState extends State<InventoryPage>
       } else {
         selectedIDs.add(items[index].id!);
       }
+      print(selectedIDs);
     });
   }
 
@@ -67,7 +68,7 @@ class InventoryPageState extends State<InventoryPage>
     selectable = false;
     // final url = Uri.parse('http://10.0.2.2:8080/api/v1/item/items');
     final url = Uri.parse(
-        'http://snapinvapi.us-east-1.elasticbeanstalk.com/api/v1/item/items');
+        'https://snapinv.com/api/v1/item/items');
 
     try {
       final response = await http.get(url);
@@ -175,7 +176,7 @@ class InventoryPageState extends State<InventoryPage>
   Future<void> deleteItems(BuildContext context) async {
     // final url = Uri.parse('http://10.0.2.2:8080/api/v1/item/delete/selected');
     final url = Uri.parse(
-        'http://snapinvapi.us-east-1.elasticbeanstalk.com/api/v1/item/delete/selected');
+        'https://snapinv.com/api/v1/item/delete/selected');
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode(selectedIDs);
     selectedIDs = [];

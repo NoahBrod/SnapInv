@@ -216,7 +216,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
 
   Future<void> deleteItem(int id, BuildContext context) async {
     // final url = Uri.parse('http://10.0.2.2:8080/api/v1/item/delete/$id');
-    final url = Uri.parse('http://snapinvapi.us-east-1.elasticbeanstalk.com/api/v1/item/delete/$id');
+    final url = Uri.parse('https://snapinv.com/api/v1/item/delete/$id');
 
     try {
       final response = await http.delete(url);
@@ -243,7 +243,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
     //   'price': updated.price.toString(),
     // });
     final url =
-        Uri.http('snapinvapi.us-east-1.elasticbeanstalk.com', '/api/v1/item/update/${item.id.toString()}', {
+        Uri.https('snapinv.com', '/api/v1/item/update/${item.id.toString()}', {
       'code': updated.code,
       'description': updated.description,
       'quantity': updated.quantity.toString(),
@@ -350,14 +350,14 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
           price: double.parse(_priceController.text),
           code: _codeController.text.trim() == '' ? null : _codeController.text,
         );
-        print("ITEM: ${item.id}       COMPARE: ${compare.id}");
-        print("ITEM: ${item.image}       COMPARE: ${compare.image}");
-        print("ITEM: ${item.name}       COMPARE: ${compare.name}");
-        print("ITEM: ${item.code}       COMPARE: ${compare.code}");
-        print("ITEM: ${item.description}       COMPARE: ${compare.description}");
-        print("ITEM: ${item.quantity}       COMPARE: ${compare.quantity}");
-        print("ITEM: ${item.price}       COMPARE: ${compare.price}");
-        print(compare == item);
+        // print("ITEM: ${item.id}       COMPARE: ${compare.id}");
+        // print("ITEM: ${item.image}       COMPARE: ${compare.image}");
+        // print("ITEM: ${item.name}       COMPARE: ${compare.name}");
+        // print("ITEM: ${item.code}       COMPARE: ${compare.code}");
+        // print("ITEM: ${item.description}       COMPARE: ${compare.description}");
+        // print("ITEM: ${item.quantity}       COMPARE: ${compare.quantity}");
+        // print("ITEM: ${item.price}       COMPARE: ${compare.price}");
+        // print(compare == item);
         if (compare != item) {
           final confirmed = await _confirmExitPage(mainContext);
           if (mainContext.mounted && confirmed) {

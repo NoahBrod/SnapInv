@@ -18,7 +18,7 @@ dependencies:
   http: ^1.2.2
   barcode_scan2: ^4.3.3
   path_provider: ^2.1.5
-  shared_preferences: ^2.3.4
+  shared_preferences: ^2.3.5
   collection: ^1.18.0
 
 dev_dependencies:
