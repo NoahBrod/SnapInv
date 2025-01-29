@@ -64,6 +64,10 @@ public class ItemController {
 
         newItem.setName(name);
 
+        if (code != null) {
+            newItem.setCode(code);
+        }
+
         if (description != null) {
             newItem.setDescription(description);
         }

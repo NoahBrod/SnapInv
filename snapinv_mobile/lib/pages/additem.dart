@@ -10,18 +10,19 @@ import 'package:snapinv_mobile/pages/inventory.dart';
 import 'package:http/http.dart' as http;
 
 class AddItemPage extends StatefulWidget {
-  const AddItemPage({super.key});
+  final String? scanCode;
+  const AddItemPage({super.key, this.scanCode});
 
   @override
   State<AddItemPage> createState() => _AddItemPageState();
 }
 
 class _AddItemPageState extends State<AddItemPage> {
-  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController(text: '');
   final TextEditingController _codeController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
-  final TextEditingController _quantityController = TextEditingController();
+  final TextEditingController _quantityController = TextEditingController(text: '1');
 
   final List<TextEditingController> _controllers = [];
 
@@ -29,11 +30,14 @@ class _AddItemPageState extends State<AddItemPage> {
 
   final ImagePicker _picker = ImagePicker();
 
-  int _number = 0;
+  int _number = 1;
 
   @override
   void initState() {
     super.initState();
+    print(widget.scanCode);
+    _codeController.text = widget.scanCode!;
+
     _quantityController.addListener(() {
       final text = _quantityController.text;
       setState(() {
@@ -123,7 +127,9 @@ class _AddItemPageState extends State<AddItemPage> {
 
     request.fields['name'] = _nameController.text;
     if (_codeController.text.isNotEmpty) {
+      print('ADDING CODE: ${_codeController.text}');
       request.fields['code'] = _codeController.text;
+      print('REQUESTED CODE: ${request.fields['code']}');
     }
     if (_descriptionController.text.isNotEmpty) {
       request.fields['description'] = _descriptionController.text;

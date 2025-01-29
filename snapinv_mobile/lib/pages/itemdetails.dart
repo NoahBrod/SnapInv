@@ -8,13 +8,13 @@ import 'package:http/http.dart' as http;
 
 class ItemDetailsPage extends StatefulWidget {
   final InventoryItem item;
-  const ItemDetailsPage({required this.item});
+  ItemDetailsPage({required this.item});
 
   @override
-  State<ItemDetailsPage> createState() => _ItemDetailsPageState(item: item);
+  State<ItemDetailsPage> createState() => ItemDetailsPageState();
 }
 
-class _ItemDetailsPageState extends State<ItemDetailsPage> {
+class ItemDetailsPageState extends State<ItemDetailsPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _codeController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
@@ -33,13 +33,12 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
 
   bool editing = true; // true is not and false is
 
-  final InventoryItem item;
-
-  _ItemDetailsPageState({required this.item});
+  late InventoryItem item;
 
   @override
   void initState() {
     super.initState();
+    item = widget.item;
     _quantityController.addListener(() {
       final text = _quantityController.text;
       setState(() {
@@ -212,6 +211,17 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
         _quantityController.text = _number.toString();
       }
     });
+  }
+
+  void incrementByCode(String code) {
+    List<InventoryItem> inventoryItems = InventoryPage.pageKey.currentState!.items;
+    for (InventoryItem item in inventoryItems) {
+      if (item.code == code) {
+        item.quantity += 1;
+        updateItem(item);
+        break;
+      }
+    }
   }
 
   Future<void> deleteItem(int id, BuildContext context) async {

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +56,15 @@ class InventoryPageState extends State<InventoryPage>
     });
   }
 
+  bool searchList(String code) {
+    for (InventoryItem item in items) {
+      if (item.code == code) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   Future<void> getInventory() async {
     List<InventoryItem> localItems = await getInventoryList();
     bool areEqual = const ListEquality().equals(localItems, items);
@@ -67,8 +77,7 @@ class InventoryPageState extends State<InventoryPage>
     }
     selectable = false;
     // final url = Uri.parse('http://10.0.2.2:8080/api/v1/item/items');
-    final url = Uri.parse(
-        'https://snapinv.com/api/v1/item/items');
+    final url = Uri.parse('https://snapinv.com/api/v1/item/items');
 
     try {
       final response = await http.get(url);
@@ -175,8 +184,7 @@ class InventoryPageState extends State<InventoryPage>
 
   Future<void> deleteItems(BuildContext context) async {
     // final url = Uri.parse('http://10.0.2.2:8080/api/v1/item/delete/selected');
-    final url = Uri.parse(
-        'https://snapinv.com/api/v1/item/delete/selected');
+    final url = Uri.parse('https://snapinv.com/api/v1/item/delete/selected');
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode(selectedIDs);
     selectedIDs = [];
@@ -191,8 +199,10 @@ class InventoryPageState extends State<InventoryPage>
           setState(() {
             selectable = false;
           });
+          sleep(Duration(seconds: 2));
           getInventory();
         }
+        sleep(Duration(seconds: 2));
         getInventory();
       } else {
         print('Error: ${response.statusCode}');
@@ -292,7 +302,10 @@ class InventoryPageState extends State<InventoryPage>
         onPressed: () async {
           final newItem = await Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddItemPage()),
+            MaterialPageRoute(
+                builder: (context) => AddItemPage(
+                      scanCode: '',
+                    )),
           );
 
           if (newItem != null) {
