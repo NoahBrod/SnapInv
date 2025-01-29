@@ -151,6 +151,7 @@ public class ItemController {
         itemService.updateItem(item);
 
         addTran.setLogType("Updated");
+        addTran.setLogBody(item.getName());
         addTran.setDate(date);
         
         transactionService.newTransaction(addTran);

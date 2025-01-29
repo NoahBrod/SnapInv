@@ -21,7 +21,7 @@ dependencies:
   shared_preferences: ^2.3.5
   collection: ^1.18.0
   fl_chart: ^0.70.2
-  mobile_scanner: ^6.0.3
+  mobile_scanner: ^6.0.5
 
 dev_dependencies:
   flutter_test:

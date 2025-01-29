@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'additem.dart';
@@ -65,6 +66,21 @@ class InventoryPageState extends State<InventoryPage>
     return false;
   }
 
+  bool validateEqualIds(List<InventoryItem> retrieved) {
+    bool valid = false;
+    int i = 0;
+
+    for (var item in retrieved) {
+      if (item == items[i]) {
+        valid = true;
+      } else {
+        return false;
+      }
+    }
+
+    return false;
+  }
+
   Future<void> getInventory() async {
     List<InventoryItem> localItems = await getInventoryList();
     bool areEqual = const ListEquality().equals(localItems, items);
@@ -90,6 +106,23 @@ class InventoryPageState extends State<InventoryPage>
       List<dynamic> jsonList = jsonDecode(response.body);
       List<InventoryItem> itemList =
           jsonList.map((json) => InventoryItem.fromJson(json)).toList();
+
+      Map<int?, InventoryItem> itemMap = {for (var item in items) item.id : item};
+
+      // for (var newItem in itemList) {
+      //   if (itemMap.containsKey(newItem.id)) {
+      //     itemMap[newItem.id] = newItem;
+      //   } else {
+      //     items.add(newItem);
+      //   }
+      // }
+ 
+      // items.removeWhere((item) => !itemList.any((newItem) => newItem.id == item.id));
+      int i = 0;
+      for (var item in items) {
+        print('[${item.id}, ${item.name}] : [${itemList[i].id}, ${itemList[i].name}]');
+        i++;
+      }
 
       // process local items to database items
       if (items.length != itemList.length) {
@@ -134,6 +167,7 @@ class InventoryPageState extends State<InventoryPage>
               }
             }
             if (!match) {
+              print(items[i].name);
               setState(() {
                 items.remove(items[i]);
               });
