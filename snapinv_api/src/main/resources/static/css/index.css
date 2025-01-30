@@ -6,6 +6,8 @@ html,
 body {
     margin: 0;
     padding: 0;
+    
+    font-family: DM Sans;
 }
 
 nav {
@@ -56,7 +58,8 @@ nav ul a:hover {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-family: DM Sans;
+    color: white;
+    border-bottom: 2.5px solid white;
 }
 
 #banner h1 {
@@ -65,11 +68,22 @@ nav ul a:hover {
     margin-right: auto;
     padding: 0;
     width: 50vw;
-    color: white;
+    /* color: white; */
     font-size: 64px;
 }
 
-#feature-scroll {
+
+#call-to-action a {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 20px;
+    transition: .6s;
+}
+
+#call-to-action a:hover {
+    color: white;
+}
+
+#scroll {
     /* margin-top: 14em;
     margin-bottom: -14em; */
     /* padding: 1em; */
@@ -78,7 +92,7 @@ nav ul a:hover {
     display: flex;
 }
 
-#feature-scroll a {
+#scroll a {
     /* position: absolute; */
     left: auto;
     /* right: auto; */
@@ -90,10 +104,60 @@ nav ul a:hover {
     transition: 0.5s;
 }
 
-#banner a:hover {
+#scroll a:hover {
     font-size: 20px;
 }
 
 #features {
+    position: relative;
+    margin: 0;
+    padding: 0;
     height: 100vh;
+    background-color: #23d680;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 2.5px solid white;
+}
+
+#f-left {
+    margin: 0;
+    padding: 0;
+}
+
+.f-item {
+    height: 200px;
+    width: 500px;
+    /* margin: 0 auto 0 auto; */
+    /* background-color: black; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.f-item h2 {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    font-size: 36px;
+    color: white;
+}
+
+.f-item p {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    font-size: 22px;
+    color: white;
+}
+
+#pricing {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-color: #23d680;
+
+    
+    border-bottom: 2.5px solid white;
 }

@@ -107,7 +107,9 @@ class InventoryPageState extends State<InventoryPage>
       List<InventoryItem> itemList =
           jsonList.map((json) => InventoryItem.fromJson(json)).toList();
 
-      Map<int?, InventoryItem> itemMap = {for (var item in items) item.id : item};
+      Map<int?, InventoryItem> itemMap = {
+        for (var item in items) item.id: item
+      };
 
       // for (var newItem in itemList) {
       //   if (itemMap.containsKey(newItem.id)) {
@@ -116,13 +118,18 @@ class InventoryPageState extends State<InventoryPage>
       //     items.add(newItem);
       //   }
       // }
- 
+
       // items.removeWhere((item) => !itemList.any((newItem) => newItem.id == item.id));
-      int i = 0;
-      for (var item in items) {
-        print('[${item.id}, ${item.name}] : [${itemList[i].id}, ${itemList[i].name}]');
-        i++;
-      }
+      // print("----------------");
+      // for (var item in items) {
+      //   print('[${item.id}, ${item.name}]');
+      // }
+      // print("----------------");
+      // print("----------------");
+      // for (var item in itemList) {
+      //   print('[${item.id}, ${item.name}]');
+      // }
+      // print("----------------");
 
       // process local items to database items
       if (items.length != itemList.length) {
@@ -135,6 +142,7 @@ class InventoryPageState extends State<InventoryPage>
                   setState(() {
                     items[j] = itemList[i];
                   });
+                  print(items[i].name);
                   match = true;
                   break;
                 }
@@ -221,6 +229,21 @@ class InventoryPageState extends State<InventoryPage>
     final url = Uri.parse('https://snapinv.com/api/v1/item/delete/selected');
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode(selectedIDs);
+
+    for (var id in selectedIDs) {
+      for (int i = 0; i < items.length; i++) {
+        if (items[i].id == id) {
+          items.remove(items[i]);
+          break;
+        }
+      }
+    }
+    List<InventoryItem> removed = items;
+    setState(() {
+      items = removed;
+    });
+    saveList(items);
+
     selectedIDs = [];
 
     print(body);
@@ -233,10 +256,14 @@ class InventoryPageState extends State<InventoryPage>
           setState(() {
             selectable = false;
           });
-          sleep(Duration(seconds: 2));
+          print('SUCCESS');
+          // sleep(Duration(seconds: 2));
           getInventory();
         }
-        sleep(Duration(seconds: 2));
+        // sleep(Duration(seconds: 2));
+        setState(() {
+          selectable = false;
+        });
         getInventory();
       } else {
         print('Error: ${response.statusCode}');
@@ -244,6 +271,7 @@ class InventoryPageState extends State<InventoryPage>
     } catch (e) {
       print('An error occurred: $e');
     }
+    saveList(items);
   }
 
   @override
