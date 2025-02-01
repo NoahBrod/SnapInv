@@ -6,7 +6,7 @@ html,
 body {
     margin: 0;
     padding: 0;
-    
+
     font-family: DM Sans;
 }
 
@@ -14,7 +14,6 @@ nav {
     position: absolute;
     width: 100%;
     background-color: #23d680;
-    /* filter: drop-shadow(0px 5px 20px #ffffffa9); */
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -68,7 +67,6 @@ nav ul a:hover {
     margin-right: auto;
     padding: 0;
     width: 50vw;
-    /* color: white; */
     font-size: 64px;
 }
 
@@ -83,20 +81,14 @@ nav ul a:hover {
     color: white;
 }
 
-#scroll {
-    /* margin-top: 14em;
-    margin-bottom: -14em; */
-    /* padding: 1em; */
+.scroll {
     position: absolute;
     top: 90%;
     display: flex;
 }
 
-#scroll a {
-    /* position: absolute; */
+.scroll a {
     left: auto;
-    /* right: auto; */
-    /* top */
     text-decoration: none;
     text-align: center;
     color: white;
@@ -104,7 +96,7 @@ nav ul a:hover {
     transition: 0.5s;
 }
 
-#scroll a:hover {
+.scroll a:hover {
     font-size: 20px;
 }
 
@@ -129,8 +121,6 @@ nav ul a:hover {
 .f-item {
     height: 200px;
     width: 500px;
-    /* margin: 0 auto 0 auto; */
-    /* background-color: black; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -153,11 +143,200 @@ nav ul a:hover {
 }
 
 #pricing {
+    position: relative;
     margin: 0;
     padding: 0;
     height: 100vh;
     background-color: #23d680;
-
-    
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-bottom: 2.5px solid white;
+    color: white;
 }
+
+#pricing h1,
+h2 {
+    margin: 0;
+    padding: 0;
+}
+
+#p-left {
+    margin-left: auto;
+    width: 550px;
+}
+
+#p-left h1 {
+    margin-bottom: 1em;
+    font-size: 52px;
+}
+
+#p-left h2 {
+    font-size: 36px;
+}
+
+#p-left span {
+    background: linear-gradient(#FFFFFF, #FFD700);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.gradient {
+    margin-right: auto;
+    position: relative;
+    padding: 5px;
+    background: linear-gradient(#FFFFFF, #FFD700);
+    /* Inner content background */
+    border-radius: 5px;
+    /* Rounded corners */
+    filter: drop-shadow(0px 5px 10px #00000054);
+}
+
+#p-right {
+    padding: 30px;
+    width: 400px;
+    background: #23d680;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* border: 2px solid;
+    border-image: linear-gradient(to bottom,#FFFFFF, #FFD700) 1; */
+
+}
+
+#p-right h3 {
+    margin: 0;
+    margin-bottom: 1em;
+    width: 90%;
+    font-size: 28px;
+}
+
+#p-right h1 {
+    margin-bottom: 1em;
+    text-align: center;
+    font-size: 52px;
+    background: linear-gradient(#FFFFFF, #FFD700);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#p-right p {
+    margin: 0;
+    width: 90%;
+    font-size: 20px;
+}
+
+#p-right ul li {
+    font-size: 18px;
+}
+
+#roadmap {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-color: #23d680;
+    border-bottom: 2.5px solid white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    position: relative;
+}
+
+#r-title {
+    margin-bottom: 9em;
+    text-align: center;
+}
+
+#r-title h1 {
+    margin: 0;
+    font-size: 52px;
+}
+
+#r-title h2 {
+    margin: 0;
+    font-size: 32px;
+    color: white;
+}
+
+#r-items {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.r-item {
+    padding: 1em;
+    width: 300px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 5px;
+    background-color: #23d680;
+}
+
+.r-item h2 {
+    margin-top: 1em;
+    text-align: center;
+}
+
+.r-item ul {
+    margin: 0;
+    /* padding: 0; */
+    width: 80%;
+    font-size: 18px;
+}
+
+.r-gradient {
+    margin: 0 1em 0 1em;
+    padding: 5px;
+    background: linear-gradient(#FFFFFF, #FFD700);
+    border-radius: 5px;
+    filter: drop-shadow(0px 5px 10px #00000028);
+}
+
+#about {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-color: #23d680;
+    border-bottom: 2.5px solid white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+#about h2, h3 {
+    margin: 0;
+    padding: 0;
+}
+
+#a-container {
+    width: 85%;
+    width: 1000px;
+    /* display: flex; */
+    flex-flow: row wrap;
+}
+
+#a-title {
+    margin-bottom: 2em;
+}
+
+#a-title h2 {
+    font-size: 42px;
+}
+
+.a-item {
+    width: 450px;
+}
+
+
+
