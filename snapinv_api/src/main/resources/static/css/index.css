@@ -209,15 +209,15 @@ h2 {
 
 #p-right h3 {
     margin: 0;
-    margin-bottom: 1em;
+    /* margin-bottom: 1em; */
     width: 90%;
     font-size: 28px;
 }
 
 #p-right h1 {
-    margin-bottom: 1em;
+    margin: .5em 0 .5em 0;
     text-align: center;
-    font-size: 52px;
+    font-size: 64px;
     background: linear-gradient(#FFFFFF, #FFD700);
     -webkit-background-clip: text;
     background-clip: text;
@@ -319,17 +319,6 @@ h2 {
     padding: 0;
 }
 
-#a-container {
-    width: 85%;
-    width: 1000px;
-    /* display: flex; */
-    flex-flow: row wrap;
-}
-
-#a-title {
-    margin-bottom: 2em;
-}
-
 #a-title h2 {
     font-size: 42px;
 }
@@ -338,5 +327,103 @@ h2 {
     width: 450px;
 }
 
+#a-container {
+    width: 85%;
+    width: 1000px;
+    display: flex;
+    justify-content: center;
+}
 
+#a-container h2 {
+    margin: 1em 0 .5em 0;
+    font-size: 22px;
+}
 
+#a-container p {
+    margin: 0;
+    font-size: 16px;
+}
+
+#a-left {
+    margin-right: 2em;
+}
+
+footer {
+    margin: 0;
+    padding: 0;
+    background-color: #8b8b8b;
+    color: white;
+}
+
+#foot-main {
+    margin: 0;
+    padding: 0 0 2em 0;
+    display: flex;
+}
+
+.foot-item {
+    margin: 1em 2em 1em 2em;
+}
+
+.foot-item h3,p {
+    margin: .5em 0 0 0;
+    padding: 0;
+}
+
+.foot-item ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.foot-item li {
+    margin: .5em 0 .25em 0;
+}
+
+.foot-item a {
+    /* text-decoration: none; */
+    color: #d3d3d3;
+    transition: 0.6s;
+}
+
+.foot-item a:hover {
+    color: white;
+    font-size: 18px;
+}
+
+#signup p {
+    margin: .5em 0 .5em 0;
+}
+
+#signup input[type=email] {
+    padding: .5em;
+    border: 2px solid rgba(0, 0, 0, 0.363);
+    border-radius: 5px;
+    outline: none;
+    font-family: DM Sans;
+}
+
+#signup input[type=email]:focus {
+    border: 2px solid black;
+}
+
+#signup button {
+    padding: .5em;
+    border: 2px solid rgba(0, 0, 0, 0.363);
+    border-radius: 5px;
+    background-color: white;
+    transition: 0.6s;
+    font-family: DM Sans;
+}
+
+#signup button:hover {
+    border: 2px solid white;
+    background-color: #23d680;
+    color: white;
+}
+
+#copyright p{
+    margin: 0;
+    padding: 1em;
+
+}
