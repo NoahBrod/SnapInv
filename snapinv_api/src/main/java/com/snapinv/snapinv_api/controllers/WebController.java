@@ -12,4 +12,9 @@ public class WebController {
         return "index";
     }
     
+    @GetMapping("/email")
+    public String sendUpdateEmail() {
+        return "mail/e_update";
+    }
+    
 }
