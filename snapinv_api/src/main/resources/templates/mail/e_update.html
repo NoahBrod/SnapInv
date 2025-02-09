@@ -17,7 +17,7 @@
     <main>
         <section>
             <h1>Email Update</h1>
-            <form action="" method="post">
+            <form action="/email" method="post">
                 <div id="f-container"></div>
                     <div class="input-item">
                         <label for="sender">Sender Name:</label>
@@ -29,12 +29,15 @@
                     </div>
                     <div class="input-item">
                         <label for="body">Body:</label>
-                        <textarea name="body" rows="15" cols="64" id=""></textarea>
+                        <textarea name="body" rows="15" cols="64"></textarea>
                     </div>
 
                     <button type="submit">Send</button>
                 </div>
             </form>
+            <div th:if="${success}">
+                <h3>Sent Successfully</h3>
+            </div>
         </section>
     </main>
 

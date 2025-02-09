@@ -1,6 +1,7 @@
 package com.snapinv.snapinv_api.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -13,7 +14,12 @@ public class WebController {
     }
     
     @GetMapping("/email")
-    public String sendUpdateEmail() {
+    public String sendUpdateEmail(Model model, @RequestParam(required = false) boolean success) {
+        System.out.println(success);
+        if (success) {
+            model.addAttribute("success", success);
+        }
+
         return "mail/e_update";
     }
     
