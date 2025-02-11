@@ -71,14 +71,16 @@ nav ul a:hover {
 }
 
 
-#call-to-action a {
+#call-to-action a, #call-to-action h2 {
     color: rgba(255, 255, 255, 0.75);
-    font-size: 20px;
+    font-size: 30px;
+    text-decoration: underline;
     transition: .6s;
 }
 
-#call-to-action a:hover {
+#call-to-action a:hover, #call-to-action h2:hover {
     color: white;
+    cursor: pointer;
 }
 
 .scroll {
@@ -401,6 +403,7 @@ footer {
     border-radius: 5px;
     outline: none;
     font-family: DM Sans;
+    transition: 0.6s;
 }
 
 #signup input[type=email]:focus {
@@ -420,6 +423,20 @@ footer {
     border: 2px solid white;
     background-color: #23d680;
     color: white;
+}
+
+#success {
+    background: linear-gradient(#FFFFFF, #23d680);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#fail {
+    background: linear-gradient(#FFFFFF, #ff0000);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 #copyright p{

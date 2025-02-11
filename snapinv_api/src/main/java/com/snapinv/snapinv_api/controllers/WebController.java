@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class WebController {
     @GetMapping("/")
-    public String index() {
+    public String index(Model model, @RequestParam(required = false) boolean subscribed) {
+        model.addAttribute("subscribed", subscribed);
+
         return "index";
     }
     
