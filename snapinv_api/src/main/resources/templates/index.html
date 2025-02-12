@@ -299,7 +299,7 @@
                     <input type="email" name="email" placeholder="Enter your email" required>
                     <button type="submit">Subscribe</button>
                 </form>
-                <div>
+                <div th:if="${subscribed != null}">
                     <h3 id="success" th:if="${subscribed}">You're subscribed!</h3>
                     <h3 id="fail" th:if="${!subscribed}">We had a problem subscribing you.</h3>
                 </div>
