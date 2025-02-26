@@ -13,7 +13,7 @@
 	<artifactId>snapinv_api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>snapinv_api</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Inventory management system.</description>
 	<url />
 	<licenses>
 		<license />
