@@ -17,6 +17,13 @@ public class MailController {
     @Autowired
     private MailService mailService;
     
+    /**
+     * Subscirbes email to the database.
+     * 
+     * @param email User email.
+     * 
+     * @return Redirects with param subscribed.
+     */
     @PostMapping("/subscribe")
     public String subscribeEmail(@RequestParam String email) {
         boolean subscribed = mailService.subscribeEmail(email);
@@ -30,6 +37,13 @@ public class MailController {
         return "redirect:/?subscribed=false#signup";
     }
     
+    /**
+     * Verifies user email.
+     * 
+     * @param code Verification code.
+     * 
+     * @return Returns template "mail/verify.html".
+     */
     @PostMapping("/verify")
     public String emailVerify(@RequestBody String code) {
         //TODO: process POST request
@@ -38,7 +52,17 @@ public class MailController {
         return "mail/verify";
     }
     
-
+    /**
+     * Subscirbes email to the database.
+     * 
+     * @todo Implement sending logic with SMTP Gmail.
+     * 
+     * @param sender  Email sender.
+     * @param subject  Subject of the email.
+     * @param body Body of the email.
+     * 
+     * @return Redirects with param success.
+     */
     @PostMapping("/email")
     public String sendUpdate(@RequestParam String sender, @RequestParam String subject, @RequestParam String body) {
         //TODO: process POST request

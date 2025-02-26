@@ -7,6 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HealthController {
+    /**
+     * Health check for AWS.
+     * 
+     * @return OK.
+     */
     @GetMapping("/health")
     public ResponseEntity<String> healthCheck() {
         return new ResponseEntity<>("OK", HttpStatus.OK);

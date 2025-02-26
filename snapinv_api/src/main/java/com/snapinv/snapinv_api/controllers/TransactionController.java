@@ -18,6 +18,11 @@ public class TransactionController {
     @Autowired
     private TransactionService transactionService;
 
+    /**
+     * API call for all items in the database.
+     * 
+     * @return List of items.
+     */
     @GetMapping("/log")
     public List<Transaction> getTransactions() {
         return transactionService.getLog();

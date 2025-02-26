@@ -30,6 +30,13 @@ public class MailService {
 
     private static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
 
+    /**
+     * Adds email to database of subscribed emails. Regex to catch
+     * email format and check for email already present.
+     *
+     * @param email User email.
+     * @return True.
+     */
     public boolean subscribeEmail(String email) {
         EmailSubscription subscription = new EmailSubscription(email);
 
@@ -44,10 +51,21 @@ public class MailService {
         return true;
     }
 
+    /**
+     * Returns all subscribed emails from the email database.
+     *
+     * @return List of email subscriptions.
+     */
     public List<EmailSubscription> getEmails() {
         return emailRepo.findAll();
     }
 
+    /**
+     * Deletes email subscription from email databse.
+     *
+     * @param id Email id.
+     * @return True if deleted.
+     */
     public boolean unsubscribeEmail(Long id) {
         emailRepo.deleteById(id);
         if (emailRepo.findById(id) == null) {
@@ -56,6 +74,14 @@ public class MailService {
         return false;
     }
 
+    /**
+     * Sends verify link to user to confirm their email.
+     * 
+     * @todo Test and implement
+     * 
+     * @param email User email.
+     * @return True.
+     */
     public void sendVerify(String email) {
         String body = "Please click the link below to verify your registration:<br>" +
                         "<a href=\"https://snapinv.com/verify\" target=\"_blank\">Verify Here</a>";
@@ -72,11 +98,27 @@ public class MailService {
         }
     }
 
+    /**
+     * Verifies a code uniquely assigned to user.
+     * 
+     * @todo Start logic to verify code from database.
+     */
     public void verifyCode() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'verifyCode'");
     }
 
+    /**
+     * Sends update email to all subscribed emails in the database.
+     * 
+     * @todo Start logic and implement
+     * 
+     * @param to Subscription email.
+     * @param subject Subject of the email.
+     * @param text Body of the email.
+     * 
+     * @return True if message sent.
+     */
     public boolean sendUpdateEmail(String to, String subject, String text) {
         return false;
     }

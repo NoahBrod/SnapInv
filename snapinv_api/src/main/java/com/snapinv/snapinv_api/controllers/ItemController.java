@@ -31,17 +31,41 @@ public class ItemController {
     @Autowired
     private TransactionService transactionService;
 
+    /**
+     * Gets item by its ID.
+     * 
+     * @param id Item ID.
+     * 
+     * @return Returns item with given ID.
+     */
     @GetMapping("/{id}")
     public Item getItem(@PathVariable Long id) {
         Item item = itemService.getItem(id);
         return item;
     }
 
+    /**
+     * Gets all items in the database.
+     * 
+     * @return List of items.
+     */
     @GetMapping("/items")
     public List<Item> getItems() {
         return itemService.allItems();
     }
 
+    /**
+     * Adds new item with present values.
+     * 
+     * @param image Item image.
+     * @param name Item name. REQUIRED
+     * @param code Item barcode.
+     * @param description Item description.
+     * @param quantity Item quantity.
+     * @param price Item price.
+     * 
+     * @return String "Item Received".
+     */
     @PostMapping("/additem")
     public String addItem(
             @RequestParam(required = false) MultipartFile image,
@@ -92,6 +116,19 @@ public class ItemController {
         return "Item Received";
     }
 
+    /**
+     * Check for value changes and updates values for item.
+     * 
+     * @param id Items id to change.
+     * @param image Item image.
+     * @param name Item name.
+     * @param code Item barcode.
+     * @param description Item description.
+     * @param quantity Item quantity.
+     * @param price Item price.
+     * 
+     * @return String "Item Received".
+     */
     @PostMapping("/update/{id}")
     public String updateItem(
             @PathVariable Long id,
@@ -159,6 +196,13 @@ public class ItemController {
         return "Successfully update item.";
     }
 
+    /**
+     * Deletes item from database by its ID.
+     * 
+     * @param id Item ID.
+     * 
+     * @return String "Successful".
+     */
     @DeleteMapping("/delete/{id}")
     public String deleteItem(@PathVariable Long id) {
         Item item = itemService.getItem(id);
@@ -172,6 +216,13 @@ public class ItemController {
         return "successful";
     }
 
+    /**
+     * Deletes a selection of items by their IDs.
+     * 
+     * @param items List of item IDs.
+     * 
+     * @return String "Deleted Items" if delete successful.
+     */
     @DeleteMapping("/delete/selected")
     public String deleteSelected(@RequestBody List<Integer> items) {
         Date date = new Date(System.currentTimeMillis());

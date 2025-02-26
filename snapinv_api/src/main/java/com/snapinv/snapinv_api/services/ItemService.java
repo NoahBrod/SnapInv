@@ -14,10 +14,22 @@ public class ItemService {
     @Autowired
     private ItemRepo itemRepo;
 
+    /**
+     * Saves new item to databse.
+     * 
+     * @param item Item to save.
+     */
     public void addItem(Item item) {
         itemRepo.save(item);
     }
 
+    /**
+     * Get item by its id.
+     * 
+     * @param id ID of the specific item.
+     * 
+     * @return Item if found with with id.
+     */
     public Item getItem(Long id) {
         Optional<Item> item = itemRepo.findById(id);
         if (item.isPresent()) {
@@ -26,14 +38,29 @@ public class ItemService {
         return null;
     }
 
+    /**
+     * Returns a list of all items in the databse.
+     * 
+     * @return List of items.
+     */
     public List<Item> allItems() {
         return itemRepo.findAll();
     }
 
+    /**
+     * Delete item by its id.
+     * 
+     * @param id ID of the specific item.
+     */
     public void delete(Long id) {
         itemRepo.deleteById(id);
     }
 
+    /**
+     * Updates item in database.
+     * 
+     * @param item Updated item.
+     */
     public void updateItem(Item item) {
         itemRepo.save(item);
     }
