@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class WebController {
-    @Value("${SNAPINV_DB}")
-    private String db_url;
-
     /**
      * Returns with model data if data exists.
      * 
@@ -24,8 +21,6 @@ public class WebController {
         if (subscribed != null) {
             model.addAttribute("subscribed", subscribed);
         }
-
-        System.out.println(db_url);
 
         return "index";
     }

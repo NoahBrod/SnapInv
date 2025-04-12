@@ -26,8 +26,9 @@ class DashboardPageState extends State<DashboardPage>
   }
 
   Future<void> getTransactionLog() async {
+    final url = Uri.parse('http://192.168.1.140:8080/api/v1/transaction/log');
     // final url = Uri.parse('http://10.0.2.2:8080/api/v1/transaction/log');
-    final url = Uri.parse('https://snapinv.com/api/v1/transaction/log');
+    // final url = Uri.parse('https://snapinv.com/api/v1/transaction/log');
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {

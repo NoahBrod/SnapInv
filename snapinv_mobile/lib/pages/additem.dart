@@ -113,10 +113,11 @@ class _AddItemPageState extends State<AddItemPage> {
   Future<void> addItem() async {
     var request = http.MultipartRequest(
         'POST',
+        Uri.parse('http://192.168.1.140:8080/api/v1/item/additem'));
         // Uri.parse('http://10.0.2.2:8080/api/v1/item/additem');
-        Uri.parse(
-          'https://snapinv.com/api/v1/item/additem',
-        ));
+        // Uri.parse(
+        //   'https://snapinv.com/api/v1/item/additem',
+        // ));
 
     if (_imageFile != null) {
       request.files.add(await http.MultipartFile.fromPath(

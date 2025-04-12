@@ -20,20 +20,27 @@ class _CameraPageState extends State<CameraPage>
   bool waitNext = false;
 
 Future<void> updateItem(InventoryItem updated) async {
-    // final url =
-    //     Uri.http('10.0.2.2:8080', '/api/v1/item/update/${item.id.toString()}', {
-    //   'code': updated.code,
-    //   'description': updated.description,
-    //   'quantity': updated.quantity.toString(),
-    //   'price': updated.price.toString(),
-    // });
     final url =
-        Uri.https('snapinv.com', '/api/v1/item/update/${updated.id.toString()}', {
+        Uri.http('192.168.1.140:8080', '/api/v1/item/update/${updated.id.toString()}', {
       'code': updated.code,
       'description': updated.description,
       'quantity': updated.quantity.toString(),
       'price': updated.price.toString(),
     });
+    // final url =
+    //     Uri.http('10.0.2.2:8080', '/api/v1/item/update/${updated.id.toString()}', {
+    //   'code': updated.code,
+    //   'description': updated.description,
+    //   'quantity': updated.quantity.toString(),
+    //   'price': updated.price.toString(),
+    // });
+    // final url =
+    //     Uri.https('snapinv.com', '/api/v1/item/update/${updated.id.toString()}', {
+    //   'code': updated.code,
+    //   'description': updated.description,
+    //   'quantity': updated.quantity.toString(),
+    //   'price': updated.price.toString(),
+    // });
 
     try {
       final response = await http.post(url);
