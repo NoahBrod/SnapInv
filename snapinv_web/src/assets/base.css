@@ -61,6 +61,7 @@
 body {
   display: flex;
   justify-content: center;
+  width: 100%;
   /* place-items: center; */
   min-height: 100vh;
   color: white;

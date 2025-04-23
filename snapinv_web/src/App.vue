@@ -5,8 +5,6 @@ import HelloWorld from './components/HelloWorld.vue'
 
 <template>
   <header>
-    <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" /> -->
-
     <div class="wrapper">
       <h1>SnapInv</h1>
       <nav>
@@ -24,7 +22,8 @@ import HelloWorld from './components/HelloWorld.vue'
 header {
   line-height: 1.5;
   padding-top: 2rem;
-  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 h1 {
@@ -37,7 +36,6 @@ h1 {
 
 nav {
   font-size: 12px;
-  text-align: center;
   padding: 1rem 0;
   font-size: 1.15rem;
 }
@@ -45,7 +43,6 @@ nav {
 nav a.router-link-exact-active {
   color: white;
   text-decoration: underline;
-  /* font-size: 1rem; */
 }
 
 nav a:hover {

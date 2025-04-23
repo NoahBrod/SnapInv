@@ -2,9 +2,11 @@
 
 #app {
   display: flex;
+  /* align: center; */
+  /* width: 100%; */
   flex-direction: column;
-  padding: 0 2rem;
-  max-width: 1024px;
+  /* padding: 0 2rem; */
+  /* min-width: 1024px; */
   font-weight: normal;
 }
 
