@@ -112,139 +112,30 @@ class InventoryPageState extends State<InventoryPage>
         for (var item in items) item.id: item
       };
 
-      // for (var newItem in dbItems) {
-      //   if (itemMap.containsKey(newItem.id)) {
-      //     itemMap[newItem.id] = newItem;
-      //   } else {
-      //     items.add(newItem);
-      //   }
-      // }
-
-      // items.removeWhere((item) => !dbItems.any((newItem) => newItem.id == item.id));
-      // print("----------------");
-      // for (var item in items) {
-      //   print('[${item.id}, ${item.name}]');
-      // }
-      // print("----------------");
-      // print("----------------");
-      // for (var item in dbItems) {
-      //   print('[${item.id}, ${item.name}]');
-      // }
-      // print("----------------");
-
-      // process local items to database items
-      // if (items.length != dbItems.length) {
-      //   if (items.length < dbItems.length) {
-      //     for (int i = 0; i < dbItems.length; i++) {
-      //       bool match = false;
-      //       for (int j = 0; j < items.length; j++) {
-      //         if (items[j] != dbItems[i]) {
-      //           if (items[j].id == dbItems[i].id) {
-      //             setState(() {
-      //               items[j] = dbItems[i];
-      //             });
-      //             print(items[i].name);
-      //             match = true;
-      //             break;
-      //           }
-      //         } else {
-      //           match = true;
-      //           break;
-      //         }
-      //       }
-      //       if (!match) {
-      //         setState(() {
-      //           items.add(dbItems[i]);
-      //         });
-      //       }
-      //     }
-      //   } else if (items.length > dbItems.length) {
-      //     for (int i = 0; i < items.length; i++) {
-      //       bool match = false;
-      //       for (int j = 0; j < dbItems.length; j++) {
-      //         if (items[i] != dbItems[j]) {
-      //           if (items[i].id == dbItems[j].id) {
-      //             setState(() {
-      //               items[i] = dbItems[j];
-      //             });
-      //             match = true;
-      //             break;
-      //           }
-      //         } else {
-      //           match = true;
-      //           break;
-      //         }
-      //       }
-      //       if (!match) {
-      //         print(items[i].name);
-      //         setState(() {
-      //           items.remove(items[i]);
-      //         });
-      //       }
-      //     }
-      //   }
-      // } else {
-      //   for (int i = 0; i < items.length; i++) {
-      //     for (int j = 0; j < dbItems.length; j++) {
-      //       if (items[i] != dbItems[j]) {
-      //         if (items[i].id == dbItems[j].id) {
-      //           setState(() {
-      //             items[i] = dbItems[j];
-      //           });
-      //           break;
-      //         }
-      //       }
-      //     }
-      //   }
-      // }
-      // List<int> marked = [];
-      // for (int i = 0; i < items.length; i++) {
-      //   bool match = false;
-      //   for (int j = 0; j < dbItems.length; j++) {
-      //     if (items[i] == dbItems[j]) {
-      //       match = true;
-      //       break;
-      //     } else if (items[i].id == dbItems[j].id) {
-      //       match = true;
-      //       setState(() {
-      //         items[i] = dbItems[j];
-      //       });
-      //       break;
-      //     } else {
-      //       for (int k = i;)
-      //     }
-      //   }
-      // }
       List<int> toAdd = [];
-      List<int> toDelete = [];
+      List<int> toDelete = List.generate(items.length, (index) => index);
+
       for (int i = 0; i < dbItems.length; i++) {
         bool match = false;
         for (int j = 0; j < items.length; j++) {
           if (dbItems[i] == items[j]) {
             match = true;
-            if (toDelete.contains(j)) {
-              toDelete.remove(j);
-            }
+            toDelete.remove(j);
             break;
           } else if (dbItems[i].code == items[j].code) {
             match = true;
-            if (toDelete.contains(j)) {
-              toDelete.remove(j);
-            }
+            toDelete.remove(j);
             setState(() {
-              items[i] = dbItems[j];
+              items[j] = dbItems[i];
             });
             break;
-          } else {
-            if (!toDelete.contains(j)) {
-              toDelete.add(j);
-            }
           }
         }
         if (!match) {
           toAdd.add(i);
         }
       }
+
       print(toAdd.toString());
       print(toDelete.toString());
       for (int i in toAdd) {
@@ -257,7 +148,6 @@ class InventoryPageState extends State<InventoryPage>
           items.remove(items[i]);
         });
       }
-      
     } catch (e) {
       print('An error occurred: $e');
     }
@@ -287,7 +177,8 @@ class InventoryPageState extends State<InventoryPage>
   }
 
   Future<void> deleteItems(BuildContext context) async {
-    final url = Uri.parse('http://192.168.1.140:8080/api/v1/item/delete/selected');
+    final url =
+        Uri.parse('http://192.168.1.140:8080/api/v1/item/delete/selected');
     // final url = Uri.parse('http://10.0.2.2:8080/api/v1/item/delete/selected');
     // final url = Uri.parse('https://snapinv.com/api/v1/item/delete/selected');
     final headers = {'Content-Type': 'application/json'};

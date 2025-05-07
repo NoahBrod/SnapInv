@@ -368,14 +368,21 @@ class ItemDetailsPageState extends State<ItemDetailsPage> {
           price: double.parse(_priceController.text),
           code: _codeController.text.trim() == '' ? null : _codeController.text,
         );
-        // print("ITEM: ${item.id}       COMPARE: ${compare.id}");
-        // print("ITEM: ${item.image}       COMPARE: ${compare.image}");
-        // print("ITEM: ${item.name}       COMPARE: ${compare.name}");
-        // print("ITEM: ${item.code}       COMPARE: ${compare.code}");
-        // print("ITEM: ${item.description}       COMPARE: ${compare.description}");
-        // print("ITEM: ${item.quantity}       COMPARE: ${compare.quantity}");
-        // print("ITEM: ${item.price}       COMPARE: ${compare.price}");
-        // print(compare == item);
+        print("ITEM: ${item.id}       COMPARE: ${compare.id}");
+        print("ID MATCH: ${item.id==compare.id}");
+        print("ITEM: ${item.image}       COMPARE: ${compare.image}");
+        print("image MATCH: ${item.image==compare.image}");
+        print("ITEM: ${item.name}       COMPARE: ${compare.name}");
+        print("name MATCH: ${item.name==compare.name}");
+        print("ITEM: ${item.code}       COMPARE: ${compare.code}");
+        print("code MATCH: ${item.code==compare.code}");
+        print("ITEM: ${item.description}       COMPARE: ${compare.description}");
+        print("description MATCH: ${item.description==compare.description}");
+        print("ITEM: ${item.quantity}       COMPARE: ${compare.quantity}");
+        print("quantity MATCH: ${item.quantity==compare.quantity}");
+        print("ITEM: ${item.price}       COMPARE: ${compare.price}");
+        print("price MATCH: ${item.price==compare.price}");
+        print(compare == item);
         if (compare != item) {
           final confirmed = await _confirmExitPage(mainContext);
           if (mainContext.mounted && confirmed) {

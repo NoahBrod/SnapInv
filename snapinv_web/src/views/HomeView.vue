@@ -53,21 +53,29 @@
 }
 
 .subtext {
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
 .subtext ul {
-  margin: 2rem 0 0 0;
+  padding: 0;
+  margin: 1rem 0 0 0;
   font-size: 1.25rem;
   list-style: none;
 }
 
 .subtext li {
+  padding: 0;
   margin: 0;
   font-weight: bold;
   /* text-align: center; */
+}
+
+.subtext ul li::before {
+  content: "+ ";
 }
 
 .subtext a {
@@ -76,13 +84,22 @@
   color: white;
   font-size: 1.2rem;
   font-weight: 600;
-  border: 3px solid white;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 10px;
+}
+
+.subtext a:hover {
+  background: rgba(255, 255, 255, 0.4);
 }
 
 .banner img {
   height: 500px;
-  filter: drop-shadow(0 0.5rem 1rem rgba(0, 0, 0, 0.623));
+  filter: drop-shadow(-0.25rem 0.75rem 0.25rem rgba(44, 44, 44, 0.623));
 }
 
 @media (max-width: 1024px) {
