@@ -38,8 +38,11 @@ class DashboardPageState extends State<DashboardPage>
       }
 
       List<dynamic> jsonList = jsonDecode(response.body);
-      List<Logitem> logList =
-          jsonList.map((json) => Logitem.fromJson(json)).toList().reversed.toList();
+      List<Logitem> logList = jsonList
+          .map((json) => Logitem.fromJson(json))
+          .toList()
+          .reversed
+          .toList();
 
       setState(() {
         transactionLogs = logList;
@@ -63,26 +66,15 @@ class DashboardPageState extends State<DashboardPage>
       ),
       body: Center(
         child: Container(
-          color: Color.fromRGBO(235, 235, 235, 1),
+          color: Colors.white,
           child: Column(
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.all(20),
-                child: SizedBox(
-                  // height: 250,
-                  child: Card(
-                    elevation: 5,
-                    child: Column(
-                      children: <Widget>[
-                        ListTile(
-                          leading: Icon(Icons.album),
-                          title: Text('The Enchanted Nightingale'),
-                          subtitle: Text(
-                              'Music by Julie Gable. Lyrics by Sidney Stein.'),
-                        ),
-                      ],
-                    ),
-                  ),
+                child: Row(
+                  children: [
+                    Text('SnapInv', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
+                  ],
                 ),
               ),
               Padding(
@@ -161,18 +153,19 @@ class DashboardPageState extends State<DashboardPage>
                               return SizedBox(
                                 height: 50,
                                 child: ListTile(
-                                    isThreeLine: true,
-                                    title: Text(
-                                      "${transaction.logType} ${transaction.logBody}",
-                                      style: TextStyle(fontSize: 15, ),
+                                  isThreeLine: true,
+                                  title: Text(
+                                    "${transaction.logType} ${transaction.logBody}",
+                                    style: TextStyle(
+                                      fontSize: 15,
                                     ),
-                                    subtitle: Text(''),
-                                    trailing: Text(transaction.date
-                                        .toIso8601String()
-                                        .split('T')
-                                        .first),
                                   ),
-                                
+                                  subtitle: Text(''),
+                                  trailing: Text(transaction.date
+                                      .toIso8601String()
+                                      .split('T')
+                                      .first),
+                                ),
                               );
                             },
                             separatorBuilder: (context, index) {
