@@ -64,127 +64,104 @@ class DashboardPageState extends State<DashboardPage>
         ),
         backgroundColor: Color.fromRGBO(35, 214, 128, 1),
       ),
-      body: Center(
-        child: Container(
-          color: Colors.white,
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(20),
-                child: Row(
-                  children: [
-                    Text('SnapInv', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 20, right: 20),
-                child: SizedBox(
-                  height: 100.0,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      Card(
-                        elevation: 5,
-                        child: SizedBox(
-                          width: 100,
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.account_circle,
-                                  size: 40,
-                                ),
-                                Text('Profile 1'),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Icon(
-                                          Icons.fiber_manual_record,
-                                          size: 10,
-                                          color: Colors.green,
-                                        ),
-                                      ],
-                                    ),
-                                    Column(
-                                      children: [
-                                        Text(
-                                          'Online',
-                                          style: TextStyle(color: Colors.green),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(left: 20, right: 20, top: 10),
+              child: Row(
+                children: [
+                  Text(
+                    'SnapInv',
+                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                   ),
+                  Spacer(),
+                  IconButton(
+                      onPressed: () => {},
+                      icon: Icon(
+                        Icons.account_circle,
+                        size: 40,
+                        color: Colors.black,
+                      ))
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 20, right: 20, top: 10),
+              child: Row(
+                children: [
+                  Text(
+                    'Welcome back PERSON_NAME!',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 350,
+              width: 500,
+              child: Card(
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5), // Rounded corners
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.all(20),
-                child: SizedBox(
-                  height: 350,
-                  width: 500,
-                  child: Card(
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5), // Rounded corners
-                    ),
-                    // color: Color.fromRGBO(35, 214, 128, 1),
-                    child: transactionLogs.isEmpty
-                        ? Center(
-                            child: Text(
-                              'No log items.',
-                              style: TextStyle(fontSize: 16),
-                            ),
-                          )
-                        : ListView.separated(
-                            itemCount: transactionLogs.length,
-                            itemBuilder: (context, index) {
-                              final transaction = transactionLogs[index];
-                              return SizedBox(
-                                height: 50,
-                                child: ListTile(
-                                  isThreeLine: true,
-                                  title: Text(
-                                    "${transaction.logType} ${transaction.logBody}",
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                    ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: SizedBox(
+                height: 350,
+                width: 500,
+                child: Card(
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5), // Rounded corners
+                  ),
+                  // color: Color.fromRGBO(35, 214, 128, 1),
+                  child: transactionLogs.isEmpty
+                      ? Center(
+                          child: Text(
+                            'No log items.',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        )
+                      : ListView.separated(
+                          itemCount: transactionLogs.length,
+                          itemBuilder: (context, index) {
+                            final transaction = transactionLogs[index];
+                            return SizedBox(
+                              height: 50,
+                              child: ListTile(
+                                isThreeLine: true,
+                                title: Text(
+                                  "${transaction.logType} ${transaction.logBody}",
+                                  style: TextStyle(
+                                    fontSize: 15,
                                   ),
-                                  subtitle: Text(''),
-                                  trailing: Text(transaction.date
-                                      .toIso8601String()
-                                      .split('T')
-                                      .first),
                                 ),
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return Divider(
-                                color: Color.fromRGBO(235, 235, 235, 1),
-                                height: 0,
-                                indent: 10,
-                                endIndent: 10,
-                                thickness: 2,
-                              );
-                            },
-                          ),
-                  ),
+                                subtitle: Text(''),
+                                trailing: Text(transaction.date
+                                    .toIso8601String()
+                                    .split('T')
+                                    .first),
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return Divider(
+                              color: Color.fromRGBO(235, 235, 235, 1),
+                              height: 0,
+                              indent: 10,
+                              endIndent: 10,
+                              thickness: 2,
+                            );
+                          },
+                        ),
                 ),
               ),
-
-              // BOTTOM OF MAIN AREA
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
