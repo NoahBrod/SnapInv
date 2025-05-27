@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:snapinv_mobile/entities/logitem.dart';
 
+import '../widgets/dashboard/DashboardInfoCard.dart';
+
 class DashboardPage extends StatefulWidget {
   static final GlobalKey<DashboardPageState> pageKey =
       GlobalKey<DashboardPageState>();
@@ -74,7 +76,10 @@ class DashboardPageState extends State<DashboardPage>
                 children: [
                   Text(
                     'SnapInv',
-                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
                   Spacer(),
                   IconButton(
@@ -102,56 +107,13 @@ class DashboardPageState extends State<DashboardPage>
               padding: EdgeInsets.all(20),
               child: Row(
                 children: [
-                  SizedBox(
-                    height: 100,
-                    width: 100,
-                    child: Card(
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(5), // Rounded corners
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            '150',
-                            style: TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            'Total Items',
-                            style: TextStyle(fontSize: 13),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 100,
-                    width: 100,
-                    child: Card(
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(5), // Rounded corners
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            '150',
-                            style: TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            'Total Items',
-                            style: TextStyle(fontSize: 13),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  DashboardCard(title: 'Total Items', value: '153'),
+                  SizedBox(width: 10),
+                  DashboardCard(title: 'Low Stock Items', value: '5'),
+                  SizedBox(width: 10),
+                  DashboardCard(title: 'Out of Stock', value: '2'),
+                  SizedBox(width: 10),
+                  DashboardCard(title: 'Items Added This Week', value: '20'),
                 ],
               ),
             ),
