@@ -12,33 +12,6 @@ class DashboardCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Expanded(
-    //   child: Padding(
-    //     padding: EdgeInsets.all(2),
-    //     child: SizedBox(
-    //       height: 90,
-    //       child: Card(
-    //         elevation: 5,
-    //         shape: RoundedRectangleBorder(
-    //           borderRadius: BorderRadius.circular(5), // Rounded corners
-    //         ),
-    //         child: Column(
-    //           mainAxisAlignment: MainAxisAlignment.center,
-    //           children: [
-    //             Text(
-    //               value,
-    //               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-    //             ),
-    //             Text(
-    //               title,
-    //               style: TextStyle(fontSize: 13),
-    //             ),
-    //           ],
-    //         ),
-    //       ),
-    //     ),
-    //   ),
-    // );
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -52,21 +25,18 @@ class DashboardCard extends StatelessWidget {
               children: [
                 /// Title with wrapping
                 SizedBox(
-                  width: constraints.maxWidth,
+                  width: 75,
                   child: Text(
                     title,
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                    softWrap: true,
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                   ),
                 ),
                 SizedBox(height: 8),
-
-                /// Value
                 Text(
                   value,
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
                 ),
               ],
             ),

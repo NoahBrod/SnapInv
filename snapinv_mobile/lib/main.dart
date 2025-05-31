@@ -32,8 +32,8 @@ class BottomNav extends StatefulWidget {
 }
 
 class _BottomNavState extends State<BottomNav> {
-  final PageController controller = PageController(initialPage: 2);
-  int selectedIndex = 2;
+  final PageController controller = PageController(initialPage: 0);
+  int selectedIndex = 0;
 
   final pageNames = ["Dashboard", "", "Inventory"];
 

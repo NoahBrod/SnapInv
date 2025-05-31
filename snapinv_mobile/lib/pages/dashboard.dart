@@ -107,12 +107,32 @@ class DashboardPageState extends State<DashboardPage>
               padding: EdgeInsets.all(20),
               child: Row(
                 children: [
+                  // Column(
+                  //   crossAxisAlignment: CrossAxisAlignment.stretch,
+                  //   children: [
+                  //     const Text('Welcome back!',
+                  //         style: TextStyle(
+                  //             fontSize: 20, fontWeight: FontWeight.bold)),
+                  //     const SizedBox(height: 20),
+                  //     GridView.count(
+                  //       crossAxisCount: 2,
+                  //       shrinkWrap: true,
+                  //       physics: const NeverScrollableScrollPhysics(),
+                  //       mainAxisSpacing: 10,
+                  //       crossAxisSpacing: 10,
+                  //       childAspectRatio: 1.5,
+                  //       children: const [
+                  //         DashboardCard(title: 'Total Items', value: '153'),
+                  //         DashboardCard(title: 'Low Stock', value: '12'),
+                  //         DashboardCard(title: 'Out of Stock', value: '4'),
+                  //         DashboardCard(title: 'Items Added', value: '9'),
+                  //       ],
+                  //     ),
+                  //   ],
+                  // ),
                   DashboardCard(title: 'Total Items', value: '153'),
-                  SizedBox(width: 10),
                   DashboardCard(title: 'Low Stock Items', value: '5'),
-                  SizedBox(width: 10),
                   DashboardCard(title: 'Out of Stock', value: '2'),
-                  SizedBox(width: 10),
                   DashboardCard(title: 'Items Added This Week', value: '20'),
                 ],
               ),
