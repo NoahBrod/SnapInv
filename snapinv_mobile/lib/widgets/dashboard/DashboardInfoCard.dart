@@ -14,6 +14,7 @@ class DashboardCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
+      color: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -23,7 +24,6 @@ class DashboardCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                /// Title with wrapping
                 SizedBox(
                   width: 75,
                   child: Text(
