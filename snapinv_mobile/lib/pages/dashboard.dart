@@ -112,21 +112,21 @@ class DashboardPageState extends State<DashboardPage>
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          DashboardCard(title: 'Total Items', value: '153'),
-                          SizedBox(height: 10),
-                          DashboardCard(title: 'Low Stock', value: '12'),
-                          SizedBox(height: 10),
-                          DashboardCard(title: 'Out of Stock', value: '4'),
-                        ],
-                      ),
+                    // Expanded(
+                    // child:
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        DashboardCard(title: 'Total Items', value: '153'),
+                        SizedBox(height: 10),
+                        DashboardCard(title: 'Low Stock', value: '12'),
+                        SizedBox(height: 10),
+                        DashboardCard(title: 'Out of Stock', value: '4'),
+                      ],
                     ),
-                    // SizedBox(width: 16),
+                    // ),
+                    SizedBox(width: 20),
                     Expanded(
-                      
                       child: const RecentActivity(
                         activities: [
                           'Item A was restocked',

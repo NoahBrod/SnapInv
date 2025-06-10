@@ -14,7 +14,7 @@ class RecentActivity extends StatelessWidget {
           'Recent Activity',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-        const Divider(thickness: 2),
+        const Divider(thickness: 2, color: Colors.black,),
         ...activities.map(
           (activity) => Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
