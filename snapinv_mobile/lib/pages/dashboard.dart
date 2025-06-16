@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:snapinv_mobile/entities/logitem.dart';
+import 'package:snapinv_mobile/widgets/dashboard/DashboardButton.dart';
+import 'package:snapinv_mobile/widgets/dashboard/DashboardChart.dart';
 
 import '../widgets/dashboard/DashboardInfoCard.dart';
 import '../widgets/dashboard/RecentActivity.dart';
@@ -141,59 +143,87 @@ class DashboardPageState extends State<DashboardPage>
                   ],
                 ),
               ),
+              Text(
+                'Inventory Overview',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10),
               Padding(
-                padding: EdgeInsets.all(20),
-                child: SizedBox(
-                  height: 350,
-                  width: 500,
-                  child: Card(
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5), // Rounded corners
-                    ),
-                    // color: Color.fromRGBO(35, 214, 128, 1),
-                    child: transactionLogs.isEmpty
-                        ? Center(
-                            child: Text(
-                              'No log items.',
-                              style: TextStyle(fontSize: 16),
-                            ),
-                          )
-                        : ListView.separated(
-                            itemCount: transactionLogs.length,
-                            itemBuilder: (context, index) {
-                              final transaction = transactionLogs[index];
-                              return SizedBox(
-                                height: 50,
-                                child: ListTile(
-                                  isThreeLine: true,
-                                  title: Text(
-                                    "${transaction.logType} ${transaction.logBody}",
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  subtitle: Text(''),
-                                  trailing: Text(transaction.date
-                                      .toIso8601String()
-                                      .split('T')
-                                      .first),
-                                ),
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return Divider(
-                                color: Color.fromRGBO(235, 235, 235, 1),
-                                height: 0,
-                                indent: 10,
-                                endIndent: 10,
-                                thickness: 2,
-                              );
-                            },
-                          ),
-                  ),
+                padding: EdgeInsets.only(left: 40, right: 40, top: 10),
+                child: DashboardChart(),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: GridView.count(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  childAspectRatio: 1.3,
+                  children: [
+                    DashboardButton(label: 'Add Item', icon: Icons.add, onPressed: () {}),
+                    DashboardButton(label: 'Edit Item', icon: Icons.edit, onPressed: () {}),
+                    DashboardButton(label: 'Scan Barcode', icon: Icons.qr_code, onPressed: () {}),
+                    DashboardButton(label: 'Inventory List', icon: Icons.shelves, onPressed: () {}),
+                    DashboardButton(label: 'Reports', icon: Icons.bar_chart, onPressed: () {}),
+                    DashboardButton(label: 'Settings', icon: Icons.settings, onPressed: () {}),
+                  ],
                 ),
               ),
+              // Padding(
+              //   padding: EdgeInsets.all(20),
+              //   child: SizedBox(
+              //     height: 350,
+              //     width: 500,
+              //     child: Card(
+              //       elevation: 5,
+              //       shape: RoundedRectangleBorder(
+              //         borderRadius: BorderRadius.circular(5), // Rounded corners
+              //       ),
+              //       // color: Color.fromRGBO(35, 214, 128, 1),
+              //       child: transactionLogs.isEmpty
+              //           ? Center(
+              //               child: Text(
+              //                 'No log items.',
+              //                 style: TextStyle(fontSize: 16),
+              //               ),
+              //             )
+              //           : ListView.separated(
+              //               itemCount: transactionLogs.length,
+              //               itemBuilder: (context, index) {
+              //                 final transaction = transactionLogs[index];
+              //                 return SizedBox(
+              //                   height: 50,
+              //                   child: ListTile(
+              //                     isThreeLine: true,
+              //                     title: Text(
+              //                       "${transaction.logType} ${transaction.logBody}",
+              //                       style: TextStyle(
+              //                         fontSize: 15,
+              //                       ),
+              //                     ),
+              //                     subtitle: Text(''),
+              //                     trailing: Text(transaction.date
+              //                         .toIso8601String()
+              //                         .split('T')
+              //                         .first),
+              //                   ),
+              //                 );
+              //               },
+              //               separatorBuilder: (context, index) {
+              //                 return Divider(
+              //                   color: Color.fromRGBO(235, 235, 235, 1),
+              //                   height: 0,
+              //                   indent: 10,
+              //                   endIndent: 10,
+              //                   thickness: 2,
+              //                 );
+              //               },
+              //             ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),
