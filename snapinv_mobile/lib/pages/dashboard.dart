@@ -129,14 +129,23 @@ class DashboardPageState extends State<DashboardPage>
                     // ),
                     SizedBox(width: 20),
                     Expanded(
-                      child: const RecentActivity(
-                        activities: [
-                          'Item A was restocked',
-                          'User John added new inventory',
-                          'Low stock alert for Item B',
-                          'Item C was deleted',
-                          'Backup completed',
-                          'Settings updated by Admin',
+                      child: Column(
+                        children: [
+                          const Text(
+                            'Recent Activity',
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                          const RecentActivity(
+                            activities: [
+                              'Item A was restocked',
+                              'User John added new inventory',
+                              'Low stock alert for Item B',
+                              'Item C was deleted',
+                              'Backup completed',
+                              'Settings updated by Admin',
+                            ],
+                          )
                         ],
                       ),
                     ),
@@ -162,12 +171,26 @@ class DashboardPageState extends State<DashboardPage>
                   crossAxisSpacing: 16,
                   childAspectRatio: 1.3,
                   children: [
-                    DashboardButton(label: 'Add Item', icon: Icons.add, onPressed: () {}),
-                    DashboardButton(label: 'Edit Item', icon: Icons.edit, onPressed: () {}),
-                    DashboardButton(label: 'Scan Barcode', icon: Icons.qr_code, onPressed: () {}),
-                    DashboardButton(label: 'Inventory List', icon: Icons.shelves, onPressed: () {}),
-                    DashboardButton(label: 'Reports', icon: Icons.bar_chart, onPressed: () {}),
-                    DashboardButton(label: 'Settings', icon: Icons.settings, onPressed: () {}),
+                    DashboardButton(
+                        label: 'Add Item', icon: Icons.add, onPressed: () {}),
+                    DashboardButton(
+                        label: 'Edit Item', icon: Icons.edit, onPressed: () {}),
+                    DashboardButton(
+                        label: 'Scan Barcode',
+                        icon: Icons.qr_code,
+                        onPressed: () {}),
+                    DashboardButton(
+                        label: 'Inventory List',
+                        icon: Icons.shelves,
+                        onPressed: () {}),
+                    DashboardButton(
+                        label: 'Reports',
+                        icon: Icons.bar_chart,
+                        onPressed: () {}),
+                    DashboardButton(
+                        label: 'Settings',
+                        icon: Icons.settings,
+                        onPressed: () {}),
                   ],
                 ),
               ),

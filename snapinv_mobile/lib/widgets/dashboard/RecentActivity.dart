@@ -16,10 +16,6 @@ class RecentActivity extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Recent Activity',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
             ...activities.map(
               (activity) => Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4),
