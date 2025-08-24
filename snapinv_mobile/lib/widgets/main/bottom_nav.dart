@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:snapinv_mobile/constants/api_config.dart';
 
 import '../../app_state.dart';
 import 'package:provider/provider.dart';
@@ -44,18 +45,18 @@ class _BottomNavState extends State<BottomNav> {
                 icon: Icon(Icons.dashboard_outlined),
                 activeIcon: Icon(Icons.dashboard),
                 label: 'Dash',
-                backgroundColor: Color.fromRGBO(35, 214, 128, 1),
+                backgroundColor: AppColors.primary,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.camera_outlined),
                 activeIcon: Icon(Icons.camera),
                 label: 'Camera',
-                backgroundColor: Color.fromRGBO(35, 214, 128, 1),
+                backgroundColor: AppColors.primary,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.shelves),
                 label: 'Inventory',
-                backgroundColor: Color.fromRGBO(35, 214, 128, 1),
+                backgroundColor: AppColors.primary,
               ),
             ],
           ),

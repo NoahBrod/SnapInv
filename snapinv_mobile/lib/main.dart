@@ -23,6 +23,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+        // useMaterial3: false,
         textTheme: GoogleFonts.dmSansTextTheme(),
         // scaffoldBackgroundColor: const Color.fromRGBO(35, 214, 128, 1),
       ),

@@ -5,6 +5,7 @@ import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:snapinv_mobile/constants/api_config.dart';
 import 'package:snapinv_mobile/pages/inventory.dart';
 
 import 'package:http/http.dart' as http;
@@ -113,7 +114,7 @@ class _AddItemPageState extends State<AddItemPage> {
   Future<void> addItem() async {
     var request = http.MultipartRequest(
         'POST',
-        Uri.parse('http://192.168.1.140:8080/api/v1/item/additem'));
+        Uri.parse('${ApiConfig.baseUrl}/api/v1/item/additem'));
         // Uri.parse('http://10.0.2.2:8080/api/v1/item/additem');
         // Uri.parse(
         //   'https://snapinv.com/api/v1/item/additem',
