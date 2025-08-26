@@ -25,7 +25,7 @@ class DashboardCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: 75,
+                  width: ,
                   child: Text(
                     title,
                     style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),

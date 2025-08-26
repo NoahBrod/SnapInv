@@ -119,28 +119,28 @@ class DashboardPageState extends State<DashboardPage>
                       ],
                     ),
                     // ),
-                    SizedBox(width: 20),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          const Text(
-                            'Recent Activity',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          const RecentActivity(
-                            activities: [
-                              'Item A was restocked',
-                              'User John added new inventory',
-                              'Low stock alert for Item B',
-                              'Item C was deleted',
-                              'Backup completed',
-                              'Settings updated by Admin',
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
+                    // SizedBox(width: 20),
+                    // Expanded(
+                    //   child: Column(
+                    //     children: [
+                    //       const Text(
+                    //         'Recent Activity',
+                    //         style: TextStyle(
+                    //             fontSize: 18, fontWeight: FontWeight.bold),
+                    //       ),
+                    //       const RecentActivity(
+                    //         activities: [
+                    //           'Item A was restocked',
+                    //           'User John added new inventory',
+                    //           'Low stock alert for Item B',
+                    //           'Item C was deleted',
+                    //           'Backup completed',
+                    //           'Settings updated by Admin',
+                    //         ],
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
