@@ -16,7 +16,7 @@ class BottomNav extends StatefulWidget {
 }
 
 class _BottomNavState extends State<BottomNav> {
-  final PageController controller = PageController(initialPage: 0);
+  final PageController controller = PageController(initialPage: 2);
 
   void _onTap(int index) {
     controller.jumpToPage(index);

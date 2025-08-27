@@ -31,7 +31,7 @@ class ItemDetailsPageState extends State<ItemDetailsPage> {
 
   int _number = 0;
 
-  bool editing = true; // true is not and false is
+  bool isReadOnlyMode = true; // true is not and false is
 
   late InventoryItem item;
 
@@ -81,8 +81,8 @@ class ItemDetailsPageState extends State<ItemDetailsPage> {
 
   void _toggleEditing() {
     setState(() {
-      if (editing) {
-        editing = false;
+      if (isReadOnlyMode) {
+        isReadOnlyMode = false;
       } else {
         InventoryItem compare = InventoryItem(
           id: item.id,
@@ -110,7 +110,7 @@ class ItemDetailsPageState extends State<ItemDetailsPage> {
                     TextButton(
                       onPressed: () {
                         setState(() {
-                          editing = true;
+                          isReadOnlyMode = true;
                         });
                         updateItem(compare);
                         Navigator.of(context).pop();
@@ -138,7 +138,7 @@ class ItemDetailsPageState extends State<ItemDetailsPage> {
                     TextButton(
                       onPressed: () {
                         setState(() {
-                          editing = true;
+                          isReadOnlyMode = true;
                         });
                         revertFields();
                         Navigator.of(context).pop();
@@ -155,7 +155,7 @@ class ItemDetailsPageState extends State<ItemDetailsPage> {
                 );
               });
         } else {
-          editing = true;
+          isReadOnlyMode = true;
         }
       }
     });
@@ -185,7 +185,7 @@ class ItemDetailsPageState extends State<ItemDetailsPage> {
   }
 
   void _increment() {
-    editing = false;
+    isReadOnlyMode = false;
 
     final text = _quantityController.text;
     setState(() {
@@ -200,7 +200,7 @@ class ItemDetailsPageState extends State<ItemDetailsPage> {
   }
 
   void _decrement() {
-    editing = false;
+    isReadOnlyMode = false;
 
     final text = _quantityController.text;
     setState(() {
@@ -406,7 +406,7 @@ class ItemDetailsPageState extends State<ItemDetailsPage> {
           ),
           backgroundColor: Color.fromRGBO(35, 214, 128, 1),
           iconTheme: IconThemeData(color: Colors.white),
-          actions: editing
+          actions: isReadOnlyMode
               ? [
                   TextButton(
                     onPressed: _toggleEditing,
@@ -436,7 +436,7 @@ class ItemDetailsPageState extends State<ItemDetailsPage> {
                         updateItem(compare);
                       }
                       setState(() {
-                        editing = true;
+                        isReadOnlyMode = true;
                       });
                     },
                     icon: Icon(
@@ -508,7 +508,7 @@ class ItemDetailsPageState extends State<ItemDetailsPage> {
                   ),
                 ],
         ),
-        floatingActionButton: !editing
+        floatingActionButton: !isReadOnlyMode
             ? null
             : (item.code != '')
                 ? null
@@ -546,7 +546,7 @@ class ItemDetailsPageState extends State<ItemDetailsPage> {
                 ),
                 SizedBox(height: 20),
                 TextField(
-                  readOnly: editing,
+                  readOnly: isReadOnlyMode,
                   // focusNode: _codeNode,
                   decoration: InputDecoration(
                     labelText: 'Code:',
@@ -554,7 +554,7 @@ class ItemDetailsPageState extends State<ItemDetailsPage> {
                       // fontSize: 20,f
                       color: Colors.black,
                     ),
-                    suffixIcon: editing
+                    suffixIcon: isReadOnlyMode
                         ? null
                         : IconButton(
                             onPressed: scanBarcode,
@@ -574,7 +574,7 @@ class ItemDetailsPageState extends State<ItemDetailsPage> {
                 SizedBox(height: 20),
                 TextField(
                   maxLines: null,
-                  readOnly: editing,
+                  readOnly: isReadOnlyMode,
                   focusNode: _descriptionNode,
                   decoration: InputDecoration(
                     labelText: 'Description:',
@@ -612,7 +612,7 @@ class ItemDetailsPageState extends State<ItemDetailsPage> {
                                   ),
                                   child: IntrinsicWidth(
                                     child: TextField(
-                                      readOnly: editing,
+                                      readOnly: isReadOnlyMode,
                                       focusNode: _quantityNode,
                                       textAlign: TextAlign.center,
                                       decoration: InputDecoration(
@@ -654,7 +654,7 @@ class ItemDetailsPageState extends State<ItemDetailsPage> {
                                               2 +
                                           8.3636),
                               child: TextField(
-                                readOnly: editing,
+                                readOnly: isReadOnlyMode,
                                 focusNode: _priceNode,
                                 decoration: InputDecoration(
                                   prefix: Text('\$'),
@@ -681,7 +681,7 @@ class ItemDetailsPageState extends State<ItemDetailsPage> {
                 SizedBox(height: 50),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: editing
+                  children: isReadOnlyMode
                       ? []
                       : [
                           ElevatedButton(
@@ -703,7 +703,7 @@ class ItemDetailsPageState extends State<ItemDetailsPage> {
                                 updateItem(compare);
                               }
                               setState(() {
-                                editing = true;
+                                isReadOnlyMode = true;
                               });
                             },
                             style: ElevatedButton.styleFrom(

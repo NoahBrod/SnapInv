@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:snapinv_mobile/constants/api_config.dart';
 import 'package:snapinv_mobile/entities/inventoryitem.dart';
 import 'package:snapinv_mobile/pages/additem.dart';
 import 'package:snapinv_mobile/pages/inventory.dart';
@@ -15,35 +18,50 @@ class CameraPage extends StatefulWidget {
 }
 
 class _CameraPageState extends State<CameraPage>
-    with AutomaticKeepAliveClientMixin {
+    with AutomaticKeepAliveClientMixin, WidgetsBindingObserver {
   String? scannedResult;
   bool waitNext = false;
+  MobileScannerController controller = MobileScannerController();
 
-Future<void> updateItem(InventoryItem updated) async {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      controller.start(); // Restart camera when app resumes
+    } else if (state == AppLifecycleState.paused) {
+      controller.stop(); // Stop camera when app is paused
+    }
+  }
+
+  Future<void> updateItem(InventoryItem updated) async {
     final url =
-        Uri.http('192.168.1.140:8080', '/api/v1/item/update/${updated.id.toString()}', {
+        Uri.parse('${ApiConfig.baseUrl}/api/v1/item/update/${updated.id}');
+
+    final body = {
       'code': updated.code,
       'description': updated.description,
       'quantity': updated.quantity.toString(),
       'price': updated.price.toString(),
-    });
-    // final url =
-    //     Uri.http('10.0.2.2:8080', '/api/v1/item/update/${updated.id.toString()}', {
-    //   'code': updated.code,
-    //   'description': updated.description,
-    //   'quantity': updated.quantity.toString(),
-    //   'price': updated.price.toString(),
-    // });
-    // final url =
-    //     Uri.https('snapinv.com', '/api/v1/item/update/${updated.id.toString()}', {
-    //   'code': updated.code,
-    //   'description': updated.description,
-    //   'quantity': updated.quantity.toString(),
-    //   'price': updated.price.toString(),
-    // });
+    };
 
     try {
-      final response = await http.post(url);
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(body),
+      );
       if (response.statusCode == 200) {
         print(response.body);
       } else {
@@ -55,7 +73,8 @@ Future<void> updateItem(InventoryItem updated) async {
   }
 
   void incrementByCode(String code) {
-    List<InventoryItem> inventoryItems = InventoryPage.pageKey.currentState!.items;
+    List<InventoryItem> inventoryItems =
+        InventoryPage.pageKey.currentState!.items;
     for (InventoryItem item in inventoryItems) {
       if (item.code == code) {
         item.quantity += 1;
@@ -67,24 +86,23 @@ Future<void> updateItem(InventoryItem updated) async {
 
   void _onBarcodeDetected(BarcodeCapture barcode) {
     // Handle the first detected barcode to prevent rapid multiple reads
-    if (barcode.barcodes.isNotEmpty) {
-      if (!waitNext) {
+    if (barcode.barcodes.isNotEmpty && !waitNext) {
+      try {
         final String code = barcode.barcodes.first.rawValue ?? "Unknown";
         setState(() {
           scannedResult = code;
+          waitNext = true;
         });
 
         bool contained = InventoryPage.pageKey.currentState!.searchList(code);
         if (contained) {
-          showDialog(
-              context: context,
-              builder: (context) {
-                Future.delayed(Duration(seconds: 1), () {
-                  Navigator.of(context).pop();
-                });
-                incrementByCode(code);
-                return AlertDialog(title: Text('Added 1 to $code.'));
-              });
+          incrementByCode(code);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Added 1 to $code'),
+              duration: Duration(seconds: 2),
+            ),
+          );
         } else {
           showDialog(
               context: context,
@@ -100,16 +118,17 @@ Future<void> updateItem(InventoryItem updated) async {
                   ),
                   actions: [
                     TextButton(
-                      onPressed: () {
+                      onPressed: () async {
                         print(code);
                         Navigator.of(context).pop();
-                        Navigator.push(
+                        await Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => AddItemPage(
                                     scanCode: code,
                                   )),
                         );
+                        setState(() => waitNext = false);
                       },
                       child: Container(
                         padding: EdgeInsets.only(
@@ -119,7 +138,7 @@ Future<void> updateItem(InventoryItem updated) async {
                           bottom: 8,
                         ),
                         decoration: BoxDecoration(
-                          color: Color.fromRGBO(35, 214, 128, 1),
+                          color: AppColors.primary,
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Text(
@@ -134,6 +153,7 @@ Future<void> updateItem(InventoryItem updated) async {
                     TextButton(
                       onPressed: () {
                         Navigator.of(context).pop();
+                        setState(() => waitNext = false);
                       },
                       child: Text(
                         'No',
@@ -147,19 +167,9 @@ Future<void> updateItem(InventoryItem updated) async {
                 );
               });
         }
-
-        // Show a snack bar or take further action
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //   SnackBar(
-        //       content: Container(
-        //     height: 100,
-        //     child: Text(
-        //       'Adding 1 to $code quantity.',
-        //       style: TextStyle(fontSize: 20),
-        //     ),
-        //   )),
-        // );
-        waitNext = true;
+      } catch (e) {
+        print('Error processing barcode: $e');
+        setState(() => waitNext = false);
       }
     }
   }
@@ -178,6 +188,7 @@ Future<void> updateItem(InventoryItem updated) async {
       body: Stack(
         children: [
           MobileScanner(
+            controller: controller,
             onDetect: _onBarcodeDetected,
             fit: BoxFit.cover,
           ),

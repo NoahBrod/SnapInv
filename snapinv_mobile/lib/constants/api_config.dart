@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ApiConfig {
-  static const String baseUrl = 'http://192.168.1.223:8080';
+  static const String baseUrl = 'http://192.168.1.140:8080';
   static const String transactionLogEndpoint = '/api/v1/transaction/log';
 }
 

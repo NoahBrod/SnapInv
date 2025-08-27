@@ -7,8 +7,10 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:snapinv_mobile/constants/api_config.dart';
 import 'package:snapinv_mobile/pages/inventory.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:snapinv_mobile/pages/scan_page.dart';
 
 class AddItemPage extends StatefulWidget {
   final String? scanCode;
@@ -23,7 +25,8 @@ class _AddItemPageState extends State<AddItemPage> {
   final TextEditingController _codeController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
-  final TextEditingController _quantityController = TextEditingController(text: '1');
+  final TextEditingController _quantityController =
+      TextEditingController(text: '1');
 
   final List<TextEditingController> _controllers = [];
 
@@ -36,8 +39,9 @@ class _AddItemPageState extends State<AddItemPage> {
   @override
   void initState() {
     super.initState();
-    print(widget.scanCode);
-    _codeController.text = widget.scanCode!;
+    if (widget.scanCode != null) {
+      _codeController.text = widget.scanCode!;
+    }
 
     _quantityController.addListener(() {
       final text = _quantityController.text;
@@ -113,12 +117,7 @@ class _AddItemPageState extends State<AddItemPage> {
 
   Future<void> addItem() async {
     var request = http.MultipartRequest(
-        'POST',
-        Uri.parse('${ApiConfig.baseUrl}/api/v1/item/additem'));
-        // Uri.parse('http://10.0.2.2:8080/api/v1/item/additem');
-        // Uri.parse(
-        //   'https://snapinv.com/api/v1/item/additem',
-        // ));
+        'POST', Uri.parse('${ApiConfig.baseUrl}/api/v1/item/additem'));
 
     if (_imageFile != null) {
       request.files.add(await http.MultipartFile.fromPath(
@@ -146,30 +145,28 @@ class _AddItemPageState extends State<AddItemPage> {
       if (response.statusCode == 200) {
         InventoryPage.pageKey.currentState?.getInventory();
       } else {
-        setState(() {
-          print('Error: ${response.statusCode}');
-        });
+        throw Exception('Failed to add item: ${response.statusCode}');
       }
     } catch (e) {
-      print('An error occurred: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error adding item: $e')),
+      );
     }
   }
 
   Future<void> scanBarcode() async {
-    try {
-      var result = await BarcodeScanner.scan(); // Start barcode scanning
+    final result = await Navigator.push<String>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ScannerPage(),
+      ),
+    );
+
+    if (result != null) {
       setState(() {
-        _codeController.text = result.rawContent.isNotEmpty
-            ? result.rawContent
-            : "Failed to scan barcode";
-      });
-    } catch (e) {
-      setState(() {
-        _codeController.text = "Error: $e";
+        _codeController.text = result;
       });
     }
-
-    print("Scanned: $_codeController.text");
   }
 
   @override
@@ -180,7 +177,7 @@ class _AddItemPageState extends State<AddItemPage> {
           'Add New Item',
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Color.fromRGBO(35, 214, 128, 1),
+        backgroundColor: AppColors.primary,
         foregroundColor: Colors.white,
       ),
       body: Padding(
@@ -205,7 +202,7 @@ class _AddItemPageState extends State<AddItemPage> {
                   ElevatedButton(
                     onPressed: _pickImageFromCamera,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromRGBO(35, 214, 128, 1),
+                      backgroundColor: AppColors.primary,
                       minimumSize: Size(150, 50),
                       shape: RoundedRectangleBorder(
                         borderRadius:
@@ -230,7 +227,7 @@ class _AddItemPageState extends State<AddItemPage> {
                   ElevatedButton(
                     onPressed: scanBarcode,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromRGBO(35, 214, 128, 1),
+                      backgroundColor: AppColors.primary,
                       minimumSize: Size(150, 50),
                       shape: RoundedRectangleBorder(
                         borderRadius:
@@ -269,7 +266,7 @@ class _AddItemPageState extends State<AddItemPage> {
                     icon: Icon(
                       Icons.qr_code_scanner,
                       size: 20,
-                      color: Color.fromRGBO(35, 214, 128, 1),
+                      color: AppColors.primary,
                     ),
                   ),
                 ),
@@ -343,12 +340,12 @@ class _AddItemPageState extends State<AddItemPage> {
               SizedBox(height: 20),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   final String name = _nameController.text;
 
                   if (name.isNotEmpty) {
+                    await addItem();
                     Navigator.pop(context);
-                    addItem();
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text('Please fill out all fields correctly.'),
@@ -363,7 +360,7 @@ class _AddItemPageState extends State<AddItemPage> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromRGBO(35, 214, 128, 1),
+                  backgroundColor: AppColors.primary,
                   minimumSize: Size(125, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius:
