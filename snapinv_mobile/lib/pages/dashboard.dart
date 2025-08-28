@@ -7,6 +7,7 @@ import 'package:snapinv_mobile/constants/api_config.dart';
 import 'package:snapinv_mobile/entities/logitem.dart';
 import 'package:snapinv_mobile/widgets/dashboard/DashboardButton.dart';
 import 'package:snapinv_mobile/widgets/dashboard/DashboardChart.dart';
+import 'package:snapinv_mobile/widgets/dashboard/recent_item.dart';
 
 import '../widgets/dashboard/DashboardInfoCard.dart';
 import '../widgets/dashboard/RecentActivity.dart';
@@ -118,29 +119,82 @@ class DashboardPageState extends State<DashboardPage>
                         DashboardCard(title: 'Out of Stock', value: '4'),
                       ],
                     ),
-                    // ),
-                    // SizedBox(width: 20),
-                    // Expanded(
-                    //   child: Column(
-                    //     children: [
-                    //       const Text(
-                    //         'Recent Activity',
-                    //         style: TextStyle(
-                    //             fontSize: 18, fontWeight: FontWeight.bold),
-                    //       ),
-                    //       const RecentActivity(
-                    //         activities: [
-                    //           'Item A was restocked',
-                    //           'User John added new inventory',
-                    //           'Low stock alert for Item B',
-                    //           'Item C was deleted',
-                    //           'Backup completed',
-                    //           'Settings updated by Admin',
-                    //         ],
-                    //       )
-                    //     ],
-                    //   ),
-                    // ),
+                    SizedBox(width: 20),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Card(
+                            elevation: 2,
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Container(
+                              padding: EdgeInsets.all(16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(Icons.trending_up,
+                                          color: Colors.orange, size: 20),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        'Popular Items',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 12),
+                                  Text('📱 iPhone 15 Pro Max - 45 views'),
+                                  Text('💻 Dell XPS Laptop - 32 views'),
+                                  Text('🎧 Wireless Headphones - 28 views'),
+                                ],
+                              ),
+                            ),
+                          ),
+
+                          // SizedBox(height: 20),
+
+                          // Recent In/Out Section
+                          Card(
+                            elevation: 2,
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Container(
+                              padding: EdgeInsets.all(16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(Icons.swap_vert,
+                                          color: Colors.blue, size: 20),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        'Recent In/Out',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 12),
+                                  RecentItem(itemName: 'Noah', quantity: 1, timeAgo: '1m ago', isIncoming: true),
+                                  RecentItem(itemName: 'PC', quantity: 1, timeAgo: '2y ago', isIncoming: true),
+                                  RecentItem(itemName: 'Noah', quantity: 1, timeAgo: '1m ago', isIncoming: false),
+                                  RecentItem(itemName: 'Noah', quantity: 1, timeAgo: '1m ago', isIncoming: true),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
