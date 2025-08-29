@@ -1,6 +1,7 @@
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:snapinv_mobile/forms/custom_fields.dart';
 import 'package:snapinv_mobile/pages/inventory.dart';
 import '../entities/inventoryitem.dart';
 

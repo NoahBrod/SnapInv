@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:snapinv_mobile/constants/api_config.dart';
+import 'package:snapinv_mobile/forms/custom_fields.dart';
 import 'package:snapinv_mobile/pages/inventory.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
@@ -255,6 +256,11 @@ class _AddItemPageState extends State<AddItemPage> {
                 decoration: InputDecoration(
                   labelText: 'Item Name',
                 ),
+              ),
+              CustomTextField(
+                label: 'Name',
+                hint: 'Enter your name',
+                controller: _nameController,
               ),
               TextField(
                 controller: _codeController,
