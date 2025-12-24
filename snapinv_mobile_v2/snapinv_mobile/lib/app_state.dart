@@ -11,7 +11,7 @@ class AppState extends ChangeNotifier {
     notifyListeners();
     
     if (index == 0) {
-      // DashboardPage.pageKey.currentState?.getTransactionLog();
+      // HomePage.pageKey.currentState?.getTransactionLog();
     } else if (index == 2) {
       // InventoryPage.pageKey.currentState?.getInventory();
     }
