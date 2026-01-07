@@ -1,0 +1,33 @@
+body {
+    overflow-x: hidden;
+}
+
+#sidebar {
+    margin: 0;
+    min-height: 100vh;
+    background-color: #343a40;
+}
+
+#sidebar .nav-link {
+    margin: 0;
+    color: #fff;
+}
+
+#sidebar .nav-link:hover {
+    background-color: #495057;
+}
+
+#sidebar .nav-link.active {
+    background-color: #23d680;
+}
+
+.navbar {
+    margin: 0;
+    background-color: #343a40;
+}
+
+@media (max-width: 767.98px) {
+    #sidebar {
+        min-height: auto;
+    }
+}
